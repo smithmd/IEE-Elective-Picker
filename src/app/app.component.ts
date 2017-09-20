@@ -3,12 +3,12 @@ import {ElectiveDataService} from './elective-data-service';
 import {Elective} from './elective';
 
 @Component({
-  selector: 'app-root',
+  selector: 'iee-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  electives: Array<Elective>;
+export class AppComponent implements OnInit {
+  electives: Elective[];
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
@@ -17,7 +17,6 @@ export class AppComponent {
     this.electiveDataService.electiveList.asObservable().subscribe({
       next: data => {
         this.electives = data;
-        console.log(this.electives);
       }
     });
   }

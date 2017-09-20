@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-electives-periods',
+  selector: 'iee-electives-periods',
   templateUrl: './electives-periods.component.html',
   styleUrls: ['./electives-periods.component.css']
 })

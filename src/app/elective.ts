@@ -7,7 +7,7 @@ export class Elective {
   electiveCorequisite?: string;
   term?: string;
   capacity?: number;
-  enrolledCount?: number;
+  enrolledCount?: number = 0;
 
   private _isPrimary = false;
   private _isAlternate = false;

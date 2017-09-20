@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-requirement',
+  selector: 'iee-requirement',
   templateUrl: './requirement.component.html',
   styleUrls: ['./requirement.component.css']
 })

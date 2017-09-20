@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-electives-requirements',
+  selector: 'iee-electives-requirements',
   templateUrl: './electives-requirements.component.html',
   styleUrls: ['./electives-requirements.component.css']
 })

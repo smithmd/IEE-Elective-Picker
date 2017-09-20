@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Elective} from '../../../elective';
 
 @Component({
-  selector: 'app-elective',
+  selector: 'iee-elective',
   templateUrl: './elective.component.html',
   styleUrls: ['./elective.component.css']
 })

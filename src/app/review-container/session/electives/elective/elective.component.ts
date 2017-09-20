@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-elective',
+  selector: 'iee-elective',
   templateUrl: './elective.component.html',
   styleUrls: ['./elective.component.css']
 })
