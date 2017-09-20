@@ -1,5 +1,6 @@
 class Elective {
   readonly period: number;
+  readonly name: string;
   readonly description: string;
   readonly type: string;
   readonly time: string;
@@ -10,7 +11,9 @@ class Elective {
   private _isPrimary = false;
   private _isAlternate = false;
 
-  constructor(period: number, description: string, type: string, time: string, term: string, capacity: number, enrolledCount: number) {
+  constructor(name: string, period: number, description: string, type: string,
+              time: string, term: string, capacity: number, enrolledCount: number) {
+    this.name = name;
     this.period = period;
     this.description = description;
     this.type = type;
@@ -23,6 +26,7 @@ class Elective {
   get isPrimary(): boolean {
     return this._isPrimary;
   }
+
   set isPrimary(status: boolean) {
     this._isAlternate = false;
     this._isPrimary = status;
@@ -31,6 +35,7 @@ class Elective {
   get isAlternate(): boolean {
     return this._isAlternate;
   }
+
   set isAlternate(status: boolean) {
     this._isPrimary = false;
     this._isAlternate = status;

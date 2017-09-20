@@ -1,3 +1,11 @@
-<p>
-  elective works!
-</p>
+<div class="row elective-choice">
+  <div class="col-xs-2"><input type="checkbox"/></div>
+  <div class="col-xs-5">
+    <p>{{elective.name}} ({{elective.type}})</p>
+    <p>{{elective.term}}</p>
+  </div>
+  <div class="col-xs-5 text-right">
+    <p>{{elective.time}}</p>
+    <p>Spaces open: {{elective.capacity -  elective.enrolledCount}}</p>
+  </div>
+</div>
