@@ -1,26 +1,28 @@
-class Elective {
-  readonly period: number;
-  readonly name: string;
-  readonly description: string;
-  readonly type: string;
-  readonly time: string;
-  readonly term: string;
-  readonly capacity: number;
-  readonly enrolledCount: number;
+export class Elective {
+  schedule?: string;
+  courseNumber?: string;
+  courseDescription?: string;
+  maxEnrollment?: number;
+  electiveType?: string;
+  electiveCorequisite?: string;
+  term?: string;
+  capacity?: number;
+  enrolledCount?: number;
 
   private _isPrimary = false;
   private _isAlternate = false;
 
-  constructor(name: string, period: number, description: string, type: string,
-              time: string, term: string, capacity: number, enrolledCount: number) {
-    this.name = name;
-    this.period = period;
-    this.description = description;
-    this.type = type;
-    this.time = time;
-    this.term = term;
-    this.capacity = capacity;
-    this.enrolledCount = enrolledCount;
+  public static createFromJson(json: any): Elective {
+    const elective = new Elective();
+    return Object.assign(elective, json);
+  }
+
+  get time(): string {
+    return this.period.toString();
+  }
+
+  get period(): number {
+    return parseInt(this.schedule.substr(0, this.schedule.indexOf('(')), 10);
   }
 
   get isPrimary(): boolean {

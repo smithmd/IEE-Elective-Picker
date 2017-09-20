@@ -13,6 +13,7 @@ import { ElectivesSelectedComponent } from './elective-picker-container/elective
 import { ElectivePickerContainerComponent } from './elective-picker-container/elective-picker-container.component';
 import { ReviewContainerComponent } from './review-container/review-container.component';
 import { SessionComponent } from './review-container/session/session.component';
+import {ElectiveDataService} from './elective-data-service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { SessionComponent } from './review-container/session/session.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [ElectiveDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

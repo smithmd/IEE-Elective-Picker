@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Elective} from '../../../elective';
 
 @Component({
   selector: 'app-elective',
