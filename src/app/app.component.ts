@@ -16,7 +16,13 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.electiveDataService.electiveList.asObservable().subscribe({
       next: data => {
-        this.electives = data;
+        this.electives = data.sort(
+          (a: Elective, b: Elective) => {
+            const aVal = a.period + a.courseNumber + a.section;
+            const bVal = b.period + b.courseNumber + b.section;
+            return aVal.localeCompare(bVal);
+          }
+        );
       }
     });
   }

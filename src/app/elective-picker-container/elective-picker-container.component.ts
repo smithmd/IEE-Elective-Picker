@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Elective} from '../elective';
 
 @Component({
   selector: 'iee-elective-picker-container',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./elective-picker-container.component.css']
 })
 export class ElectivePickerContainerComponent implements OnInit {
+  electiveOptionsType = 'primary';
+  @Input() electives: Elective[];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  onClickTypeTab(type: string) {
+    this.electiveOptionsType = type;
+  }
 }

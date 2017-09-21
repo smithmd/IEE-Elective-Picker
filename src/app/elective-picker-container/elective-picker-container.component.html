@@ -1,3 +1,11 @@
-<p>
-  elective-picker-container works!
-</p>
+<iee-electives-selected [electives]="electives"></iee-electives-selected>
+
+<ul class="nav nav-tabs">
+  <li [ngClass]="{'active':(electiveOptionsType==='primary')}">
+    <a data-toggle="tab" (click)="onClickTypeTab('primary')">Primary Options</a>
+  </li>
+  <li [ngClass]="{'active':(electiveOptionsType==='alternate')}">
+    <a data-toggle="tab" (click)="onClickTypeTab('alternate')">Alternate Options</a>
+  </li>
+</ul>
+<iee-electives [electivesType]="electiveOptionsType" [electives]="electives"></iee-electives>

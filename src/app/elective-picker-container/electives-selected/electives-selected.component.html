@@ -1,3 +1,5 @@
-<p>
-  electives-selected works!
-</p>
+<div class="container">
+  <iee-elective *ngFor="let elective of selectedElectives"
+                [elective]="elective"></iee-elective>
+  <p *ngIf="selectedElectives.length === 0">No Electives Selected</p>
+</div>

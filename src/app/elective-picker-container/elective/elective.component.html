@@ -1,0 +1,13 @@
+<div class="row elective-choice">
+  <div class="col-xs-1">
+    <input type="checkbox" [ngModel]="isChecked"/>
+  </div>
+  <div class="col-xs-6">
+    <p>{{elective.courseNumber}}-{{elective.section}} &mdash; {{elective.courseDescription}} ({{elective.electiveType}})</p>
+    <p>{{elective.term}}</p>
+  </div>
+  <div class="col-xs-5 text-right">
+    <p>{{elective.time}}</p>
+    <p>Spaces open: {{elective.maxEnrollment - elective.enrolledCount}}</p>
+  </div>
+</div>
