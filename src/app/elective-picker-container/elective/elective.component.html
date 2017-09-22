@@ -1,9 +1,13 @@
-<div class="row elective-choice">
+<div class="row" [ngClass]="{'disabled': isDisabled && !isChecked}">
   <div class="col-xs-1">
-    <input type="checkbox" (click)="onCheckChange($event.target.checked)" [ngModel]="isChecked" />
+    <input type="checkbox"
+           [disabled]="isDisabled && !isChecked"
+           (click)="onCheckChange($event.target.checked)"
+           [ngModel]="isChecked"/>
   </div>
   <div class="col-xs-8">
-    <p>{{elective.courseNumber}}-{{elective.section}} &mdash; {{elective.courseDescription}} ({{elective.electiveType}})</p>
+    <p>{{elective.courseNumber}}-{{elective.section}} &mdash; {{elective.courseDescription}}
+      ({{elective.electiveType}})</p>
     <p>{{elective.term}}</p>
   </div>
   <div class="col-xs-3 text-right">

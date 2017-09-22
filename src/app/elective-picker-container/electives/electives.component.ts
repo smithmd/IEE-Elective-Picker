@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Elective} from '../../elective';
 
 @Component({
@@ -6,7 +6,7 @@ import {Elective} from '../../elective';
   templateUrl: './electives.component.html',
   styleUrls: ['./electives.component.css']
 })
-export class ElectivesComponent implements OnInit, OnChanges {
+export class ElectivesComponent implements OnInit {
   @Input() electivesType: string;
   @Input() electives: Elective[];
 
@@ -20,6 +20,19 @@ export class ElectivesComponent implements OnInit, OnChanges {
       }
       return true;
     });
+  }
+
+  get selectedPeriods(): number[] {
+    const periods: number[] = [];
+    this.electives.forEach((elective: Elective) => {
+      if ((this.isPrimary && elective.isPrimary) || (this.isAlternate && elective.isAlternate)) {
+        if (periods.indexOf(elective.period) < 0) {
+          periods.push(elective.period);
+        }
+      }
+    });
+
+    return periods;
   }
 
   get isPrimary() {
@@ -36,6 +49,7 @@ export class ElectivesComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges() {
+  periodFilled(period: number): boolean {
+    return this.selectedPeriods.indexOf(period) > -1;
   }
 }

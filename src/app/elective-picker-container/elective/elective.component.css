@@ -1,9 +1,13 @@
-.elective-choice {
+.row {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 
   border: 1px solid gray;
-  margin: 1em;
-  padding: 1em;
+  padding: .75em;
+  margin:1em 0;
+}
+
+.disabled {
+  background: gray;
 }
