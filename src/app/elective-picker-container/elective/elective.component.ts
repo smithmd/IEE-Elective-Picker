@@ -8,6 +8,7 @@ import {Elective} from '../../elective';
 })
 export class ElectiveComponent implements OnInit {
   @Input() elective: Elective;
+  @Input() isPrimary: boolean;
 
   get isChecked(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
@@ -16,5 +17,13 @@ export class ElectiveComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onCheckChange(value) {
+    if (this.isPrimary === true) {
+      this.elective.isPrimary = value;
+    } else {
+      this.elective.isAlternate = value;
+    }
   }
 }

@@ -9,9 +9,21 @@ import {Elective} from '../../elective';
 export class ElectivesSelectedComponent implements OnInit {
   @Input() electives: Elective[];
 
-  get selectedElectives(): Elective[] {
+  get electivesPicked(): boolean {
+    return this.electives.reduce((result, elective) => {
+      return result || (elective.isPrimary || elective.isAlternate);
+    }, false);
+  }
+
+  get primaries(): Elective[] {
     return this.electives.filter((elective) => {
-      return elective.isAlternate || elective.isPrimary;
+      return elective.isPrimary;
+    });
+  }
+
+  get alternates(): Elective[] {
+    return this.electives.filter((elective) => {
+      return elective.isAlternate;
     });
   }
 

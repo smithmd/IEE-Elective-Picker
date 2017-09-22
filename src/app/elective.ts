@@ -51,7 +51,6 @@ export class Elective {
   }
 
   set isPrimary(status: boolean) {
-    this._isAlternate = false;
     this._isPrimary = status;
   }
 
@@ -60,7 +59,6 @@ export class Elective {
   }
 
   set isAlternate(status: boolean) {
-    this._isPrimary = false;
     this._isAlternate = status;
   }
 }

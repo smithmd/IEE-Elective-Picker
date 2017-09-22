@@ -1,4 +1,3 @@
-<div class="container">
-  <iee-elective *ngFor="let elective of displayedElectives"
-                [elective]="elective"></iee-elective>
-</div>
+<iee-elective *ngFor="let elective of displayedElectives"
+              [elective]="elective"
+              [isPrimary]="isPrimary"></iee-elective>
