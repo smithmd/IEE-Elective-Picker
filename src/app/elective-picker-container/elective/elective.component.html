@@ -1,4 +1,9 @@
-<div class="row" [ngClass]="{'disabled': isDisabled && !isChecked}">
+<div class="row" *ngIf="isPreviousTimeDifferent()">
+  <div class="col-xs-12">
+    <h2>{{elective.time}}</h2>
+  </div>
+</div>
+<div class="row elective-choice" [ngClass]="{'disabled': isDisabled && !isChecked}">
   <div class="col-xs-1">
     <input type="checkbox"
            [disabled]="isDisabled && !isChecked"
@@ -12,6 +17,6 @@
   </div>
   <div class="col-xs-3 text-right">
     <p>{{elective.time}}</p>
-    <p>Spaces open: {{elective.maxEnrollment - elective.enrolledCount}}</p>
+    <p>Spaces available: {{elective.maxEnrollment - elective.enrolledCount}}</p>
   </div>
 </div>

@@ -10,12 +10,15 @@ export class ElectiveComponent implements OnInit {
   @Input() elective: Elective;
   @Input() isPrimary: boolean;
   @Input() isDisabled: boolean;
+  @Input() index: number;
+  @Input() electives: Elective[];
 
   get isChecked(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
   }
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -26,5 +29,17 @@ export class ElectiveComponent implements OnInit {
     } else {
       this.elective.isAlternate = value;
     }
+  }
+
+  isPreviousTimeDifferent(): boolean {
+    if (this.index > 0) {
+      if (this.elective.period !== this.electives[this.index - 1].period) {
+        return true;
+      }
+    } else {
+      return true;
+    }
+
+    return false;
   }
 }
