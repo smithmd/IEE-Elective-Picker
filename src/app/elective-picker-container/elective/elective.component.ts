@@ -12,6 +12,7 @@ export class ElectiveComponent implements OnInit {
   @Input() isDisabled: boolean;
   @Input() index: number;
   @Input() electives: Elective[];
+  @Input() displayTimeHeaders = false;
 
   get isChecked(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
@@ -33,7 +34,7 @@ export class ElectiveComponent implements OnInit {
 
   isPreviousTimeDifferent(): boolean {
     if (this.index > 0) {
-      if (this.elective.period !== this.electives[this.index - 1].period) {
+      if (this.elective.startPeriod !== this.electives[this.index - 1].startPeriod) {
         return true;
       }
     } else {

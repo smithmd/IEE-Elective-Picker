@@ -1,12 +1,16 @@
 export class Elective {
-  schedule: string;
+  id: string;
   courseNumber: string;
-  maxEnrollment: number;
   electiveType: string;
-  electiveCorequisite: string;
+  electiveCorequisiteId: string;
   term: string;
-  enrolledCount: number = 0;
   section: string;
+  session: string;
+  startPeriod: number;
+  endPeriod: number;
+
+  enrolledCount: number;
+  maxEnrollment: number;
 
   private _courseDescription: string;
   private _isPrimary = false;
@@ -39,11 +43,15 @@ export class Elective {
   }
 
   get time(): string {
-    return this.timePeriodMap[this.period];
+    return this.timePeriodMap[this.startPeriod];
   }
 
-  get period(): number {
-    return parseInt(this.schedule.substr(0, this.schedule.indexOf('(')), 10);
+  get startTime(): string {
+    return this.timePeriodMap[this.startPeriod];
+  }
+
+  get endTime(): string {
+    return this.timePeriodMap[this.endPeriod + 1];
   }
 
   get isPrimary(): boolean {

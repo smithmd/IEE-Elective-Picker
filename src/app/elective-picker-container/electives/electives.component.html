@@ -1,6 +1,7 @@
 <iee-elective *ngFor="let elective of displayedElectives;let i = index"
               [elective]="elective"
-              [electives]="electives"
+              [electives]="displayedElectives"
               [index]="i"
               [isPrimary]="isPrimary"
-              [isDisabled]="periodFilled(elective.period)"></iee-elective>
+              [isDisabled]="periodFilled(elective.startPeriod) || periodFilled(elective.endPeriod)"
+              [displayTimeHeaders]="true"></iee-elective>

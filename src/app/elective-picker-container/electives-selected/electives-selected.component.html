@@ -1,13 +1,11 @@
-<div class="container">
-  <div *ngIf="electivesPicked">
-    <p>Primary</p>
-    <iee-elective *ngFor="let elective of primaries"
-                  [elective]="elective"
-                  [isPrimary]="true"></iee-elective>
-    <p>Alternate</p>
-    <iee-elective *ngFor="let elective of alternates"
-                  [elective]="elective"
-                  [isPrimary]="false"></iee-elective>
-  </div>
-  <div *ngIf="!electivesPicked">No Electives Selected</div>
+<div *ngIf="electivesPicked">
+  <h3 *ngIf="primaries.length > 0">Primary</h3>
+  <iee-elective *ngFor="let elective of primaries"
+                [elective]="elective"
+                [isPrimary]="true"></iee-elective>
+  <h3 *ngIf="alternates.length > 0">Alternate</h3>
+  <iee-elective *ngFor="let elective of alternates"
+                [elective]="elective"
+                [isPrimary]="false"></iee-elective>
 </div>
+<div *ngIf="!electivesPicked"><h3>No Electives Selected</h3></div>

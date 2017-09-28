@@ -26,8 +26,12 @@ export class ElectivesComponent implements OnInit {
     const periods: number[] = [];
     this.electives.forEach((elective: Elective) => {
       if ((this.isPrimary && elective.isPrimary) || (this.isAlternate && elective.isAlternate)) {
-        if (periods.indexOf(elective.period) < 0) {
-          periods.push(elective.period);
+        if (periods.indexOf(elective.startPeriod) < 0) {
+          periods.push(elective.startPeriod);
+        }
+        // INFO: works as long as our classes are not more than 2 hours long
+        if (periods.indexOf(elective.endPeriod) < 0) {
+          periods.push(elective.endPeriod);
         }
       }
     });

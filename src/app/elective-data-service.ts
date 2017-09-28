@@ -14,15 +14,21 @@ export class ElectiveDataService {
 
   constructor(private http: Http) {
     // TODO: implement the vfremote function
-    // Visualforce.remoting.Manager.invokeAction(
-    // 'controller.function', args[]
-    // )
+    Visualforce.remoting.Manager.invokeAction(
+      'IEE_ElectivePicker_Controller.getElectiveChoicesByProgramMajor',
+      'a1n3B000000d1xOQAQ', // pass in something real from data
+      json => {
+        const els: Elective[] = json.map(el => Elective.createFromJson(el));
+        this.electiveList.next(els);
+      },
+      {buffer: false}
+    );
 
     // TODO: this loads the electives from the JSON test data. Remove it later.
-    this.getElectives().subscribe(json => {
-      const els: Elective[] = json.map(el => Elective.createFromJson(el));
-      this.electiveList.next(els);
-    });
+    // this.getElectives().subscribe(json => {
+    //   const els: Elective[] = json.map(el => Elective.createFromJson(el));
+    //   this.electiveList.next(els);
+    // });
   }
 
   public getElectives(): Observable<Elective[]> {

@@ -18,8 +18,8 @@ export class AppComponent implements OnInit {
       next: data => {
         this.electives = data.sort(
           (a: Elective, b: Elective) => {
-            const aVal = a.period + a.courseNumber + a.section;
-            const bVal = b.period + b.courseNumber + b.section;
+            const aVal = a.startPeriod + a.courseNumber + a.section;
+            const bVal = b.startPeriod + b.courseNumber + b.section;
             return aVal.localeCompare(bVal);
           }
         );
