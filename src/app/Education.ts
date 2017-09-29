@@ -1,6 +1,7 @@
 export class Education {
-  sessions: Array<string>;
-  educationId: string;
+  sessions: Array<string> = [];
+  programMajorIds: Array<string> = [];
+  educationId = '';
 
   public static createFromJson(json: any): Education {
     const ed = new Education();

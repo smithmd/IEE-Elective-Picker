@@ -1,7 +1,9 @@
 <!-- tabs here -->
 <ul class="nav nav-tabs">
-  <li class="active">
-    <a data-toggle="tab">1st 2 Weeks</a>
+  <li *ngFor="let session of education.sessions; let i = index"
+      [ngClass]="{'active': session === activeTabSession}"
+      (click)="onChangeTab(i)">
+    <a data-toggle="tab">{{session}}</a>
   </li>
   <li>
     <a data-toggle="tab">Review &amp; Submit</a>

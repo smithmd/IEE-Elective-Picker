@@ -5,34 +5,52 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import {Elective} from './elective';
+import {Education} from "./Education";
 
 declare const Visualforce: any;
 
 @Injectable()
 export class ElectiveDataService {
   public electiveList = new BehaviorSubject<Elective[]>([]);
+  public education = new BehaviorSubject<Education>(new Education());
+  public educationId = new BehaviorSubject<string>('');
+  public programMajorId = new BehaviorSubject<string>('');
 
   constructor(private http: Http) {
-    // TODO: implement the vfremote function
+    this.educationId.subscribe({
+      next: edId => {
+        this.getEducation(edId);
+      }
+    });
+
+    this.programMajorId.subscribe({
+      next: pmId => {
+        this.getElectives(pmId);
+      }
+    });
+  }
+
+  public getEducation(edId: string) {
+    Visualforce.remoting.Manager.invokeAction(
+      'IEE_ElectivePicker_Controller.getEducation',
+      edId,
+      json => {
+        const ed: Education = Education.createFromJson(json);
+        this.education.next(ed);
+      },
+      {buffer: false}
+    );
+  }
+
+  public getElectives(programMajorId: string): void {
     Visualforce.remoting.Manager.invokeAction(
       'IEE_ElectivePicker_Controller.getElectiveChoicesByProgramMajor',
-      'a1n3B000000d1xOQAQ', // pass in something real from data
+      programMajorId,
       json => {
         const els: Elective[] = json.map(el => Elective.createFromJson(el));
         this.electiveList.next(els);
       },
       {buffer: false}
     );
-
-    // TODO: this loads the electives from the JSON test data. Remove it later.
-    // this.getElectives().subscribe(json => {
-    //   const els: Elective[] = json.map(el => Elective.createFromJson(el));
-    //   this.electiveList.next(els);
-    // });
-  }
-
-  public getElectives(): Observable<Elective[]> {
-    return this.http.get('assets/electives.json')
-      .map((response: any) => response.json());
   }
 }

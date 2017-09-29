@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ElectiveDataService} from './elective-data-service';
-import {Elective} from './elective';
+import {Education} from './Education';
 
 @Component({
   selector: 'iee-root',
@@ -8,21 +8,19 @@ import {Elective} from './elective';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  electives: Elective[];
+  education: Education = new Education();
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
 
   ngOnInit() {
-    this.electiveDataService.electiveList.asObservable().subscribe({
+    const params: URLSearchParams = (new URL(document.location.toString())).searchParams;
+    // push the new education Id to the service and update the data
+    this.electiveDataService.educationId.next(params.get('eid'));
+
+    this.electiveDataService.education.asObservable().subscribe({
       next: data => {
-        this.electives = data.sort(
-          (a: Elective, b: Elective) => {
-            const aVal = a.startPeriod + a.courseNumber + a.section;
-            const bVal = b.startPeriod + b.courseNumber + b.section;
-            return aVal.localeCompare(bVal);
-          }
-        );
+        this.education = data;
       }
     });
   }
