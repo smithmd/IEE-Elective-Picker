@@ -1,22 +1,22 @@
-<div class="col-xs-12" *ngIf="displayTimeHeaders && isPreviousTimeDifferent()">
+<div class="col-xs-12 elective-time" *ngIf="displayTimeHeaders && isPreviousTimeDifferent()">
   <h3>{{elective.time}}</h3>
 </div>
 <div class="col-xs-12">
   <div class="row elective-choice" [ngClass]="{'disabled': isDisabled && !isChecked}">
-    <div class="col-xs-1">
-      <input type="checkbox"
-             [disabled]="isDisabled && !isChecked"
-             (click)="onCheckChange($event.target.checked)"
-             [ngModel]="isChecked"/>
+    <div class="col-xs-2 check-container text-center">
+      <i class="fa"
+         (click)="onCheckChange(isDisabled && !isChecked)"
+         [ngClass]="{'fa-check-square-o': isChecked, 'fa-square-o': !isChecked, 'disabled': isDisabled && !isChecked}"></i>
     </div>
-    <div class="col-xs-8">
-      <p>{{elective.courseNumber}}-{{elective.section}} &mdash; {{elective.courseDescription}}
-        ({{elective.electiveType}})</p>
-      <p>{{elective.session}}</p>
+    <div class="col-xs-6">
+      <div class="course-name">{{elective.courseDescription}}</div>
+      <div class="elective-type">{{elective.electiveType}}</div>
+      <div class="course-number">{{elective.courseNumber}}-{{elective.section}}</div>
     </div>
-    <div class="col-xs-3 text-right">
-      <p>{{elective.time}}</p>
-      <p>Spaces available: {{elective.maxEnrollment - elective.enrolledCount}}</p>
+    <div class="col-xs-4 text-right">
+      <div>{{elective.time}}</div>
+      <div>{{elective.session}}</div>
+      <div>Spaces available: {{elective.maxEnrollment - elective.enrolledCount}}</div>
     </div>
   </div>
 </div>

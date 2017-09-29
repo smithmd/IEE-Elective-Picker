@@ -1,6 +1,6 @@
 import { IEEElectivePickerPage } from './app.po';
 
-describe('iee-elective-picker App', () => {
+describe('iee-review-elective-picker App', () => {
   let page: IEEElectivePickerPage;
 
   beforeEach(() => {

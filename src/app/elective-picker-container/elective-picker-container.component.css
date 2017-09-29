@@ -1,3 +1,11 @@
+.nav {
+  margin-bottom: 1em;
+}
+
 .nav>li {
   cursor: pointer;
+}
+
+.row {
+  margin: 0.5em;
 }

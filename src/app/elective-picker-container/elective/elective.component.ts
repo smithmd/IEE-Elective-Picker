@@ -24,11 +24,13 @@ export class ElectiveComponent implements OnInit {
   ngOnInit() {
   }
 
-  onCheckChange(value) {
-    if (this.isPrimary === true) {
-      this.elective.isPrimary = value;
-    } else {
-      this.elective.isAlternate = value;
+  onCheckChange(isDisabled: boolean) {
+    if (!isDisabled) {
+      if (this.isPrimary === true) {
+        this.elective.isPrimary = !this.elective.isPrimary;
+      } else {
+        this.elective.isAlternate = !this.elective.isAlternate;
+      }
     }
   }
 

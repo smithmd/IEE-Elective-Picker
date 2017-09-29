@@ -1,12 +1,45 @@
 .elective-choice {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
 
-  border: 1px solid gray;
-  padding: .75em;
+  border: 2px solid #ddd;
+  padding: 0.75em;
+  margin-bottom: 0.5em;
+
+  transition: all 0.3s cubic-bezier(.25,.8,.7,1);
+}
+
+.elective-time {
+  margin-bottom: 0.5em;
 }
 
 .disabled {
-  background: gray;
+  background: #ddd;
+  color: #999;
+}
+
+i.fa-square-o, i.fa-check-square-o {
+  cursor: pointer;
+}
+
+i.disabled {
+  cursor: not-allowed;
+}
+
+.course-name {
+  font-size: 1.3em;
+}
+
+.course-number {
+  font-size: 0.75em;
+  color: #6c6c6c;
+}
+
+.elective-type {
+  font-size: 0.9em;
+}
+
+.check-container {
+  font-size: 2em;
 }
