@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Elective} from '../elective';
+import {Elective} from '../classes/elective';
 import {ElectiveDataService} from '../elective-data-service';
-import {Education} from '../Education';
+import {Education} from '../classes/education';
 
 @Component({
   selector: 'iee-tab-container',
@@ -9,11 +9,14 @@ import {Education} from '../Education';
   styleUrls: ['./tab-container.component.css']
 })
 export class TabContainerComponent implements OnInit {
-  @Input() education: Education;
+  education: Education;
   electives: Elective[];
   activeTabSession: string;
 
   constructor(private electiveDataService: ElectiveDataService) {
+  }
+
+  ngOnInit() {
     this.electiveDataService.electiveList.asObservable().subscribe({
       next: data => {
         this.electives = data.sort(
@@ -25,9 +28,17 @@ export class TabContainerComponent implements OnInit {
         );
       }
     });
-  }
 
-  ngOnInit() {
+    const params: URLSearchParams = (new URL(document.location.toString())).searchParams;
+    // push the new education Id to the service and update the data
+    this.electiveDataService.educationId.next(params.get('eid'));
+
+    this.electiveDataService.education.asObservable().subscribe({
+      next: data => {
+        this.education = data;
+        this.onChangeTab(0);
+      }
+    });
   }
 
   onChangeTab(index: number) {

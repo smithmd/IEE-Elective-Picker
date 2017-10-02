@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Elective} from '../elective';
+import {Elective} from '../classes/elective';
 
 @Component({
   selector: 'iee-elective-picker-container',
