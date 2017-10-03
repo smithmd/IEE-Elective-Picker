@@ -10,9 +10,13 @@ export class ElectivesSelectedComponent implements OnInit {
   @Input() electives: Elective[];
 
   get electivesPicked(): boolean {
-    return this.electives.reduce((result, elective) => {
-      return result || (elective.isPrimary || elective.isAlternate);
-    }, false);
+    if (this.electives) {
+      return this.electives.reduce((result, elective) => {
+        return result || (elective.isPrimary || elective.isAlternate);
+      }, false);
+    }
+
+    return false;
   }
 
   get primaries(): Elective[] {

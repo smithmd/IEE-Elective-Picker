@@ -10,25 +10,14 @@ import {Education} from '../classes/education';
 })
 export class TabContainerComponent implements OnInit {
   education: Education;
-  electives: Elective[];
+  electives: Elective[] = [];
   activeTabSession: string;
+  activeProgramMajorId: string;
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
 
   ngOnInit() {
-    this.electiveDataService.electiveList.asObservable().subscribe({
-      next: data => {
-        this.electives = data.sort(
-          (a: Elective, b: Elective) => {
-            const aVal = a.startPeriod + a.courseNumber + a.section;
-            const bVal = b.startPeriod + b.courseNumber + b.section;
-            return aVal.localeCompare(bVal);
-          }
-        );
-      }
-    });
-
     const params: URLSearchParams = (new URL(document.location.toString())).searchParams;
     // push the new education Id to the service and update the data
     this.electiveDataService.educationId.next(params.get('eid'));
@@ -36,13 +25,15 @@ export class TabContainerComponent implements OnInit {
     this.electiveDataService.education.asObservable().subscribe({
       next: data => {
         this.education = data;
+        console.log(this.education);
         this.onChangeTab(0);
       }
     });
   }
 
   onChangeTab(index: number) {
-    this.activeTabSession = this.education.sessions[index];
-    this.electiveDataService.programMajorId.next(this.education.programMajorIds[index]);
+    this.activeProgramMajorId = this.education.programMajorIds[index];
+    this.activeTabSession = this.education.sessionsByProgramMajorIds[this.activeProgramMajorId];
+    this.electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
   }
 }

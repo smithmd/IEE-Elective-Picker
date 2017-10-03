@@ -1,10 +1,33 @@
-export class Education {
-  sessions: Array<string> = [];
-  programMajorIds: Array<string> = [];
-  educationId = '';
+import {Elective} from './elective';
 
-  public static createFromJson(json: any): Education {
+export class Education {
+  sessionsByProgramMajorIds: { [pm_id: string]: string } = {};
+  programMajorIds: Array<string> = [];
+  electivesByProgramMajorIds: { [pm_id: string]: Elective[] } = {};
+  educationId: string;
+
+  public static createFromJson(json: string): Education {
     const ed = new Education();
-    return Object.assign(ed, json);
+    const j = JSON.parse(json);
+    const ed2: Education = Object.assign(ed, j);
+
+    for (const pmId in j.electivesByProgramMajorIds) {
+      if (j.electivesByProgramMajorIds.hasOwnProperty(pmId)) {
+        ed.electivesByProgramMajorIds[pmId] = j.electivesByProgramMajorIds[pmId].map((elective) => {
+          // create actual elective objects to get properties that work
+          return Elective.createFromJson(elective);
+        });
+        // sort the list of electives by time/period
+        ed.electivesByProgramMajorIds[pmId].sort(
+          (a: Elective, b: Elective) => {
+            const aVal = a.startPeriod + a.courseNumber + a.section;
+            const bVal = b.startPeriod + b.courseNumber + b.section;
+            return aVal.localeCompare(bVal);
+          }
+        );
+      }
+    }
+
+    return ed2;
   }
 }

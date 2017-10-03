@@ -3,5 +3,5 @@
               [electives]="displayedElectives"
               [index]="i"
               [isPrimary]="isPrimary"
-              [isDisabled]="periodFilled(elective.startPeriod) || periodFilled(elective.endPeriod)"
+              [isDisabled]="isDisabled(elective)"
               [displayTimeHeaders]="true"></iee-elective>
