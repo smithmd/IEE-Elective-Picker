@@ -42,8 +42,6 @@ export class ElectivesComponent implements OnInit {
       });
     }
 
-    console.log('periods filled: ' + periods);
-
     return periods;
   }
 

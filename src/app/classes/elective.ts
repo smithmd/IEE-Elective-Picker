@@ -6,8 +6,11 @@ export class Elective {
   term: string;
   section: string;
   session: string;
+  sessionId: string;
   startPeriod: number;
   endPeriod: number;
+  programMajorId: string;
+  courseRequestId: string;
 
   enrolledCount: number;
   maxEnrollment: number;

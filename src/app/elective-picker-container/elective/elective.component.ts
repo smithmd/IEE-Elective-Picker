@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
+import {ElectiveDataService} from '../../elective-data-service';
+
+declare const Visualforce: any;
 
 @Component({
   selector: 'iee-elective',
@@ -13,15 +16,21 @@ export class ElectiveComponent implements OnInit {
   @Input() index: number;
   @Input() electives: Elective[];
   @Input() displayTimeHeaders = false;
+  educationId: string;
 
   get isChecked(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
   }
 
-  constructor() {
+  constructor(private electiveDataService: ElectiveDataService) {
   }
 
   ngOnInit() {
+    this.electiveDataService.educationId.subscribe({
+      next: value => {
+        this.educationId = value;
+      }
+    });
   }
 
   onCheckChange(isDisabled: boolean) {
@@ -30,6 +39,30 @@ export class ElectiveComponent implements OnInit {
         this.elective.isPrimary = !this.elective.isPrimary;
       } else {
         this.elective.isAlternate = !this.elective.isAlternate;
+      }
+
+      if (this.isChecked) { // a little backwards because we've just checked it, so save to DB
+        Visualforce.remoting.Manager.invokeAction(
+          'IEE_ElectivePicker_Controller.insertElectiveChoiceCamp',
+          this.educationId,
+          this.elective.id,
+          (this.elective.isPrimary ? true : false), // is this the primary choice or alternate
+          this.elective.sessionId,
+          (saved: boolean) => {
+            // I guess do something here?
+            console.log('saved ' + saved);
+          }
+        );
+      } else { // again... not checked means we just unchecked it so we'll delete it
+        // TODO: Delete course request
+        Visualforce.remoting.Manager.invokeAction(
+          'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
+          this.elective.courseRequestId,
+          (saved: boolean) => {
+            // I guess do something here?
+            console.log('deleted ' + saved);
+          }
+        );
       }
     }
   }

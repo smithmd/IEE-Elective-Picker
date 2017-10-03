@@ -9,6 +9,7 @@ import {Elective} from '../classes/elective';
 export class ElectivePickerContainerComponent implements OnInit {
   electiveOptionsType = 'primary';
   @Input() electives: Elective[];
+  @Input() programName: string;
 
   constructor() {
   }
@@ -16,7 +17,7 @@ export class ElectivePickerContainerComponent implements OnInit {
   ngOnInit() {
   }
 
-  onClickTypeTab(type: string) {
+  onClickTypeOption(type: string) {
     this.electiveOptionsType = type;
   }
 }

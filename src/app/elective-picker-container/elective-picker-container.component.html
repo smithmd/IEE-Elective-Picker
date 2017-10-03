@@ -1,5 +1,5 @@
 <div class="row">
-  <h3>PROGRAM MAJOR NAME HERE</h3>
+  <h3>{{programName}}</h3>
 </div>
 
 <div class="row">
@@ -10,10 +10,10 @@
 <div class="row">
   <ul class="nav nav-pills">
     <li [ngClass]="{'active':(electiveOptionsType==='primary')}">
-      <a data-toggle="tab" (click)="onClickTypeTab('primary')">Primary Options</a>
+      <a data-toggle="tab" (click)="onClickTypeOption('primary')">Primary Options</a>
     </li>
     <li [ngClass]="{'active':(electiveOptionsType==='alternate')}">
-      <a data-toggle="tab" (click)="onClickTypeTab('alternate')">Alternate Options</a>
+      <a data-toggle="tab" (click)="onClickTypeOption('alternate')">Alternate Options</a>
     </li>
   </ul>
 </div>

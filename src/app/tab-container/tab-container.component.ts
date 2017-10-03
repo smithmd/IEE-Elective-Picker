@@ -13,6 +13,8 @@ export class TabContainerComponent implements OnInit {
   electives: Elective[] = [];
   activeTabSession: string;
   activeProgramMajorId: string;
+  programMajorIds: Array<string> = [];
+  programNamesByProgramMajorIds: Array<string> = [];
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
@@ -25,7 +27,7 @@ export class TabContainerComponent implements OnInit {
     this.electiveDataService.education.asObservable().subscribe({
       next: data => {
         this.education = data;
-        console.log(this.education);
+        this.programMajorIds = this.education.programMajorIds;
         this.onChangeTab(0);
       }
     });

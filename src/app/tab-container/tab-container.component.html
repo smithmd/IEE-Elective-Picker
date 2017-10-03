@@ -1,6 +1,6 @@
 <!-- tabs here -->
 <ul class="nav nav-tabs">
-  <li *ngFor="let pmId of education.programMajorIds; let i = index"
+  <li *ngFor="let pmId of programMajorIds; let i = index"
       [ngClass]="{'active': education.sessionsByProgramMajorIds[pmId] === activeTabSession}"
       (click)="onChangeTab(i)">
     <a data-toggle="tab">{{education.sessionsByProgramMajorIds[pmId]}}</a>
@@ -10,5 +10,7 @@
   </li>
 </ul>
 <div class="well">
-  <iee-elective-picker-container [electives]="electives"></iee-elective-picker-container>
+  <iee-elective-picker-container
+    [electives]="electives"
+    [programName]="programNamesByProgramMajorIds[activeProgramMajorId]"></iee-elective-picker-container>
 </div>
