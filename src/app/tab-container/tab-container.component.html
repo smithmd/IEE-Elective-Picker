@@ -11,6 +11,8 @@
 </ul>
 <div class="well">
   <iee-elective-picker-container
+    *ngIf="education"
     [electives]="electives"
-    [programName]="programNamesByProgramMajorIds[activeProgramMajorId]"></iee-elective-picker-container>
+    [programName]="education.programNamesByProgramMajorIds[activeProgramMajorId]"></iee-elective-picker-container>
+  <i *ngIf="!education" class="fa fa-spinner fa-fw fa-pulse"></i>
 </div>

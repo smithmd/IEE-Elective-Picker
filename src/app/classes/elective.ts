@@ -38,7 +38,7 @@ export class Elective {
   }
 
   get courseDescription(): string {
-    return this._courseDescription.substring(this._courseDescription.indexOf(' '));
+    return this._courseDescription.substring(this._courseDescription.indexOf(' ')).trim();
   }
 
   set courseDescription(value: string) {
