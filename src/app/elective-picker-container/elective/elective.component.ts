@@ -48,9 +48,8 @@ export class ElectiveComponent implements OnInit {
           this.elective.id,
           (this.elective.isPrimary ? true : false), // is this the primary choice or alternate
           this.elective.sessionId,
-          (saved: boolean) => {
-            // I guess do something here?
-            console.log('saved ' + saved);
+          (savedId: string) => {
+            this.elective.courseRequestId = savedId;
           }
         );
       } else { // again... not checked means we just unchecked it so we'll delete it
