@@ -1,0 +1,9 @@
+.criterion-icon {
+  font-size: 1.3em;
+}
+.criterion-icon.complete {
+  color: green;
+}
+.criterion-icon.incomplete {
+  color: red;
+}
