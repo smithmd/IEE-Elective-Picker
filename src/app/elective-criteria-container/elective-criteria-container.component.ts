@@ -18,7 +18,6 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
     this.electiveDataService.electiveCriteria.asObservable().subscribe({
       next: data => {
         if (data) {
-          console.log(data[this.activeProgramMajorId]);
           this.electiveCriteria = data[this.activeProgramMajorId];
           console.log(this.electiveCriteria);
         }
