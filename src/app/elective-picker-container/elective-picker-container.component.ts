@@ -9,7 +9,6 @@ import {Elective} from '../classes/elective';
 export class ElectivePickerContainerComponent implements OnInit {
   electiveOptionsType = 'primary';
   @Input() electives: Elective[];
-  @Input() programName: string;
 
   constructor() {
   }

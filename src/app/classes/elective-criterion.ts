@@ -9,9 +9,8 @@ export class ElectiveCriterion {
   periodGroup2: string;
   programMajorId: string;
 
-  public static createFromJson(json: string): ElectiveCriterion {
+  public static createFromJson(json): ElectiveCriterion {
     const ec = new ElectiveCriterion();
-
-    return Object.assign(ec, JSON.parse(json));
+    return Object.assign(ec, json);
   }
 }

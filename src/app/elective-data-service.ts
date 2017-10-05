@@ -4,6 +4,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Education} from './classes/education';
+import {ElectiveCriterion} from "./classes/elective-criterion";
 
 declare const Visualforce: any;
 
@@ -11,6 +12,7 @@ declare const Visualforce: any;
 export class ElectiveDataService {
   public education = new BehaviorSubject<Education>(new Education());
   public educationId = new BehaviorSubject<string>(null);
+  public electiveCriteria = new BehaviorSubject<Map<string, ElectiveCriterion[]>>(null);
 
   constructor(private http: Http) {
     this.educationId.subscribe({
@@ -20,7 +22,7 @@ export class ElectiveDataService {
     });
   }
 
-  private getEducation(edId: string) {
+  private getEducation(edId: string): void {
     if (edId) {
       Visualforce.remoting.Manager.invokeAction(
         'IEE_ElectivePicker_Controller.getEducation',
@@ -29,7 +31,32 @@ export class ElectiveDataService {
           if (json !== null) {
             const ed: Education = Education.createFromJson(json);
             this.education.next(ed);
+            this.getElectiveCriteria(ed.programMajorIds);
           }
+        },
+        {buffer: false, escape: false}
+      );
+    }
+  }
+
+  private getElectiveCriteria(pmIds: string[]): void {
+    if (pmIds && pmIds.length > 0) {
+      Visualforce.remoting.Manager.invokeAction(
+        'IEE_ElectivePicker_Controller.getElectiveRequirements',
+        pmIds,
+        json => {
+          const criteriaMap = new Map<string, ElectiveCriterion[]>();
+          if (json !== null) {
+            const jp = JSON.parse(json);
+            for (const pm in jp) {
+              if (jp.hasOwnProperty(pm)) {
+                criteriaMap[pm] = jp[pm].map(ec => {
+                  return ElectiveCriterion.createFromJson(ec);
+                });
+              }
+            }
+          }
+          this.electiveCriteria.next(criteriaMap);
         },
         {buffer: false, escape: false}
       );

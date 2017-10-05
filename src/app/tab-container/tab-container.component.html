@@ -9,10 +9,10 @@
     <a data-toggle="tab">Review &amp; Submit</a>
   </li>
 </ul>
-<div class="well">
+<div class="well" *ngIf="activeProgramMajorId">
+  <h3>{{education.programNamesByProgramMajorIds[activeProgramMajorId]}}</h3>
+  <iee-elective-criteria-container
+    [activeProgramMajorId]="activeProgramMajorId"></iee-elective-criteria-container>
   <iee-elective-picker-container
-    *ngIf="education"
-    [electives]="electives"
-    [programName]="education.programNamesByProgramMajorIds[activeProgramMajorId]"></iee-elective-picker-container>
-  <i *ngIf="!education" class="fa fa-spinner fa-fw fa-pulse"></i>
+    [electives]="electives"></iee-elective-picker-container>
 </div>
