@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
-import {Elective} from "../classes/elective";
-import {Education} from "../classes/education";
+import {Elective} from '../classes/elective';
 
 @Component({
   selector: 'iee-elective-criteria-container',
@@ -41,6 +40,13 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
       next: data => {
         this.electives = data.electivesByProgramMajorIds[this.activeProgramMajorId];
       }
+    });
+  }
+
+  evaluateTypeCriteria(): void {
+    this.typeCriteria.forEach((value, index, array) => {
+      const typeList: Array<string> = value.electiveTypes.split(';');
+      this.criteriaComplete[index] = true;
     });
   }
 }
