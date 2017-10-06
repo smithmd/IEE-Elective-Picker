@@ -1,7 +1,14 @@
-<div class="elective-criteria alert alert-warning">
-    <p *ngFor="let criterion of electiveCriteria; let i = index">
-      <i *ngIf="!criteriaComplete[i]" class="fa fa-times-circle criterion-icon incomplete"></i>
-      <i *ngIf="criteriaComplete[i] === true" class="fa fa-check-circle criterion-icon complete"></i>
-      {{criterion.description}}
-    </p>
+<div class="elective-criteria alert alert-warning"
+     *ngIf="typeCriteria.length > 0">
+  <p *ngFor="let criterion of typeCriteria; let i = index">
+    <i *ngIf="!criteriaComplete[i]" class="fa fa-times-circle criterion-icon incomplete"></i>
+    <i *ngIf="criteriaComplete[i] === true" class="fa fa-check-circle criterion-icon complete"></i>
+    {{criterion.description}}
+  </p>
+</div>
+<div class="period-criteria"
+     *ngIf="periodCriteria.length > 0">
+  <p *ngFor="let criterion of periodCriteria">
+    {{criterion.description}}
+  </p>
 </div>

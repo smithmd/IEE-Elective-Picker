@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
+import {Elective} from "../classes/elective";
+import {Education} from "../classes/education";
 
 @Component({
   selector: 'iee-elective-criteria-container',
@@ -9,8 +11,10 @@ import {ElectiveDataService} from '../elective-data-service';
 })
 export class ElectiveCriteriaContainerComponent implements OnInit {
   @Input() activeProgramMajorId: string;
-  electiveCriteria: ElectiveCriterion[];
   criteriaComplete: boolean[] = [];
+  electives: Elective[] = [];
+  periodCriteria: ElectiveCriterion[] = [];
+  typeCriteria: ElectiveCriterion[] = [];
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
@@ -19,12 +23,23 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
     this.electiveDataService.electiveCriteria.asObservable().subscribe({
       next: data => {
         if (data) {
-          this.electiveCriteria = data[this.activeProgramMajorId];
-          console.log(this.electiveCriteria);
-          for (let i = 0; i < this.electiveCriteria.length; i++) {
+          this.typeCriteria = data[this.activeProgramMajorId].filter(criterion => {
+            return criterion.requirementType === 'type';
+          });
+          for (let i = 0; i < this.typeCriteria.length; i++) {
             this.criteriaComplete[i] = false;
           }
+
+          this.periodCriteria = data[this.activeProgramMajorId].filter(criterion => {
+            return criterion.requirementType === 'period';
+          });
         }
+      }
+    });
+
+    this.electiveDataService.education.asObservable().subscribe({
+      next: data => {
+        this.electives = data.electivesByProgramMajorIds[this.activeProgramMajorId];
       }
     });
   }
