@@ -15,6 +15,14 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
   periodCriteria: ElectiveCriterion[] = [];
   typeCriteria: ElectiveCriterion[] = [];
 
+  static criterionIsMet(criterion: ElectiveCriterion, electives: Elective[]): boolean {
+    // true if satisfied, false if not
+    const typeList: string[] = criterion.electiveTypes.split(';');
+    return electives.reduce((result, elective) => {
+      return (typeList.indexOf(elective.electiveType) > -1) || (typeList[0] === 'Any Available') || result;
+    }, false);
+  }
+
   constructor(private electiveDataService: ElectiveDataService) {
   }
 
@@ -45,8 +53,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
 
   evaluateTypeCriteria(): void {
     this.typeCriteria.forEach((criterion, index, array) => {
-      const typeList: Array<string> = value.electiveTypes.split(';');
-      let evaluatedCriterionResult: boolean = this.criterionIsMet(criterion, this.electives);
+      let evaluatedCriterionResult: boolean = ElectiveCriteriaContainerComponent.criterionIsMet(criterion, this.electives);
       /*
       For each criteria, evaluate to see if it's true first.
       Then try to evaluate to see if anything more specific or just as specific has already
@@ -62,13 +69,5 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
 
       this.criteriaComplete[index] = true;
     });
-  }
-
-  criterionIsMet(criterion: ElectiveCriterion, electives: Elective[]): boolean {
-    // true if satisfied, false if not
-    electives.reduce(elective => {
-
-    }, false);
-    return false;
   }
 }
