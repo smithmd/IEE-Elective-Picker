@@ -1,13 +1,11 @@
 .well {
   border-top: 0;
 }
-
 .nav {
   position: relative;
   top: 1px;
   cursor: pointer;
 }
-
 .nav li.active a {
   border: 1px solid #ccc;
   border-bottom-color: transparent;
