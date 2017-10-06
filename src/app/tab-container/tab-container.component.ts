@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Elective} from '../classes/elective';
 import {ElectiveDataService} from '../elective-data-service';
 import {Education} from '../classes/education';
@@ -14,7 +14,7 @@ export class TabContainerComponent implements OnInit {
   activeTabSession: string;
   activeProgramMajorId: string;
   programMajorIds: Array<string> = [];
-  programNamesByProgramMajorIds: Array<string> = [];
+  // programNamesByProgramMajorIds: Array<string> = [];
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
