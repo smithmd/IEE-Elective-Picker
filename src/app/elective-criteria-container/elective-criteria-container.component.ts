@@ -44,9 +44,31 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
   }
 
   evaluateTypeCriteria(): void {
-    this.typeCriteria.forEach((value, index, array) => {
+    this.typeCriteria.forEach((criterion, index, array) => {
       const typeList: Array<string> = value.electiveTypes.split(';');
+      let evaluatedCriterionResult: boolean = this.criterionIsMet(criterion, this.electives);
+      /*
+      For each criteria, evaluate to see if it's true first.
+      Then try to evaluate to see if anything more specific or just as specific has already
+      been evaluated as true.
+
+      If it has, it needs to be marked false if the other one successfully satisfied it first.
+      If this is a second requirement, and the first has been filled, this one is not.
+      If this is a second requirement and this is the second time the requirement is filled
+      this one is marked true.
+
+      I need to check other criteria to see if they match this one.
+      */
+
       this.criteriaComplete[index] = true;
     });
+  }
+
+  criterionIsMet(criterion: ElectiveCriterion, electives: Elective[]): boolean {
+    // true if satisfied, false if not
+    electives.reduce(elective => {
+
+    }, false);
+    return false;
   }
 }
