@@ -1,7 +1,7 @@
 <div class="elective-criteria alert alert-warning"
      *ngIf="typeCriteria.length > 0">
   <p *ngFor="let criterion of typeCriteria; let i = index">
-    <i *ngIf="!criteriaComplete[i]" class="fa fa-times-circle criterion-icon incomplete"></i>
+    <i *ngIf="!criteriaComplete[i]" class="fa fa-exclamation-triangle criterion-icon incomplete"></i>
     <i *ngIf="criteriaComplete[i] === true" class="fa fa-check-circle criterion-icon complete"></i>
     {{criterion.description}}
   </p>

@@ -52,4 +52,8 @@ export class ElectiveCriterion {
       return this.timePeriodMap[parseInt(period, 10)];
     });
   }
+
+  get typeList(): string[] {
+    return this.electiveTypes.split(';');
+  }
 }

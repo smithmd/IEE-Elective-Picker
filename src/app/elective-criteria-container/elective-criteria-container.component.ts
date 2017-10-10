@@ -3,6 +3,11 @@ import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
 import {Elective} from '../classes/elective';
 
+class TypeCount {
+  type: string;
+  count: number;
+}
+
 @Component({
   selector: 'iee-elective-criteria-container',
   templateUrl: './elective-criteria-container.component.html',
@@ -14,6 +19,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
   electives: Elective[] = [];
   periodCriteria: ElectiveCriterion[] = [];
   typeCriteria: ElectiveCriterion[] = [];
+  criteriaTypeCounts: TypeCount[] = [];
 
   static criterionIsMet(criterion: ElectiveCriterion, electives: Elective[]): boolean {
     // true if satisfied, false if not
@@ -21,6 +27,30 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
     return electives.reduce((result, elective) => {
       return (typeList.indexOf(elective.electiveType) > -1) || (typeList[0] === 'Any Available') || result;
     }, false);
+  }
+
+  static buildCriteriaCounts(ec: ElectiveCriterion[]): TypeCount[] {
+    const criteriaMap: Map<string, number> = new Map<string, number>();
+    ec.forEach(criterion => {
+      criterion.typeList.forEach(type => {
+        const count = criteriaMap.get(type);
+        if (!count) {
+          criteriaMap.set(type, 1);
+        } else {
+          criteriaMap.set(type, count + 1);
+        }
+      });
+    });
+    const criteriaList: TypeCount[] = [];
+    for (const c of Array.from(criteriaMap.entries())) {
+      criteriaList.push({type: c[0], count: c[1]});
+    }
+    criteriaList.sort((a, b) => {
+      return b.count - a.count;
+    });
+
+    console.log(criteriaList);
+    return criteriaList;
   }
 
   constructor(private electiveDataService: ElectiveDataService) {
@@ -40,6 +70,8 @@ export class ElectiveCriteriaContainerComponent implements OnInit {
           this.periodCriteria = data[this.activeProgramMajorId].filter(criterion => {
             return criterion.requirementType === 'period';
           });
+
+          this.criteriaTypeCounts = ElectiveCriteriaContainerComponent.buildCriteriaCounts(this.typeCriteria);
         }
       }
     });
