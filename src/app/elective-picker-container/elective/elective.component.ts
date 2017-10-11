@@ -14,8 +14,8 @@ export class ElectiveComponent implements OnInit {
   @Input() isPrimary: boolean;
   @Input() isDisabled: boolean;
   @Input() index: number;
+  @Input() displayTimeHeaders: boolean;
   @Input() electives: Elective[];
-  @Input() displayTimeHeaders = false;
   educationId: string;
 
   get isChecked(): boolean {
@@ -59,9 +59,9 @@ export class ElectiveComponent implements OnInit {
           this.elective.courseRequestId,
           (saved: boolean) => {
             // I guess do something here?
-            if (saved === true) {
-              console.log('deleted ' + this.elective.courseDescription);
-            }
+            // if (saved === true) {
+            //   console.log('deleted ' + this.elective.courseDescription);
+            // }
           }
         );
       }

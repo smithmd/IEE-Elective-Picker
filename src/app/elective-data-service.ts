@@ -4,8 +4,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Education} from './classes/education';
-import {ElectiveCriterion} from "./classes/elective-criterion";
-
+import {ElectiveCriterion} from './classes/elective-criterion';
 declare const Visualforce: any;
 
 @Injectable()
@@ -13,6 +12,8 @@ export class ElectiveDataService {
   public education = new BehaviorSubject<Education>(new Education());
   public educationId = new BehaviorSubject<string>(null);
   public electiveCriteria = new BehaviorSubject<Map<string, ElectiveCriterion[]>>(null);
+  public closedTypes = new BehaviorSubject<string[]>([]);
+  public availableCriteria = new BehaviorSubject<number>(0);
 
   constructor(private http: Http) {
     this.educationId.subscribe({

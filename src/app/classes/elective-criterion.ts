@@ -8,6 +8,7 @@ export class ElectiveCriterion {
   periodGroup1: string;
   periodGroup2: string;
   programMajorId: string;
+  isSatisfied: boolean;
 
   // TODO: should be global somehow
   private timePeriodMap = {
@@ -54,6 +55,9 @@ export class ElectiveCriterion {
   }
 
   get typeList(): string[] {
+    if (this.electiveTypes === 'Any Available') {
+      return ['Creative Writing', 'Dance', 'General', 'Music', 'Acting', 'Visual Arts Elective'];
+    }
     return this.electiveTypes.split(';');
   }
 }

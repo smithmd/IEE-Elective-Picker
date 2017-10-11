@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
+import {ElectiveDataService} from '../../elective-data-service';
 
 @Component({
   selector: 'iee-electives',
@@ -9,6 +10,8 @@ import {Elective} from '../../classes/elective';
 export class ElectivesComponent implements OnInit {
   @Input() electivesType: string;
   @Input() electives: Elective[];
+  closedTypes: string[] = [];
+  private availableCriteriaCount: number;
 
   get displayedElectives(): Elective[] {
     if (this.electives) {
@@ -53,17 +56,39 @@ export class ElectivesComponent implements OnInit {
     return this.electivesType.toLowerCase() === 'alternate';
   }
 
-  constructor() {
+  constructor(private electiveDataService: ElectiveDataService) {
   }
 
   ngOnInit() {
+    this.electiveDataService.closedTypes.subscribe({
+      next: closed => {
+        this.closedTypes = closed;
+      }
+    });
+    this.electiveDataService.availableCriteria.subscribe({
+      next: available => {
+        this.availableCriteriaCount = available;
+      }
+    });
   }
 
   periodFilled(period: number): boolean {
     return this.selectedPeriods.indexOf(period) > -1;
   }
 
+  typeClosed(electiveType: string): boolean {
+    return this.closedTypes.indexOf(electiveType) > -1;
+  }
+
+  electiveCriteriaFilled(): boolean {
+    return this.availableCriteriaCount === 0;
+  }
+
   isDisabled(elective: Elective) {
-    return this.periodFilled(elective.startPeriod) || this.periodFilled(elective.endPeriod);
+    return this.periodFilled(elective.startPeriod) ||
+      this.periodFilled(elective.endPeriod) ||
+      (this.isPrimary &&
+        (this.typeClosed(elective.electiveType) ||
+        this.electiveCriteriaFilled()));
   }
 }
