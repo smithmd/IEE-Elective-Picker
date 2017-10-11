@@ -9,6 +9,8 @@ export class ElectiveCriterion {
   periodGroup2: string;
   programMajorId: string;
   isSatisfied: boolean;
+  pg1Satisfied: boolean;
+  pg2Satisfied: boolean;
 
   // TODO: should be global somehow
   private timePeriodMap = {
@@ -34,17 +36,21 @@ export class ElectiveCriterion {
     if (this.criterionDescription) {
       description = this.criterionDescription;
     } else if (this.requirementType === 'period') {
-      // time based description
-      description = 'Electives either at '
-        + this.getPeriodTimes(this.periodGroup1).join(', ')
-        + ' or '
-        + this.getPeriodTimes(this.periodGroup2).join(', ');
+      console.log('ERROR: Use group1description and group2description properties instead of description property');
+      description = '';
     } else if (this.requirementType === 'type') {
       // elective type based description
       description = 'One elective in ' + this.electiveTypes.replace(/;/g, ' or ');
     }
 
     return description + (this.isRequired ? '' : ' (Optional)');
+  }
+
+  get group1description(): string {
+    return this.getPeriodTimes(this.periodGroup1).join(', ');
+  }
+  get group2description(): string {
+    return this.getPeriodTimes(this.periodGroup2).join(', ');
   }
 
   getPeriodTimes(periods: string): string[] {

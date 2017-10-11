@@ -46,6 +46,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
       this.checkClosedTypes();
       this.checkCriteriaCheckMarks();
       this.countAvailableCriteria();
+      this.checkClosedPeriods();
     }
   }
 
@@ -69,6 +70,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
           this.checkClosedTypes();
           this.checkCriteriaCheckMarks();
           this.countAvailableCriteria();
+          this.checkClosedPeriods();
         }
       }
     });
@@ -126,10 +128,6 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
 
   checkClosedTypes() {
     const closedTypeList: string[] = [];
-    console.log('criteria type counts: ');
-    console.log(this.criteriaTypeCounts);
-    console.log('elective type counts: ');
-    console.log(this.electiveTypeCounts);
     this.criteriaTypeCounts.forEach(criteriaType => {
       this.electiveTypeCounts.forEach(electiveType => {
         if (criteriaType.type === electiveType.type && criteriaType.count === electiveType.count) {
@@ -141,13 +139,49 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
     this.electiveDataService.closedTypes.next(closedTypeList);
   }
 
+  checkClosedPeriods() {
+    let periodList: number[] = [];
+    // reset all checkbox booleans
+    this.periodCriteria.forEach(c => {
+      c.pg2Satisfied = false;
+      c.pg1Satisfied = false;
+    });
+    this.periodCriteria.forEach(criteria => {
+      const group1: number[] = criteria.periodGroup1.split(';').map(n => {
+        return +n;
+      });
+      const group2: number[] = criteria.periodGroup2.split(';').map(n => {
+        return +n;
+      });
+
+      // remove values that are in both lists
+      const a: number[] = group1.filter(period => {
+        return !(group2.indexOf(period) > -1);
+      });
+      console.log('a: ' + a);
+      const b: number[] = group2.filter(period => {
+        return !(group1.indexOf(period) > -1);
+      });
+      console.log('b: ' + b);
+      this.primaryElectives.forEach(elective => {
+        if (a.indexOf(elective.startPeriod) > -1) {
+          periodList = periodList.concat(b);
+          criteria.pg1Satisfied = true;
+        } else if (b.indexOf(elective.startPeriod) > -1) {
+          periodList = periodList.concat(a);
+          criteria.pg2Satisfied = true;
+        }
+      });
+    });
+    console.log('periodList: ' + periodList);
+    this.electiveDataService.closedPeriods.next(periodList);
+  }
+
   countAvailableCriteria() {
     this.electiveDataService.availableCriteria.next(
-
       this.typeCriteria.reduce((count, criterion) => {
         return count - (criterion.isSatisfied ? 1 : 0);
       }, this.typeCriteria.length)
-
     );
   }
 

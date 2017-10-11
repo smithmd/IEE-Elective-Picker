@@ -8,9 +8,20 @@
     {{criterion.description}}
   </p>
 </div>
-<div class="period-criteria"
+<div class="period-criteria text-center alert alert-info"
      *ngIf="periodCriteria.length > 0">
-  <p *ngFor="let criterion of periodCriteria">
-    {{criterion.description}}
-  </p>
+  <div *ngFor="let criterion of periodCriteria" class="row">
+    <div class="col-xs-12 margin-bottom-sm">
+      <strong>Choose electives in one of the following time periods</strong>
+    </div>
+    <div class="col-xs-offset-3 col-xs-6">
+      <span [ngClass]="{stricken: criterion.pg2Satisfied}">
+      <i *ngIf="criterion.pg1Satisfied" class="fa fa-check-circle" color="green"></i>
+      {{criterion.group1description}}</span><br/>
+      <span>&mdash; or &mdash;</span><br/>
+      <span [ngClass]="{stricken: criterion.pg1Satisfied}">
+      <i *ngIf="criterion.pg2Satisfied" class="fa fa-check-circle" color="green"></i>
+      {{criterion.group2description}}</span>
+    </div>
+  </div>
 </div>

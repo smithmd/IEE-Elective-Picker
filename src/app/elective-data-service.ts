@@ -14,6 +14,7 @@ export class ElectiveDataService {
   public electiveCriteria = new BehaviorSubject<Map<string, ElectiveCriterion[]>>(null);
   public closedTypes = new BehaviorSubject<string[]>([]);
   public availableCriteria = new BehaviorSubject<number>(0);
+  public closedPeriods = new BehaviorSubject<number[]>([]);
 
   constructor(private http: Http) {
     this.educationId.subscribe({

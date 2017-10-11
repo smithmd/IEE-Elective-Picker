@@ -7,3 +7,7 @@
 .criterion-icon.incomplete {
   color: red;
 }
+.stricken {
+  text-decoration: line-through;
+  color: gray;
+}

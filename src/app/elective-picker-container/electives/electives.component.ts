@@ -11,6 +11,7 @@ export class ElectivesComponent implements OnInit {
   @Input() electivesType: string;
   @Input() electives: Elective[];
   closedTypes: string[] = [];
+  closedPeriods: number[] = [];
   private availableCriteriaCount: number;
 
   get displayedElectives(): Elective[] {
@@ -70,25 +71,33 @@ export class ElectivesComponent implements OnInit {
         this.availableCriteriaCount = available;
       }
     });
+    this.electiveDataService.closedPeriods.subscribe({
+      next: closed => {
+        this.closedPeriods = closed;
+      }
+    });
   }
 
-  periodFilled(period: number): boolean {
+  private periodFilled(period: number, primary: boolean): boolean {
+    if (primary === true) {
+      return (this.closedPeriods.indexOf(period) > -1 || this.selectedPeriods.indexOf(period) > -1);
+    }
     return this.selectedPeriods.indexOf(period) > -1;
   }
 
-  typeClosed(electiveType: string): boolean {
+  private typeClosed(electiveType: string): boolean {
     return this.closedTypes.indexOf(electiveType) > -1;
   }
 
-  electiveCriteriaFilled(): boolean {
+  private electiveCriteriaFilled(): boolean {
     return this.availableCriteriaCount === 0;
   }
 
   isDisabled(elective: Elective) {
-    return this.periodFilled(elective.startPeriod) ||
-      this.periodFilled(elective.endPeriod) ||
+    return this.periodFilled(elective.startPeriod, this.isPrimary) ||
+      this.periodFilled(elective.endPeriod, this.isPrimary) ||
       (this.isPrimary &&
         (this.typeClosed(elective.electiveType) ||
-        this.electiveCriteriaFilled()));
+          this.electiveCriteriaFilled()));
   }
 }
