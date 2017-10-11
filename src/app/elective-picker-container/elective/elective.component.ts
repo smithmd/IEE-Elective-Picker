@@ -59,9 +59,6 @@ export class ElectiveComponent implements OnInit {
           this.elective.courseRequestId,
           (saved: boolean) => {
             // I guess do something here?
-            // if (saved === true) {
-            //   console.log('deleted ' + this.elective.courseDescription);
-            // }
           }
         );
       }

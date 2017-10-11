@@ -158,11 +158,9 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
       const a: number[] = group1.filter(period => {
         return !(group2.indexOf(period) > -1);
       });
-      console.log('a: ' + a);
       const b: number[] = group2.filter(period => {
         return !(group1.indexOf(period) > -1);
       });
-      console.log('b: ' + b);
       this.primaryElectives.forEach(elective => {
         if (a.indexOf(elective.startPeriod) > -1) {
           periodList = periodList.concat(b);
@@ -173,7 +171,6 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
         }
       });
     });
-    console.log('periodList: ' + periodList);
     this.electiveDataService.closedPeriods.next(periodList);
   }
 
