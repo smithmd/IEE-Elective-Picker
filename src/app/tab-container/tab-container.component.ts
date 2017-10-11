@@ -13,6 +13,7 @@ export class TabContainerComponent implements OnInit {
   electives: Elective[] = [];
   activeTabSession: string;
   activeProgramMajorId: string;
+  reviewAndSubmitActive: boolean = false;
   programMajorIds: Array<string> = [];
   // programNamesByProgramMajorIds: Array<string> = [];
 
@@ -34,8 +35,14 @@ export class TabContainerComponent implements OnInit {
   }
 
   onChangeTab(index: number) {
+    this.reviewAndSubmitActive = false;
     this.activeProgramMajorId = this.education.programMajorIds[index];
     this.activeTabSession = this.education.sessionsByProgramMajorIds[this.activeProgramMajorId];
     this.electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
+  }
+
+  onReviewAndSubmitClicked() {
+    this.activeProgramMajorId = null;
+    this.reviewAndSubmitActive = true;
   }
 }

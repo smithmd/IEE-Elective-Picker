@@ -6,7 +6,7 @@
     <a data-toggle="tab">{{education.sessionsByProgramMajorIds[pmId]}}</a>
   </li>
   <li>
-    <a data-toggle="tab">Review &amp; Submit</a>
+    <a data-toggle="tab" (click)="onReviewAndSubmitClicked()">Review &amp; Submit</a>
   </li>
 </ul>
 <div class="well" *ngIf="activeProgramMajorId">
@@ -15,4 +15,7 @@
     [activeProgramMajorId]="activeProgramMajorId"></iee-elective-criteria-container>
   <iee-elective-picker-container
     [electives]="electives"></iee-elective-picker-container>
+</div>
+<div class="well" *ngIf="reviewAndSubmitActive">
+  <iee-review-container></iee-review-container>
 </div>
