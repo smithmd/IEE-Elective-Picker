@@ -53,7 +53,6 @@ export class ElectiveComponent implements OnInit {
           }
         );
       } else { // again... not checked means we just unchecked it so we'll delete it
-        // TODO: Delete course request
         Visualforce.remoting.Manager.invokeAction(
           'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
           this.elective.courseRequestId,
