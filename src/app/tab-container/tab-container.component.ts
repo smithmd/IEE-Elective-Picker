@@ -44,5 +44,6 @@ export class TabContainerComponent implements OnInit {
   onReviewAndSubmitClicked() {
     this.activeProgramMajorId = null;
     this.reviewAndSubmitActive = true;
+    this.activeTabSession = null;
   }
 }

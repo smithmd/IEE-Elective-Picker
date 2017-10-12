@@ -1,3 +1,17 @@
-<p>
-  review-container works!
-</p>
+<div class="row" *ngFor="let pmId of education.programMajorIds">
+  <div class="col-xs-12">
+    <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
+    <p>Primary</p>
+    <ul>
+      <li *ngFor="let elective of education.electivesByProgramMajorIds[pmId] | selectedElectives:'primary'">
+        {{elective.startTime}} - {{elective.courseDescription}}
+      </li>
+    </ul>
+    <p>Alternates</p>
+    <ul>
+      <li *ngFor="let elective of education.electivesByProgramMajorIds[pmId] | selectedElectives:'alternate'">
+        {{elective.startTime}} - {{elective.courseDescription}}
+      </li>
+    </ul>
+  </div>
+</div>

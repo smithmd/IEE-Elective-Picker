@@ -1,7 +1,8 @@
-import {Component, DoCheck, Input, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
 import {Elective} from '../classes/elective';
+import {Education} from "../classes/education";
 
 class TypeCount {
   type: string;
@@ -13,9 +14,11 @@ class TypeCount {
   templateUrl: './elective-criteria-container.component.html',
   styleUrls: ['./elective-criteria-container.component.less']
 })
-export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
+export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges {
   @Input() activeProgramMajorId: string;
+  education: Education;
   electives: Elective[] = [];
+  electiveCriteria: Map<string, ElectiveCriterion[]> = new Map<string, ElectiveCriterion[]>();
   periodCriteria: ElectiveCriterion[] = [];
   typeCriteria: ElectiveCriterion[] = [];
   criteriaTypeCounts: TypeCount[] = [];
@@ -38,15 +41,17 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this._oldElectiveLength !== this.primaryElectives.length) {
-      this._oldElectiveLength = this.primaryElectives.length;
+    if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
+      if (this._oldElectiveLength !== this.primaryElectives.length) {
+        this._oldElectiveLength = this.primaryElectives.length;
 
-      this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
-      this.checkChosen();
-      this.checkClosedTypes();
-      this.checkCriteriaCheckMarks();
-      this.countAvailableCriteria();
-      this.checkClosedPeriods();
+        this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
+        this.checkChosen();
+        this.checkClosedTypes();
+        this.checkCriteriaCheckMarks();
+        this.countAvailableCriteria();
+        this.checkClosedPeriods();
+      }
     }
   }
 
@@ -54,16 +59,8 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
     this.electiveDataService.electiveCriteria.asObservable().subscribe({
       next: data => {
         if (data) {
-          this.typeCriteria = data[this.activeProgramMajorId].filter(criterion => {
-            return criterion.requirementType === 'type';
-          });
-          for (let i = 0; i < this.typeCriteria.length; i++) {
-            this.typeCriteria[i].isSatisfied = false;
-          }
-
-          this.periodCriteria = data[this.activeProgramMajorId].filter(criterion => {
-            return criterion.requirementType === 'period';
-          });
+          this.electiveCriteria = data;
+          this.initializeCriteriaLists();
 
           this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
           this.electiveTypeCounts = this.checkChosen();
@@ -77,10 +74,50 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
 
     this.electiveDataService.education.asObservable().subscribe({
       next: data => {
-        this.electives = data.electivesByProgramMajorIds[this.activeProgramMajorId];
+        this.education = data;
+        this.initializeElectives();
       }
     });
   }
+
+  ngOnChanges() {
+    if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
+      this.initializeElectives();
+
+      console.log(this.activeProgramMajorId);
+      console.log(this.electiveCriteria[this.activeProgramMajorId]);
+      this.initializeCriteriaLists();
+
+      this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
+      this.electiveTypeCounts = this.checkChosen();
+      this.checkClosedTypes();
+      this.checkCriteriaCheckMarks();
+      this.countAvailableCriteria();
+      this.checkClosedPeriods();
+
+      this._oldElectiveLength = 0;
+    }
+  }
+
+  initializeElectives() {
+    this.electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
+  }
+
+  initializeCriteriaLists() {
+    this.typeCriteria = this.electiveCriteria[this.activeProgramMajorId].filter(criterion => {
+      return criterion.requirementType === 'type';
+    });
+    for (let i = 0; i < this.typeCriteria.length; i++) {
+      this.typeCriteria[i].isSatisfied = false;
+    }
+
+    this.periodCriteria = this.electiveCriteria[this.activeProgramMajorId].filter(criterion => {
+      return criterion.requirementType === 'period';
+    });
+    for (let i = 0; i < this.periodCriteria.length; i++) {
+      this.periodCriteria[i].isSatisfied = false;
+    }
+  };
 
   buildCriteriaCounts(ecs: ElectiveCriterion[]): TypeCount[] {
     ecs.forEach(criterion => {
@@ -171,6 +208,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck {
         }
       });
     });
+    console.log('periodList: ' + periodList);
     this.electiveDataService.closedPeriods.next(periodList);
   }
 

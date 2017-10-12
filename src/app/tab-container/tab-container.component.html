@@ -5,7 +5,7 @@
       (click)="onChangeTab(i)">
     <a data-toggle="tab">{{education.sessionsByProgramMajorIds[pmId]}}</a>
   </li>
-  <li>
+  <li [ngClass]="{'active': reviewAndSubmitActive}">
     <a data-toggle="tab" (click)="onReviewAndSubmitClicked()">Review &amp; Submit</a>
   </li>
 </ul>
