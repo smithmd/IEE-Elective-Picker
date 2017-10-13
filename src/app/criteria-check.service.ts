@@ -10,6 +10,29 @@ export class CriteriaCheckService {
     return criterion.typeList.indexOf(elective.electiveType) > -1;
   }
 
+
+  initializeTypeCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
+    const typeCriteria = electiveCriteria[pmId].filter(criterion => {
+      return criterion.requirementType === 'type';
+    });
+    for (let i = 0; i < typeCriteria.length; i++) {
+      typeCriteria[i].isSatisfied = false;
+    }
+
+    return typeCriteria;
+  }
+
+  initializePeriodCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
+    const periodCriteria = electiveCriteria[pmId].filter(criterion => {
+      return criterion.requirementType === 'period';
+    });
+    for (let i = 0; i < periodCriteria.length; i++) {
+      periodCriteria[i].isSatisfied = false;
+    }
+
+    return periodCriteria;
+  }
+
   public checkCriteriaCheckMarks(typeCriteria: ElectiveCriterion[],
                                  primaryElectives: Elective[], criteriaMap: Map<string, number>) {
 

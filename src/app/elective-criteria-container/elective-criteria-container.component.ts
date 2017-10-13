@@ -90,27 +90,9 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   }
 
   initializeCriteriaLists() {
-    this.initializeTypeCriteriaList();
-    this.initializePeriodCriteriaList();
+    this.typeCriteria = this.criteriaCheckService.initializeTypeCriteriaList(this.activeProgramMajorId, this.electiveCriteria);
+    this.periodCriteria = this.criteriaCheckService.initializePeriodCriteriaList(this.activeProgramMajorId, this.electiveCriteria);
   };
-
-  initializeTypeCriteriaList() {
-    this.typeCriteria = this.electiveCriteria[this.activeProgramMajorId].filter(criterion => {
-      return criterion.requirementType === 'type';
-    });
-    for (let i = 0; i < this.typeCriteria.length; i++) {
-      this.typeCriteria[i].isSatisfied = false;
-    }
-  }
-
-  initializePeriodCriteriaList() {
-    this.periodCriteria = this.electiveCriteria[this.activeProgramMajorId].filter(criterion => {
-      return criterion.requirementType === 'period';
-    });
-    for (let i = 0; i < this.periodCriteria.length; i++) {
-      this.periodCriteria[i].isSatisfied = false;
-    }
-  }
 
   countAvailableCriteria() {
     this.electiveDataService.availableCriteria.next(
