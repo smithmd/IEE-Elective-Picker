@@ -3,21 +3,21 @@
     <div class="session">
       <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
       <p>Primary</p>
-      <div class="alert alert-warning"  *ngIf="!hasPrimaryElectivesByPMId[pmId]">
+      <div class="alert alert-warning"  *ngIf="primaryElectivesByProgramMajorIds[pmId].length === 0">
         <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any primary electives for this
         session. Please do this before submitting.
       </div>
-      <ul *ngIf="hasPrimaryElectivesByPMId[pmId]">
+      <ul *ngIf="primaryElectivesByProgramMajorIds[pmId].length > 0">
         <li *ngFor="let elective of education.electivesByProgramMajorIds[pmId] | selectedElectives:'primary'">
           {{elective.startTime}} - {{elective.courseDescription}}
         </li>
       </ul>
       <p>Alternates</p>
-      <div class="alert alert-warning" *ngIf="!hasAlternateElectivesByPMId[pmId]">
+      <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds[pmId].length === 0">
         <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any alternate electives for this
         session. Please do this before submitting.
       </div>
-      <ul *ngIf="hasAlternateElectivesByPMId[pmId]">
+      <ul *ngIf="alternateElectivesByProgramMajorIds[pmId].length > 0">
         <li *ngFor="let elective of education.electivesByProgramMajorIds[pmId] | selectedElectives:'alternate'">
           {{elective.startTime}} - {{elective.courseDescription}}
         </li>

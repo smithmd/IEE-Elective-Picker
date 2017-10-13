@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ElectiveDataService} from '../elective-data-service';
 import {Education} from '../classes/education';
+import {Elective} from '../classes/elective';
 
 @Component({
   selector: 'iee-review-container',
@@ -10,8 +11,8 @@ import {Education} from '../classes/education';
 export class ReviewContainerComponent implements OnInit {
   private education: Education;
   private readyToSubmit: boolean = false;
-  private hasPrimaryElectivesByPMId: { [pm_id: string]: boolean } = {};
-  private hasAlternateElectivesByPMId: { [pm_id: string]: boolean } = {};
+  private primaryElectivesByProgramMajorIds: { [pm_id: string]: Elective[] } = {};
+  private alternateElectivesByProgramMajorIds: { [pm_id: string]: Elective[] } = {};
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
@@ -21,13 +22,13 @@ export class ReviewContainerComponent implements OnInit {
       next: ed => {
         this.education = ed;
         ed.programMajorIds.forEach(pmId => {
-          this.hasPrimaryElectivesByPMId[pmId] = ed.electivesByProgramMajorIds[pmId].reduce((value, e) => {
-            return value || e.isPrimary;
-          }, false);
+          this.primaryElectivesByProgramMajorIds[pmId] = ed.electivesByProgramMajorIds[pmId].filter(e => {
+            return e.isPrimary;
+          });
 
-          this.hasAlternateElectivesByPMId[pmId] = ed.electivesByProgramMajorIds[pmId].reduce((value, e) => {
-            return value || e.isAlternate;
-          }, false);
+          this.alternateElectivesByProgramMajorIds[pmId] = ed.electivesByProgramMajorIds[pmId].filter(e => {
+            return e.isAlternate;
+          });
         });
       }
     });
