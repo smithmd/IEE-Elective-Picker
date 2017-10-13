@@ -36,6 +36,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
       if (this._oldElectiveLength !== this.primaryElectives.length) {
         this._oldElectiveLength = this.primaryElectives.length;
+        this.initializeElectives();
         this.updateData();
       }
     }
@@ -47,6 +48,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
         if (data) {
           this.electiveCriteria = data;
           this.initializeCriteriaLists();
+          this.updateData();
         }
       }
     });
@@ -55,7 +57,6 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
       next: data => {
         this.education = data;
         this.initializeElectives();
-        this.updateData();
       }
     });
   }
@@ -78,11 +79,12 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     );
 
     this.criteriaCheckService.checkCriteriaCheckMarks(this.typeCriteria, this.primaryElectives, this.criteriaMap);
-    this.countAvailableCriteria();
 
     this.electiveDataService.closedPeriods.next(
       this.criteriaCheckService.checkClosedPeriods(this.periodCriteria, this.primaryElectives)
     );
+
+    this.countAvailableCriteria();
   }
 
   initializeElectives() {

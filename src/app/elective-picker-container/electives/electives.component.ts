@@ -98,6 +98,8 @@ export class ElectivesComponent implements OnInit {
       this.periodFilled(elective.endPeriod, this.isPrimary) ||
       (this.isPrimary &&
         (this.typeClosed(elective.electiveType) ||
-          this.electiveCriteriaFilled()));
+          this.electiveCriteriaFilled()
+        )
+      );
   }
 }
