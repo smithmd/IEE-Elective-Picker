@@ -3,13 +3,21 @@
     <div class="session">
       <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
       <p>Primary</p>
-      <ul>
+      <div class="alert alert-warning"  *ngIf="!hasPrimaryElectivesByPMId[pmId]">
+        <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any primary electives for this
+        session. Please do this before submitting.
+      </div>
+      <ul *ngIf="hasPrimaryElectivesByPMId[pmId]">
         <li *ngFor="let elective of education.electivesByProgramMajorIds[pmId] | selectedElectives:'primary'">
           {{elective.startTime}} - {{elective.courseDescription}}
         </li>
       </ul>
       <p>Alternates</p>
-      <ul>
+      <div class="alert alert-warning" *ngIf="!hasAlternateElectivesByPMId[pmId]">
+        <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any alternate electives for this
+        session. Please do this before submitting.
+      </div>
+      <ul *ngIf="hasAlternateElectivesByPMId[pmId]">
         <li *ngFor="let elective of education.electivesByProgramMajorIds[pmId] | selectedElectives:'alternate'">
           {{elective.startTime}} - {{elective.courseDescription}}
         </li>

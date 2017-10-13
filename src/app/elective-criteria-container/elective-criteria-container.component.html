@@ -12,7 +12,7 @@
      *ngIf="periodCriteria.length > 0">
   <div *ngFor="let criterion of periodCriteria" class="row">
     <div class="col-xs-12 margin-bottom-sm">
-      <strong>Choose electives in one of the following time periods</strong>
+      <strong>Choose electives from one of the following time period groups</strong>
     </div>
     <div class="col-xs-offset-3 col-xs-6 margin-bottom-sm">
       <span [ngClass]="{stricken: criterion.pg2Satisfied}">
