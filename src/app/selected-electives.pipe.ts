@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Elective} from "./classes/elective";
+import {Elective} from './classes/elective';
 
 @Pipe({
   name: 'selectedElectives'

@@ -14,8 +14,9 @@ import {ElectivePickerContainerComponent} from './elective-picker-container/elec
 import {ReviewContainerComponent} from './review-container/review-container.component';
 import {ElectiveDataService} from './elective-data-service';
 import {TabContainerComponent} from './tab-container/tab-container.component';
-import { ElectiveCriteriaContainerComponent } from './elective-criteria-container/elective-criteria-container.component';
-import { SelectedElectivesPipe } from './selected-electives.pipe';
+import {ElectiveCriteriaContainerComponent} from './elective-criteria-container/elective-criteria-container.component';
+import {SelectedElectivesPipe} from './selected-electives.pipe';
+import {CriteriaCheckService} from './criteria-check.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { SelectedElectivesPipe } from './selected-electives.pipe';
     FormsModule,
     HttpModule
   ],
-  providers: [ElectiveDataService],
+  providers: [ElectiveDataService, CriteriaCheckService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

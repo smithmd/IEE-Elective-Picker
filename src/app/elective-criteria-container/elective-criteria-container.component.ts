@@ -2,12 +2,9 @@ import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
 import {Elective} from '../classes/elective';
-import {Education} from "../classes/education";
-
-class TypeCount {
-  type: string;
-  count: number;
-}
+import {Education} from '../classes/education';
+import {CriteriaCheckService} from '../criteria-check.service';
+import {TypeCount} from '../classes/type-count';
 
 @Component({
   selector: 'iee-elective-criteria-container',
@@ -32,25 +29,14 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     });
   }
 
-  static criterionIsMet(criterion: ElectiveCriterion, elective: Elective): boolean {
-    // true if satisfied, false if not
-    return criterion.typeList.indexOf(elective.electiveType) > -1;
-  }
-
-  constructor(private electiveDataService: ElectiveDataService) {
+  constructor(private electiveDataService: ElectiveDataService, private criteriaCheckService: CriteriaCheckService) {
   }
 
   ngDoCheck(): void {
     if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
       if (this._oldElectiveLength !== this.primaryElectives.length) {
         this._oldElectiveLength = this.primaryElectives.length;
-
-        this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
-        this.checkChosen();
-        this.checkClosedTypes();
-        this.checkCriteriaCheckMarks();
-        this.countAvailableCriteria();
-        this.checkClosedPeriods();
+        this.updateData();
       }
     }
   }
@@ -61,13 +47,6 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
         if (data) {
           this.electiveCriteria = data;
           this.initializeCriteriaLists();
-
-          this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
-          this.electiveTypeCounts = this.checkChosen();
-          this.checkClosedTypes();
-          this.checkCriteriaCheckMarks();
-          this.countAvailableCriteria();
-          this.checkClosedPeriods();
         }
       }
     });
@@ -76,6 +55,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
       next: data => {
         this.education = data;
         this.initializeElectives();
+        this.updateData();
       }
     });
   }
@@ -83,20 +63,26 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   ngOnChanges() {
     if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
       this.initializeElectives();
-
-      console.log(this.activeProgramMajorId);
-      console.log(this.electiveCriteria[this.activeProgramMajorId]);
       this.initializeCriteriaLists();
-
-      this.criteriaTypeCounts = this.buildCriteriaCounts(this.typeCriteria);
-      this.electiveTypeCounts = this.checkChosen();
-      this.checkClosedTypes();
-      this.checkCriteriaCheckMarks();
-      this.countAvailableCriteria();
-      this.checkClosedPeriods();
-
+      this.updateData();
       this._oldElectiveLength = 0;
     }
+  }
+
+  updateData() {
+    this.criteriaMap = this.criteriaCheckService.buildCriteriaMap(this.typeCriteria);
+    this.criteriaTypeCounts = this.criteriaCheckService.buildCriteriaCounts(this.typeCriteria, this.criteriaMap);
+    this.electiveTypeCounts = this.criteriaCheckService.checkChosen(this.primaryElectives);
+    this.electiveDataService.closedTypes.next(
+      this.criteriaCheckService.checkClosedTypes(this.criteriaTypeCounts, this.electiveTypeCounts)
+    );
+
+    this.criteriaCheckService.checkCriteriaCheckMarks(this.typeCriteria, this.primaryElectives, this.criteriaMap);
+    this.countAvailableCriteria();
+
+    this.electiveDataService.closedPeriods.next(
+      this.criteriaCheckService.checkClosedPeriods(this.periodCriteria, this.primaryElectives)
+    );
   }
 
   initializeElectives() {
@@ -104,112 +90,26 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   }
 
   initializeCriteriaLists() {
+    this.initializeTypeCriteriaList();
+    this.initializePeriodCriteriaList();
+  };
+
+  initializeTypeCriteriaList() {
     this.typeCriteria = this.electiveCriteria[this.activeProgramMajorId].filter(criterion => {
       return criterion.requirementType === 'type';
     });
     for (let i = 0; i < this.typeCriteria.length; i++) {
       this.typeCriteria[i].isSatisfied = false;
     }
+  }
 
+  initializePeriodCriteriaList() {
     this.periodCriteria = this.electiveCriteria[this.activeProgramMajorId].filter(criterion => {
       return criterion.requirementType === 'period';
     });
     for (let i = 0; i < this.periodCriteria.length; i++) {
       this.periodCriteria[i].isSatisfied = false;
     }
-  };
-
-  buildCriteriaCounts(ecs: ElectiveCriterion[]): TypeCount[] {
-    ecs.forEach(criterion => {
-      criterion.typeList.forEach(type => {
-        const count = this.criteriaMap.get(type);
-        if (!count) {
-          this.criteriaMap.set(type, 1);
-        } else {
-          this.criteriaMap.set(type, count + 1);
-        }
-      });
-    });
-    const criteriaList: TypeCount[] = [];
-    for (const c of Array.from(this.criteriaMap.entries())) {
-      criteriaList.push({type: c[0], count: c[1]});
-    }
-    criteriaList.sort((a, b) => {
-      return b.count - a.count;
-    });
-
-    return criteriaList;
-  }
-
-  checkChosen(): TypeCount[] {
-    const electiveTypeCountMap: Map<string, number> = new Map<string, number>();
-    this.primaryElectives.forEach(elective => {
-      const count = electiveTypeCountMap.get(elective.electiveType);
-      if (!count) {
-        electiveTypeCountMap.set(elective.electiveType, 1);
-      } else {
-        electiveTypeCountMap.set(elective.electiveType, count + 1);
-      }
-    });
-
-    const typeList: TypeCount[] = [];
-    for (const c of Array.from(electiveTypeCountMap.entries())) {
-      typeList.push({type: c[0], count: c[1]});
-    }
-
-    typeList.sort((a, b) => {
-      return b.count - a.count;
-    });
-    return typeList;
-  }
-
-  checkClosedTypes() {
-    const closedTypeList: string[] = [];
-    this.criteriaTypeCounts.forEach(criteriaType => {
-      this.electiveTypeCounts.forEach(electiveType => {
-        if (criteriaType.type === electiveType.type && criteriaType.count === electiveType.count) {
-          closedTypeList.push();
-        }
-      });
-    });
-
-    this.electiveDataService.closedTypes.next(closedTypeList);
-  }
-
-  checkClosedPeriods() {
-    let periodList: number[] = [];
-    // reset all checkbox booleans
-    this.periodCriteria.forEach(c => {
-      c.pg2Satisfied = false;
-      c.pg1Satisfied = false;
-    });
-    this.periodCriteria.forEach(criteria => {
-      const group1: number[] = criteria.periodGroup1.split(';').map(n => {
-        return +n;
-      });
-      const group2: number[] = criteria.periodGroup2.split(';').map(n => {
-        return +n;
-      });
-
-      // remove values that are in both lists
-      const a: number[] = group1.filter(period => {
-        return !(group2.indexOf(period) > -1);
-      });
-      const b: number[] = group2.filter(period => {
-        return !(group1.indexOf(period) > -1);
-      });
-      this.primaryElectives.forEach(elective => {
-        if (a.indexOf(elective.startPeriod) > -1) {
-          periodList = periodList.concat(b);
-          criteria.pg1Satisfied = true;
-        } else if (b.indexOf(elective.startPeriod) > -1) {
-          periodList = periodList.concat(a);
-          criteria.pg2Satisfied = true;
-        }
-      });
-    });
-    console.log('periodList: ' + periodList);
-    this.electiveDataService.closedPeriods.next(periodList);
   }
 
   countAvailableCriteria() {
@@ -220,27 +120,4 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     );
   }
 
-  checkCriteriaCheckMarks() {
-    for (let i = 0; i < this.typeCriteria.length; i++) {
-      this.typeCriteria[i].isSatisfied = false;
-    }
-
-    const es = this.primaryElectives.slice(0);
-    es.sort((a, b) => {
-      return this.criteriaMap.get(a.electiveType) - this.criteriaMap.get(b.electiveType);
-    });
-
-    es.forEach(elective => {
-      for (let i = 0; i < this.typeCriteria.length; i++) {
-        if (this.typeCriteria[i].isSatisfied) {
-          continue;
-        }
-
-        if (ElectiveCriteriaContainerComponent.criterionIsMet(this.typeCriteria[i], elective)) {
-          this.typeCriteria[i].isSatisfied = true;
-          break;
-        }
-      }
-    });
-  }
 }
