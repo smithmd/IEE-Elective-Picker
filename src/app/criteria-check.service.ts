@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ElectiveCriterion} from './classes/elective-criterion';
 import {Elective} from './classes/elective';
 import {TypeCount} from './classes/type-count';
+import {ElectiveDataService} from './elective-data-service';
 
 @Injectable()
 export class CriteriaCheckService {
@@ -158,8 +159,19 @@ export class CriteriaCheckService {
     return periodList;
   }
 
+  countAvailableCriteria(typeCriteria: ElectiveCriterion[], broadcast: boolean): number {
+    const available = typeCriteria.reduce((count, criterion) => {
+      return count - (criterion.isSatisfied ? 1 : 0);
+    }, typeCriteria.length);
 
-  constructor() {
+    if (broadcast) {
+      this.electiveDataService.availableCriteria.next(available);
+    }
+
+    return available;
+  }
+
+  constructor(private electiveDataService: ElectiveDataService) {
   }
 
 }

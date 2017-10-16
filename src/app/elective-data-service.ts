@@ -58,6 +58,8 @@ export class ElectiveDataService {
               }
             }
           }
+          console.log('update criteria map to ');
+          console.log(criteriaMap);
           this.electiveCriteria.next(criteriaMap);
         },
         {buffer: false, escape: false}

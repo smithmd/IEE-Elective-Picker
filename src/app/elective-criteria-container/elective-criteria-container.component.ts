@@ -1,4 +1,4 @@
-import {Component, DoCheck, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
 import {Elective} from '../classes/elective';
@@ -11,7 +11,7 @@ import {TypeCount} from '../classes/type-count';
   templateUrl: './elective-criteria-container.component.html',
   styleUrls: ['./elective-criteria-container.component.less']
 })
-export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges, OnDestroy {
+export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges {
   @Input() activeProgramMajorId: string;
   education: Education;
   electives: Elective[] = [];
@@ -61,11 +61,6 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     });
   }
 
-  ngOnDestroy() {
-    this.electiveDataService.electiveCriteria.unsubscribe();
-    this.electiveDataService.education.unsubscribe();
-  }
-
   ngOnChanges() {
     if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
       this.initializeElectives();
@@ -89,7 +84,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
       this.criteriaCheckService.checkClosedPeriods(this.periodCriteria, this.primaryElectives)
     );
 
-    this.countAvailableCriteria();
+    this.criteriaCheckService.countAvailableCriteria(this.typeCriteria, true);
   }
 
   initializeElectives() {
@@ -100,13 +95,4 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     this.typeCriteria = this.criteriaCheckService.initializeTypeCriteriaList(this.activeProgramMajorId, this.electiveCriteria);
     this.periodCriteria = this.criteriaCheckService.initializePeriodCriteriaList(this.activeProgramMajorId, this.electiveCriteria);
   };
-
-  countAvailableCriteria() {
-    this.electiveDataService.availableCriteria.next(
-      this.typeCriteria.reduce((count, criterion) => {
-        return count - (criterion.isSatisfied ? 1 : 0);
-      }, this.typeCriteria.length)
-    );
-  }
-
 }
