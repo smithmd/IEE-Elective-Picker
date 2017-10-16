@@ -13,7 +13,7 @@ export class CriteriaCheckService {
 
 
   initializeTypeCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
-    const typeCriteria = electiveCriteria[pmId].filter(criterion => {
+    const typeCriteria = electiveCriteria.get(pmId).filter(criterion => {
       return criterion.requirementType === 'type';
     });
     for (let i = 0; i < typeCriteria.length; i++) {
@@ -24,7 +24,7 @@ export class CriteriaCheckService {
   }
 
   initializePeriodCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
-    const periodCriteria = electiveCriteria[pmId].filter(criterion => {
+    const periodCriteria = electiveCriteria.get(pmId).filter(criterion => {
       return criterion.requirementType === 'period';
     });
     for (let i = 0; i < periodCriteria.length; i++) {

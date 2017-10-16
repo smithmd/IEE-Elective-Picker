@@ -49,17 +49,15 @@ export class ElectiveDataService {
         json => {
           const criteriaMap = new Map<string, ElectiveCriterion[]>();
           if (json !== null) {
-            const jp = JSON.parse(json);
-            for (const pm in jp) {
-              if (jp.hasOwnProperty(pm)) {
-                criteriaMap[pm] = jp[pm].map(ec => {
+            const parsedJson = JSON.parse(json);
+            for (const pm in parsedJson) {
+              if (parsedJson.hasOwnProperty(pm)) {
+                criteriaMap.set(pm, parsedJson[pm].map(ec => {
                   return ElectiveCriterion.createFromJson(ec);
-                });
+                }));
               }
             }
           }
-          console.log('update criteria map to ');
-          console.log(criteriaMap);
           this.electiveCriteria.next(criteriaMap);
         },
         {buffer: false, escape: false}
