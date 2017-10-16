@@ -13,7 +13,7 @@ import 'rxjs/rx';
 })
 export class ReviewContainerComponent implements OnInit {
   private education: Education;
-  // private readyToSubmit: boolean = false;
+  private readyToSubmit: boolean = false;
   private primaryElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   private alternateElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   private availableCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
@@ -53,5 +53,13 @@ export class ReviewContainerComponent implements OnInit {
         }
       });
     });
+  }
+
+  onSubmit() {
+    console.log('clicked submit');
+  }
+
+  onClickCheckbox() {
+    this.readyToSubmit = this.readyToSubmit !== true;
   }
 }

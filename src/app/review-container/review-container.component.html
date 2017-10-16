@@ -12,7 +12,8 @@
           {{elective.startTime}} - {{elective.courseDescription}}
         </li>
       </ul>
-      <div class="alert alert-warning" *ngIf="availableCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+      <div class="alert alert-warning"
+           *ngIf="availableCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
         <i class="fa fa-exclamation-triangle" style="color:red"></i>
         You have not chosen all electives for this session. Please go back and complete your choices.
       </div>
@@ -28,5 +29,18 @@
         </li>
       </ul>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-1 text-center check-container">
+    <i class="fa"
+       (click)="onClickCheckbox()"
+       [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
+  </div>
+  <div class="col-xs-11">
+    I'm ready to submit my changes. This is final. You cannot change your choices later.
+  </div>
+  <div class="col-xs-12 text-right">
+    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit">Submit</button>
   </div>
 </div>

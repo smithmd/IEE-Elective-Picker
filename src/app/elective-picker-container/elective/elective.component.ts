@@ -46,7 +46,7 @@ export class ElectiveComponent implements OnInit {
           'IEE_ElectivePicker_Controller.insertElectiveChoiceCamp',
           this.educationId,
           this.elective.id,
-          (this.elective.isPrimary ? true : false), // is this the primary choice or alternate
+          this.elective.isPrimary, // is this the primary choice or alternate
           this.elective.sessionId,
           (savedId: string) => {
             this.elective.courseRequestId = savedId;

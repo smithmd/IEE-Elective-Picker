@@ -33,7 +33,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   }
 
   ngDoCheck(): void {
-    if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
+    if (this.activeProgramMajorId && this.electiveCriteria.get(this.activeProgramMajorId)) {
       if (this._oldElectiveLength !== this.primaryElectives.length) {
         this._oldElectiveLength = this.primaryElectives.length;
         this.initializeElectives();
@@ -62,7 +62,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   }
 
   ngOnChanges() {
-    if (this.activeProgramMajorId && this.electiveCriteria[this.activeProgramMajorId]) {
+    if (this.activeProgramMajorId && this.electiveCriteria.get(this.activeProgramMajorId)) {
       this.initializeElectives();
       this.initializeCriteriaLists();
       this.updateData();
