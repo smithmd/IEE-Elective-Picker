@@ -1,4 +1,4 @@
-import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {ElectiveDataService} from '../elective-data-service';
 import {Elective} from '../classes/elective';
@@ -11,7 +11,7 @@ import {TypeCount} from '../classes/type-count';
   templateUrl: './elective-criteria-container.component.html',
   styleUrls: ['./elective-criteria-container.component.less']
 })
-export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges {
+export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges, OnDestroy {
   @Input() activeProgramMajorId: string;
   education: Education;
   electives: Elective[] = [];
@@ -59,6 +59,11 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
         this.initializeElectives();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.electiveDataService.electiveCriteria.unsubscribe();
+    this.electiveDataService.education.unsubscribe();
   }
 
   ngOnChanges() {

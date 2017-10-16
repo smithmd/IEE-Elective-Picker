@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../elective-data-service';
 
@@ -7,7 +7,7 @@ import {ElectiveDataService} from '../../elective-data-service';
   templateUrl: './electives.component.html',
   styleUrls: ['./electives.component.css']
 })
-export class ElectivesComponent implements OnInit {
+export class ElectivesComponent implements OnInit, OnDestroy {
   @Input() electivesType: string;
   @Input() electives: Elective[];
   closedTypes: string[] = [];
@@ -61,21 +61,27 @@ export class ElectivesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.electiveDataService.closedTypes.subscribe({
+    this.electiveDataService.closedTypes.asObservable().subscribe({
       next: closed => {
         this.closedTypes = closed;
       }
     });
-    this.electiveDataService.availableCriteria.subscribe({
+    this.electiveDataService.availableCriteria.asObservable().subscribe({
       next: available => {
         this.availableCriteriaCount = available;
       }
     });
-    this.electiveDataService.closedPeriods.subscribe({
+    this.electiveDataService.closedPeriods.asObservable().subscribe({
       next: closed => {
         this.closedPeriods = closed;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.electiveDataService.closedTypes.unsubscribe();
+    this.electiveDataService.closedPeriods.unsubscribe();
+    this.electiveDataService.availableCriteria.unsubscribe();
   }
 
   private periodFilled(period: number, primary: boolean): boolean {

@@ -17,7 +17,7 @@ export class ElectiveDataService {
   public closedPeriods = new BehaviorSubject<number[]>([]);
 
   constructor(private http: Http) {
-    this.educationId.subscribe({
+    this.educationId.asObservable().subscribe({
       next: edId => {
         this.getEducation(edId);
       }

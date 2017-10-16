@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../elective-data-service';
 
@@ -9,7 +9,7 @@ declare const Visualforce: any;
   templateUrl: './elective.component.html',
   styleUrls: ['./elective.component.css']
 })
-export class ElectiveComponent implements OnInit {
+export class ElectiveComponent implements OnInit, OnDestroy {
   @Input() elective: Elective;
   @Input() isPrimary: boolean;
   @Input() isDisabled: boolean;
@@ -26,11 +26,15 @@ export class ElectiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.electiveDataService.educationId.subscribe({
+    this.electiveDataService.educationId.asObservable().subscribe({
       next: value => {
         this.educationId = value;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.electiveDataService.educationId.unsubscribe();
   }
 
   onCheckChange(isDisabled: boolean) {
