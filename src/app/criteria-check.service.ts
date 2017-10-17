@@ -155,7 +155,6 @@ export class CriteriaCheckService {
         }
       });
     });
-    // console.log('periodList: ' + periodList);
     return periodList;
   }
 
