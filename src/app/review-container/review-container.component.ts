@@ -46,10 +46,17 @@ export class ReviewContainerComponent implements OnInit {
         }));
 
         if (o.criteria.get(pmId)) {
+          const typeCriteria = o.criteria.get(pmId).filter(c => {
+            return c.requirementType === 'type';
+          });
+
+          const primaryElectives = this.primaryElectivesByProgramMajorIds.get(pmId);
+
+          const criteriaMap = this.criteriaCheckService.buildCriteriaMap(typeCriteria);
+          this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
+
           this.availableCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(
-              o.criteria.get(pmId).filter(c => { return c.requirementType === 'type'; }), false
-            ));
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria, false));
         }
       });
     });
