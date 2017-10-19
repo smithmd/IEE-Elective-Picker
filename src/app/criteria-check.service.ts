@@ -13,22 +13,30 @@ export class CriteriaCheckService {
 
 
   initializeTypeCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
-    const typeCriteria = electiveCriteria.get(pmId).filter(criterion => {
-      return criterion.requirementType === 'type';
-    });
-    for (let i = 0; i < typeCriteria.length; i++) {
-      typeCriteria[i].isSatisfied = false;
+    let typeCriteria = [];
+    const criteriaByPMId = electiveCriteria.get(pmId);
+    if (criteriaByPMId) {
+      typeCriteria = criteriaByPMId.filter(criterion => {
+        return criterion.requirementType === 'type';
+      });
+      for (let i = 0; i < typeCriteria.length; i++) {
+        typeCriteria[i].isSatisfied = false;
+      }
     }
 
     return typeCriteria;
   }
 
   initializePeriodCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
-    const periodCriteria = electiveCriteria.get(pmId).filter(criterion => {
-      return criterion.requirementType === 'period';
-    });
-    for (let i = 0; i < periodCriteria.length; i++) {
-      periodCriteria[i].isSatisfied = false;
+    let periodCriteria = [];
+    const criteriaByPMId = electiveCriteria.get(pmId);
+    if (criteriaByPMId) {
+      periodCriteria = criteriaByPMId.filter(criterion => {
+        return criterion.requirementType === 'period';
+      });
+      for (let i = 0; i < periodCriteria.length; i++) {
+        periodCriteria[i].isSatisfied = false;
+      }
     }
 
     return periodCriteria;
