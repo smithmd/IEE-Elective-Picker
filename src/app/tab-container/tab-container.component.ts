@@ -13,8 +13,9 @@ export class TabContainerComponent implements OnInit {
   electives: Elective[] = [];
   activeTabSession: string;
   activeProgramMajorId: string;
-  reviewAndSubmitActive: boolean = false;
+  reviewAndSubmitActive = false;
   programMajorIds: Array<string> = [];
+
   // programNamesByProgramMajorIds: Array<string> = [];
 
   constructor(private electiveDataService: ElectiveDataService) {
@@ -35,15 +36,48 @@ export class TabContainerComponent implements OnInit {
   }
 
   onChangeTab(index: number) {
+    console.log(index);
     this.reviewAndSubmitActive = false;
     this.activeProgramMajorId = this.education.programMajorIds[index];
     this.activeTabSession = this.education.sessionsByProgramMajorIds[this.activeProgramMajorId];
     this.electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
+    window.scrollTo(0, 0);
   }
 
   onReviewAndSubmitClicked() {
     this.activeProgramMajorId = null;
     this.reviewAndSubmitActive = true;
     this.activeTabSession = null;
+  }
+
+  get tabIndex(): number {
+    let index = this.programMajorIds.indexOf(this.activeProgramMajorId);
+    if (index < 0) {
+      if (this.reviewAndSubmitActive) {
+        index = this.programMajorIds.length;
+      } else {
+        index = 0;
+      }
+    }
+
+    return index;
+  }
+
+  prevTab() {
+    this.onChangeTab(this.tabIndex - 1);
+    this.reviewAndSubmitActive = false;
+    window.scrollTo(0, 0);
+  }
+
+  nextTab() {
+    if (this.tabIndex === (this.programMajorIds.length - 1)) {
+      this.reviewAndSubmitActive = true;
+      this.activeProgramMajorId = null;
+      this.activeTabSession = null;
+    } else {
+      this.onChangeTab(this.tabIndex + 1);
+      this.reviewAndSubmitActive = false;
+    }
+    window.scrollTo(0, 0);
   }
 }
