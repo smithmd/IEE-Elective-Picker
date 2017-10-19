@@ -36,7 +36,6 @@ export class TabContainerComponent implements OnInit {
   }
 
   onChangeTab(index: number) {
-    console.log(index);
     this.reviewAndSubmitActive = false;
     this.activeProgramMajorId = this.education.programMajorIds[index];
     this.activeTabSession = this.education.sessionsByProgramMajorIds[this.activeProgramMajorId];
