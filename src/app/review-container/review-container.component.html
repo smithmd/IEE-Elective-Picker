@@ -2,32 +2,38 @@
   <div class="col-xs-12">
     <div class="session">
       <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
-      <p>Primary</p>
-      <div class="alert alert-warning" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
-        <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any primary electives for this
-        session. Please do this before submitting.
-      </div>
-      <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-        <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId) | selectedElectives:'primary'">
-          {{elective.startTime}} - {{elective.courseDescription}}
-        </li>
-      </ul>
-      <div class="alert alert-warning"
-           *ngIf="availableCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-        <i class="fa fa-exclamation-triangle" style="color:red"></i>
-        You have not chosen all electives for this session. Please go back and complete your choices.
-      </div>
+      <div *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
+        <p>Primary</p>
+        <div class="alert alert-warning" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any primary electives for
+          this
+          session. Please do this before submitting.
+        </div>
+        <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+          <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId) | selectedElectives:'primary'">
+            {{elective.startTime}} - {{elective.courseDescription}}
+          </li>
+        </ul>
+        <div class="alert alert-warning"
+             *ngIf="availableCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+          <i class="fa fa-exclamation-triangle" style="color:red"></i>
+          You have not chosen all electives for this session. Please go back and complete your choices.
+        </div>
 
-      <p>Alternates</p>
-      <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
-        <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any alternate electives for
-        this session. Please do this before submitting.
+        <p>Alternates</p>
+        <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any alternate electives for
+          this session. Please do this before submitting.
+        </div>
+        <ul *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
+          <li *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
+            {{elective.startTime}} - {{elective.courseDescription}}
+          </li>
+        </ul>
       </div>
-      <ul *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
-        <li *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
-          {{elective.startTime}} - {{elective.courseDescription}}
-        </li>
-      </ul>
+      <div *ngIf="!education.electivesByProgramMajorIds[pmId] || education.electivesByProgramMajorIds[pmId].length === 0" class="alert alert-info">
+        <i class="fa fa-info-circle"></i> There are no electives available for this session.
+      </div>
     </div>
   </div>
 </div>

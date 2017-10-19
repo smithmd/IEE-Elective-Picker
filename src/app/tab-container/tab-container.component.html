@@ -11,10 +11,17 @@
 </ul>
 <div class="well" *ngIf="activeProgramMajorId">
   <h3>{{education.programNamesByProgramMajorIds[activeProgramMajorId]}}</h3>
-  <iee-elective-criteria-container
-    [activeProgramMajorId]="activeProgramMajorId"></iee-elective-criteria-container>
-  <iee-elective-picker-container
-    [electives]="electives"></iee-elective-picker-container>
+  <div *ngIf="education.electivesByProgramMajorIds[activeProgramMajorId]
+              && education.electivesByProgramMajorIds[activeProgramMajorId].length > 0">
+    <iee-elective-criteria-container
+      [activeProgramMajorId]="activeProgramMajorId"></iee-elective-criteria-container>
+    <iee-elective-picker-container
+      [electives]="electives"></iee-elective-picker-container>
+  </div>
+  <div *ngIf="!education.electivesByProgramMajorIds[activeProgramMajorId]
+              || education.electivesByProgramMajorIds[activeProgramMajorId].length === 0" class="alert alert-info">
+    <i class="fa fa-info-circle"></i> There are no electives available for this session. Please continue to the next tab.
+  </div>
 </div>
 <div class="well" *ngIf="reviewAndSubmitActive">
   <iee-review-container></iee-review-container>

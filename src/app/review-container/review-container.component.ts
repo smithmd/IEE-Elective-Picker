@@ -38,12 +38,17 @@ export class ReviewContainerComponent implements OnInit {
       this.education = o.education;
 
       o.education.programMajorIds.forEach(pmId => {
-        this.primaryElectivesByProgramMajorIds.set(pmId, o.education.electivesByProgramMajorIds[pmId].filter(e => {
-          return e.isPrimary;
-        }));
-        this.alternateElectivesByProgramMajorIds.set(pmId, o.education.electivesByProgramMajorIds[pmId].filter(e => {
-          return e.isAlternate;
-        }));
+        if (o.education.electivesByProgramMajorIds[pmId]) {
+          this.primaryElectivesByProgramMajorIds.set(pmId, o.education.electivesByProgramMajorIds[pmId].filter(e => {
+            return e.isPrimary;
+          }));
+          this.alternateElectivesByProgramMajorIds.set(pmId, o.education.electivesByProgramMajorIds[pmId].filter(e => {
+            return e.isAlternate;
+          }));
+        } else {
+          this.primaryElectivesByProgramMajorIds.set(pmId, []);
+          this.alternateElectivesByProgramMajorIds.set(pmId, []);
+        }
 
         if (o.criteria.get(pmId)) {
           const typeCriteria = o.criteria.get(pmId).filter(c => {
