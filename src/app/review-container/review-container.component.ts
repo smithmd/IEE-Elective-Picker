@@ -7,6 +7,8 @@ import {ElectiveCriterion} from '../classes/elective-criterion';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 
+declare const Visualforce: any;
+
 @Component({
   selector: 'iee-review-container',
   templateUrl: './review-container.component.html',
@@ -61,7 +63,13 @@ export class ReviewContainerComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('clicked submit');
+    Visualforce.remoting.Manager.invokeAction(
+      'IEE_ElectivePicker_Controller.saveElectiveComplete',
+      this.education.educationId,
+      (saved: boolean) => {
+        // saved
+      }
+    );
   }
 
   onClickCheckbox() {
