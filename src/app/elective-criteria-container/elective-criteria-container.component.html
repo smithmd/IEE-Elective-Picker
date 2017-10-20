@@ -1,5 +1,5 @@
 <div class="elective-criteria alert alert-warning"
-     *ngIf="typeCriteria.length > 0 && electives.length > 0">
+     *ngIf="(typeCriteria.length > 0) && (electives.length > 0)">
   <p *ngFor="let criterion of typeCriteria; let i = index">
     <i *ngIf="!criterion.isSatisfied"
        class="fa fa-exclamation-triangle criterion-icon incomplete"></i>
@@ -9,7 +9,7 @@
   </p>
 </div>
 <div class="period-criteria text-center alert alert-info"
-     *ngIf="periodCriteria.length > 0 > 0 && electives.length > 0">
+     *ngIf="(periodCriteria.length > 0) && (electives.length > 0)">
   <div *ngFor="let criterion of periodCriteria" class="row">
     <div class="col-xs-12 margin-bottom-sm">
       <strong>Choose electives from one of the following time period groups</strong>
