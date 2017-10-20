@@ -14,7 +14,7 @@ import 'rxjs/add/observable/combineLatest';
 })
 export class ReviewContainerComponent implements OnInit {
   education: Education;
-  readyToSubmit: boolean = false;
+  readyToSubmit = false;
   primaryElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   alternateElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   availableCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();

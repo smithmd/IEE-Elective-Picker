@@ -1,7 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
 import {ElectivesRequirementsComponent} from './elective-picker-container/electives-requirements/electives-requirements.component';
@@ -15,7 +13,6 @@ import {ReviewContainerComponent} from './review-container/review-container.comp
 import {ElectiveDataService} from './elective-data-service';
 import {TabContainerComponent} from './tab-container/tab-container.component';
 import {ElectiveCriteriaContainerComponent} from './elective-criteria-container/elective-criteria-container.component';
-import {SelectedElectivesPipe} from './selected-electives.pipe';
 import {CriteriaCheckService} from './criteria-check.service';
 
 @NgModule({
@@ -30,13 +27,10 @@ import {CriteriaCheckService} from './criteria-check.service';
     ElectivePickerContainerComponent,
     ReviewContainerComponent,
     TabContainerComponent,
-    ElectiveCriteriaContainerComponent,
-    SelectedElectivesPipe
+    ElectiveCriteriaContainerComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
+    BrowserModule
   ],
   providers: [ElectiveDataService, CriteriaCheckService],
   bootstrap: [AppComponent]

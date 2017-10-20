@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -16,7 +15,7 @@ export class ElectiveDataService {
   public availableCriteria = new BehaviorSubject<number>(0);
   public closedPeriods = new BehaviorSubject<number[]>([]);
 
-  constructor(private http: Http) {
+  constructor() {
     this.educationId.asObservable().subscribe({
       next: edId => {
         this.getEducation(edId);

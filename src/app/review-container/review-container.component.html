@@ -10,7 +10,7 @@
           session. Please do this before submitting.
         </div>
         <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId) | selectedElectives:'primary'">
+          <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
             {{elective.startTime}} - {{elective.courseDescription}}
           </li>
         </ul>
