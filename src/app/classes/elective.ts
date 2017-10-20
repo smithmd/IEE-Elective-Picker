@@ -72,4 +72,9 @@ export class Elective {
   set isAlternate(status: boolean) {
     this._isAlternate = status;
   }
+
+  get availableSlots(): number {
+    const avail = this.maxEnrollment - this.enrolledCount;
+    return (avail < 0 ? 0 : avail);
+  }
 }
