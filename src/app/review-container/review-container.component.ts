@@ -4,7 +4,8 @@ import {Education} from '../classes/education';
 import {Elective} from '../classes/elective';
 import {CriteriaCheckService} from '../criteria-check.service';
 import {ElectiveCriterion} from '../classes/elective-criterion';
-import 'rxjs/rx';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
 
 @Component({
   selector: 'iee-review-container',
@@ -23,26 +24,18 @@ export class ReviewContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-
     const electiveObs = this.electiveDataService.electiveCriteria.asObservable();
     const educationObs = this.electiveDataService.education.asObservable();
 
-    const obs = electiveObs.combineLatest(educationObs,
-      (elective, education) => {
-        return {criteria: elective, education: education};
-      });
+    Observable.combineLatest(electiveObs, educationObs).subscribe((o) => {
+      [this.electiveCriteria, this.education] = o;
 
-    // combine observables so I know have both sets of data at once
-    obs.subscribe((o) => {
-      this.electiveCriteria = o.criteria;
-      this.education = o.education;
-
-      o.education.programMajorIds.forEach(pmId => {
-        if (o.education.electivesByProgramMajorIds[pmId]) {
-          this.primaryElectivesByProgramMajorIds.set(pmId, o.education.electivesByProgramMajorIds[pmId].filter(e => {
+      this.education.programMajorIds.forEach(pmId => {
+        if (this.education.electivesByProgramMajorIds[pmId]) {
+          this.primaryElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
             return e.isPrimary;
           }));
-          this.alternateElectivesByProgramMajorIds.set(pmId, o.education.electivesByProgramMajorIds[pmId].filter(e => {
+          this.alternateElectivesByProgramMajorIds.set(pmId, this.education.electivesByProgramMajorIds[pmId].filter(e => {
             return e.isAlternate;
           }));
         } else {
@@ -50,8 +43,8 @@ export class ReviewContainerComponent implements OnInit {
           this.alternateElectivesByProgramMajorIds.set(pmId, []);
         }
 
-        if (o.criteria.get(pmId)) {
-          const typeCriteria = o.criteria.get(pmId).filter(c => {
+        if (this.electiveCriteria.get(pmId)) {
+          const typeCriteria = this.electiveCriteria.get(pmId).filter(c => {
             return c.requirementType === 'type';
           });
 
