@@ -12,7 +12,16 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+##### Production Build
+
+`ng build --prod --output-hashing=none`
+
+`--prod` sets the build into production mode, which strips out all dev libraries.
+
+`--output-hashing=none` makes the file names not have any hashed character sequences so we can refer to
+them nicely in the static resource bundles.   
 
 ## Running unit tests
 
