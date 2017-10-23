@@ -14,6 +14,7 @@ export class ElectiveDataService {
   public closedTypes = new BehaviorSubject<string[]>([]);
   public availableCriteria = new BehaviorSubject<number>(0);
   public closedPeriods = new BehaviorSubject<number[]>([]);
+  public activeProgramMajorId = new BehaviorSubject<string>(null);
 
   constructor() {
     this.educationId.asObservable().subscribe({

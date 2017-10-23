@@ -38,6 +38,7 @@ export class TabContainerComponent implements OnInit {
   onChangeTab(index: number) {
     this.reviewAndSubmitActive = false;
     this.activeProgramMajorId = this.education.programMajorIds[index];
+    this.electiveDataService.activeProgramMajorId.next(this.activeProgramMajorId);
     this.activeTabSession = this.education.sessionsByProgramMajorIds[this.activeProgramMajorId];
     this.electives = this.education.electivesByProgramMajorIds[this.activeProgramMajorId];
     window.scrollTo(0, 0);
@@ -45,6 +46,7 @@ export class TabContainerComponent implements OnInit {
 
   onReviewAndSubmitClicked() {
     this.activeProgramMajorId = null;
+    this.electiveDataService.activeProgramMajorId.next(null);
     this.reviewAndSubmitActive = true;
     this.activeTabSession = null;
   }
@@ -72,6 +74,7 @@ export class TabContainerComponent implements OnInit {
     if (this.tabIndex === (this.programMajorIds.length - 1)) {
       this.reviewAndSubmitActive = true;
       this.activeProgramMajorId = null;
+      this.electiveDataService.activeProgramMajorId.next(null);
       this.activeTabSession = null;
     } else {
       this.onChangeTab(this.tabIndex + 1);

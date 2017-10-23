@@ -5,6 +5,7 @@ export class Education {
   programMajorIds: Array<string> = [];
   electivesByProgramMajorIds: { [pm_id: string]: Elective[] } = {};
   programNamesByProgramMajorIds: { [pm_id: string]: string } = {};
+  longDescriptionsByProgramMajorIds: { [pm_id: string]: string } = {};
   educationId: string;
 
   public static createFromJson(json: string): Education {
