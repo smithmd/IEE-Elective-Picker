@@ -62,6 +62,7 @@ export class ElectiveCriterion {
 
   get typeList(): string[] {
     if (this.electiveTypes === 'Any Available') {
+      // TODO: find better way to get complete list
       return ['Creative Writing', 'Dance', 'General', 'Music', 'Acting', 'Visual Arts Elective'];
     }
     return this.electiveTypes.split(';');

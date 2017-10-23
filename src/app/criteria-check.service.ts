@@ -123,7 +123,8 @@ export class CriteriaCheckService {
     criteriaTypeCounts.forEach(criteriaType => {
       electiveTypeCounts.forEach(electiveType => {
         if (criteriaType.type === electiveType.type && criteriaType.count === electiveType.count) {
-          closedTypeList.push();
+          // TODO: make sure this actually works
+          closedTypeList.push(electiveType.type);
         }
       });
     });

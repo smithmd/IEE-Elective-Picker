@@ -6,8 +6,7 @@
         <p>Primary</p>
         <div class="alert alert-warning" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any primary electives for
-          this
-          session. Please do this before submitting.
+          this session. Please do this before submitting.
         </div>
         <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
@@ -44,7 +43,7 @@
        [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
   </div>
   <div class="col-xs-11">
-    I'm ready to submit my changes.
+    I'm ready to submit my electives.
   </div>
 </div>
 <div class="row">
