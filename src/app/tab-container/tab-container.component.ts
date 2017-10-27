@@ -67,7 +67,8 @@ export class TabContainerComponent implements OnInit {
 
   prevTab() {
     this.onChangeTab(this.tabIndex - 1);
-    this.reviewAndSubmitActive = false;  }
+    this.reviewAndSubmitActive = false;
+  }
 
   nextTab() {
     if (this.tabIndex === (this.programMajorIds.length - 1)) {

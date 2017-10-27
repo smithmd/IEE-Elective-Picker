@@ -4,6 +4,37 @@
   & > li {
     cursor: pointer;
   }
+
+  &.nav-pills {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    & li {
+      & a {
+        transition: all 0.3s cubic-bezier(.25, .8, .7, 1);
+        border: 2px solid #337ab7;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+
+        &:hover {
+          border-color: #821a29;
+        }
+
+        &:active {
+          background: #bbb;
+        }
+      }
+
+      &.active {
+        a:hover {
+          border: 2px solid #337ab7;
+        }
+      }
+    }
+  }
 }
 
 .row {
