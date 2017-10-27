@@ -49,6 +49,7 @@ export class TabContainerComponent implements OnInit {
     this.electiveDataService.activeProgramMajorId.next(null);
     this.reviewAndSubmitActive = true;
     this.activeTabSession = null;
+    window.scrollTo(0, 0);
   }
 
   get tabIndex(): number {
@@ -66,20 +67,14 @@ export class TabContainerComponent implements OnInit {
 
   prevTab() {
     this.onChangeTab(this.tabIndex - 1);
-    this.reviewAndSubmitActive = false;
-    window.scrollTo(0, 0);
-  }
+    this.reviewAndSubmitActive = false;  }
 
   nextTab() {
     if (this.tabIndex === (this.programMajorIds.length - 1)) {
-      this.reviewAndSubmitActive = true;
-      this.activeProgramMajorId = null;
-      this.electiveDataService.activeProgramMajorId.next(null);
-      this.activeTabSession = null;
+      this.onReviewAndSubmitClicked();
     } else {
       this.onChangeTab(this.tabIndex + 1);
       this.reviewAndSubmitActive = false;
     }
-    window.scrollTo(0, 0);
   }
 }
