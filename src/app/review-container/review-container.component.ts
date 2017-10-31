@@ -52,7 +52,7 @@ export class ReviewContainerComponent implements OnInit {
 
           const primaryElectives = this.primaryElectivesByProgramMajorIds.get(pmId);
 
-          const criteriaMap = this.criteriaCheckService.buildCriteriaMap(typeCriteria);
+          const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteria);
           this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
 
           this.availableCriteriaByProgramMajorIds.set(pmId,

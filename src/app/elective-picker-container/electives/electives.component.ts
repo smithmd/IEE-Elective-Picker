@@ -30,17 +30,17 @@ export class ElectivesComponent implements OnInit {
     return [];
   }
 
-  get selectedPeriods(): number[] {
-    const periods: number[] = [];
+  get selectedPeriods(): string[] {
+    const periods: string[] = [];
     if (this.electives) {
       this.electives.forEach((elective: Elective) => {
         if ((this.isPrimary && elective.isPrimary) || (this.isAlternate && elective.isAlternate)) {
-          if (periods.indexOf(elective.startPeriod) < 0) {
-            periods.push(elective.startPeriod);
+          if (periods.indexOf(elective.startPeriod + '-' + elective.session) < 0) {
+            periods.push(elective.startPeriod + '-' + elective.session);
           }
           // INFO: works as long as our classes are not more than 2 hours long
-          if (periods.indexOf(elective.endPeriod) < 0) {
-            periods.push(elective.endPeriod);
+          if (periods.indexOf(elective.endPeriod + '-' + elective.session) < 0) {
+            periods.push(elective.endPeriod + '-' + elective.session);
           }
         }
       });
@@ -78,11 +78,12 @@ export class ElectivesComponent implements OnInit {
     });
   }
 
-  private periodFilled(period: number, primary: boolean): boolean {
+  private periodFilled(period: number, primary: boolean, session: string): boolean {
+    const key = period + '-' + session;
     if (primary === true) {
-      return (this.closedPeriods.indexOf(period) > -1 || this.selectedPeriods.indexOf(period) > -1);
+      return (this.closedPeriods.indexOf(period) > -1 || this.selectedPeriods.indexOf(key) > -1);
     }
-    return this.selectedPeriods.indexOf(period) > -1;
+    return this.selectedPeriods.indexOf(key) > -1;
   }
 
   private typeClosed(electiveType: string): boolean {
@@ -94,8 +95,8 @@ export class ElectivesComponent implements OnInit {
   }
 
   isDisabled(elective: Elective) {
-    return this.periodFilled(elective.startPeriod, this.isPrimary) ||
-      this.periodFilled(elective.endPeriod, this.isPrimary) ||
+    return this.periodFilled(elective.startPeriod, this.isPrimary, elective.session) ||
+      this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       (this.isPrimary &&
         (this.typeClosed(elective.electiveType) ||
           this.electiveCriteriaFilled()

@@ -40,7 +40,9 @@ export class ElectiveCriterion {
       description = '';
     } else if (this.requirementType === 'type') {
       // elective type based description
-      description = 'One elective in ' + this.electiveTypes.replace(/;/g, ' or ');
+      description = 'One elective' +
+        (this.courseSession ? ' during the ' + this.courseSession : '') +
+        ' in ' + this.electiveTypes.replace(/;/g, ' or ');
     }
 
     return description + (this.isRequired ? '' : ' (Optional)');
@@ -49,6 +51,7 @@ export class ElectiveCriterion {
   get group1description(): string {
     return this.getPeriodTimes(this.periodGroup1).join(', ');
   }
+
   get group2description(): string {
     return this.getPeriodTimes(this.periodGroup2).join(', ');
   }

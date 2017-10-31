@@ -9,7 +9,7 @@ import {TypeCount} from '../classes/type-count';
 @Component({
   selector: 'iee-elective-criteria-container',
   templateUrl: './elective-criteria-container.component.html',
-  styleUrls: ['./elective-criteria-container.component.less']
+  styleUrls: ['./elective-criteria-container.component.css']
 })
 export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnChanges {
   @Input() activeProgramMajorId: string;
@@ -71,7 +71,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   }
 
   updateData() {
-    this.criteriaMap = this.criteriaCheckService.buildCriteriaMap(this.typeCriteria);
+    this.criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(this.typeCriteria);
     this.criteriaTypeCounts = this.criteriaCheckService.buildCriteriaCounts(this.typeCriteria, this.criteriaMap);
     this.electiveTypeCounts = this.criteriaCheckService.checkChosen(this.primaryElectives);
     this.electiveDataService.closedTypes.next(

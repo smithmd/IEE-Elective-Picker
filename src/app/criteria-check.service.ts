@@ -8,7 +8,8 @@ import {ElectiveDataService} from './elective-data-service';
 export class CriteriaCheckService {
   private static criterionIsMet(criterion: ElectiveCriterion, elective: Elective): boolean {
     // true if satisfied, false if not
-    return criterion.typeList.indexOf(elective.electiveType) > -1;
+    return criterion.typeList.indexOf(elective.electiveType) > -1
+      && (!criterion.courseSession || criterion.courseSession === elective.session);
   }
 
 
@@ -44,7 +45,7 @@ export class CriteriaCheckService {
 
   public checkCriteriaCheckMarks(typeCriteria: ElectiveCriterion[],
                                  primaryElectives: Elective[], criteriaMap: Map<string, number>) {
-
+    // unset all check marks
     for (let i = 0; i < typeCriteria.length; i++) {
       typeCriteria[i].isSatisfied = false;
     }
@@ -68,7 +69,7 @@ export class CriteriaCheckService {
     });
   }
 
-  buildCriteriaMap(ecs: ElectiveCriterion[]): Map<string, number> {
+  buildTypeCriteriaMap(ecs: ElectiveCriterion[]): Map<string, number> {
     const criteriaMap: Map<string, number> = new Map<string, number>();
     ecs.forEach(criterion => {
       criterion.typeList.forEach(type => {
