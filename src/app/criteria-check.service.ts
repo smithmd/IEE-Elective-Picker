@@ -8,8 +8,11 @@ import {ElectiveDataService} from './elective-data-service';
 export class CriteriaCheckService {
   private static criterionIsMet(criterion: ElectiveCriterion, elective: Elective): boolean {
     // true if satisfied, false if not
-    return criterion.typeList.indexOf(elective.electiveType) > -1
-      && (!criterion.courseSession || criterion.courseSession === elective.session);
+    if (criterion.courseSession) {
+      return criterion.typeList.indexOf(elective.electiveType) > -1
+        && criterion.courseSession === elective.session;
+    }
+    return criterion.typeList.indexOf(elective.electiveType) > -1;
   }
 
 
