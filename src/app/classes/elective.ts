@@ -78,7 +78,6 @@ export class Elective {
 
   get availableSlots(): number {
     const avail = this.maxEnrollment - this.enrolledCount;
-    // console.log(avail);
     return (avail < 0 ? 0 : avail);
   }
 
