@@ -18,7 +18,7 @@ export class Elective {
   enrolledCount: number;
   maxEnrollment: number;
 
-  private _courseDescription: string;
+  private _courseDescription = '';
   private _isPrimary = false;
   private _isAlternate = false;
 

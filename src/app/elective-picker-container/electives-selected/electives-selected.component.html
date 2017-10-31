@@ -4,14 +4,16 @@
     <iee-elective *ngFor="let elective of primaries"
                   [elective]="elective"
                   [isPrimary]="true"
-                  [electives]="electives"></iee-elective>
+                  [electives]="electives"
+                  [coRequisite]="getCoRequisite(elective)"></iee-elective>
   </div>
   <div class="selectedList row" id="alternateSelections">
     <h4 *ngIf="alternates.length > 0" class="text-center col-xs-12">Alternate Selections</h4>
     <iee-elective *ngFor="let elective of alternates"
                   [elective]="elective"
                   [isPrimary]="false"
-                  [electives]="electives"></iee-elective>
+                  [electives]="electives"
+                  [coRequisite]="getCoRequisite(elective)"></iee-elective>
   </div>
 </div>
 <div *ngIf="!electivesPicked" class="alert alert-warning">

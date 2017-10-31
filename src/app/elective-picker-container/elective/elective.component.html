@@ -20,9 +20,9 @@
         <span *ngIf="!elective.isUpdating">{{elective.availableSlots}}</span>
       </div>
     </div>
-    <div class="col-xs-offset-2 col-xs-10 margin-top-sm co-req" *ngIf="getCoReqName() !== ''">
+    <div class="col-xs-offset-2 col-xs-10 margin-top-sm co-req" *ngIf="coRequisite && coRequisite.courseDescription !== ''">
       Co-Requisite:<br/>
-      {{getCoReqElective().courseDescription}} - {{getCoReqElective().session}}
+      {{coRequisite.courseDescription}} - {{coRequisite.session}}
     </div>
   </div>
 </div>

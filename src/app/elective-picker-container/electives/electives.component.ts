@@ -94,13 +94,43 @@ export class ElectivesComponent implements OnInit {
     return this.availableCriteriaCount === 0;
   }
 
-  isDisabled(elective: Elective) {
-    return this.periodFilled(elective.startPeriod, this.isPrimary, elective.session) ||
+  private coRequisiteDisabled(elective: Elective): boolean {
+    const coReq: Elective = this.getCoRequisite(elective);
+    if (coReq) {
+      return this.isDisabled(coReq, false);
+    } else {
+      return false;
+    }
+  }
+
+  getCoRequisite(elective: Elective): Elective {
+    if (elective.electiveCorequisiteId && this.electives) {
+      for (let i = 0; i < this.electives.length; i++) {
+        // console.log('getCoReqElective() eId: ' + this.electives[i].id + ' / coreqId: ' + this.elective.electiveCorequisiteId);
+        if (this.electives[i].id === elective.electiveCorequisiteId) {
+          // console.log('found co-req');
+          return this.electives[i];
+        }
+      }
+    }
+
+    return null;
+  }
+
+  isDisabled(elective: Elective, checkCoReq: boolean) {
+    const disabled = this.periodFilled(elective.startPeriod, this.isPrimary, elective.session) ||
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       (this.isPrimary &&
         (this.typeClosed(elective.electiveType) ||
           this.electiveCriteriaFilled()
         )
       );
+
+    // prevent an infinite loop
+    if (checkCoReq) {
+      return disabled || this.coRequisiteDisabled(elective);
+    } else {
+      return disabled;
+    }
   }
 }

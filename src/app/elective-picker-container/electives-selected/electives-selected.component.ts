@@ -31,6 +31,20 @@ export class ElectivesSelectedComponent implements OnInit {
     });
   }
 
+  getCoRequisite(elective: Elective): Elective {
+    if (elective.electiveCorequisiteId && this.electives) {
+      for (let i = 0; i < this.electives.length; i++) {
+        // console.log('getCoReqElective() eId: ' + this.electives[i].id + ' / coreqId: ' + this.elective.electiveCorequisiteId);
+        if (this.electives[i].id === elective.electiveCorequisiteId) {
+          // console.log('found co-req');
+          return this.electives[i];
+        }
+      }
+    }
+
+    return null;
+  }
+
   constructor() { }
 
   ngOnInit() {

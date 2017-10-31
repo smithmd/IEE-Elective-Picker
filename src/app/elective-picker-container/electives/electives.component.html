@@ -3,5 +3,6 @@
               [electives]="displayedElectives"
               [index]="i"
               [isPrimary]="isPrimary"
-              [isDisabled]="isDisabled(elective)"
-              [displayTimeHeaders]="true"></iee-elective>
+              [isDisabled]="isDisabled(elective, true)"
+              [displayTimeHeaders]="true"
+              [coRequisite]="getCoRequisite(elective)"></iee-elective>
