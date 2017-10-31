@@ -3,13 +3,15 @@
     <h4 *ngIf="primaries.length > 0" class="text-center col-xs-12">Primary Selections</h4>
     <iee-elective *ngFor="let elective of primaries"
                   [elective]="elective"
-                  [isPrimary]="true"></iee-elective>
+                  [isPrimary]="true"
+                  [electives]="electives"></iee-elective>
   </div>
   <div class="selectedList row" id="alternateSelections">
     <h4 *ngIf="alternates.length > 0" class="text-center col-xs-12">Alternate Selections</h4>
     <iee-elective *ngFor="let elective of alternates"
                   [elective]="elective"
-                  [isPrimary]="false"></iee-elective>
+                  [isPrimary]="false"
+                  [electives]="electives"></iee-elective>
   </div>
 </div>
 <div *ngIf="!electivesPicked" class="alert alert-warning">

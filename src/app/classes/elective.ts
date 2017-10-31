@@ -1,3 +1,5 @@
+declare const Visualforce: any;
+
 export class Elective {
   id: string;
   courseNumber: string;
@@ -11,6 +13,7 @@ export class Elective {
   endPeriod: number;
   programMajorId: string;
   courseRequestId: string;
+  isUpdating = false;
 
   enrolledCount: number;
   maxEnrollment: number;
@@ -75,6 +78,35 @@ export class Elective {
 
   get availableSlots(): number {
     const avail = this.maxEnrollment - this.enrolledCount;
+    // console.log(avail);
     return (avail < 0 ? 0 : avail);
+  }
+
+  public deleteFromSalesforce(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      Visualforce.remoting.Manager.invokeAction(
+        'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
+        this.courseRequestId,
+        (saved: boolean) => {
+          resolve(saved);
+        }
+      );
+    });
+  }
+
+  public insertIntoSalesforce(educationId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      Visualforce.remoting.Manager.invokeAction(
+        'IEE_ElectivePicker_Controller.insertElectiveChoiceCamp',
+        educationId,
+        this.id,
+        (this.isPrimary ? true : false), // is this the primary choice or alternate
+        this.sessionId,
+        (savedId: string) => {
+          this.courseRequestId = savedId;
+          resolve(savedId);
+        }
+      );
+    });
   }
 }
