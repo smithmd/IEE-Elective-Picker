@@ -14,6 +14,7 @@ export class ElectiveDataService {
   public electiveCriteria = new BehaviorSubject<Map<string, ElectiveCriterion[]>>(null);
   public closedTypes = new BehaviorSubject<string[]>([]);
   public availableCriteria = new BehaviorSubject<number>(0);
+  public availableCriteriaBySession = new BehaviorSubject<Map<string, number>>(null);
   public closedPeriods = new BehaviorSubject<number[]>([]);
   public activeProgramMajorId = new BehaviorSubject<string>(null);
 

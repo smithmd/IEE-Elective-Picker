@@ -1,21 +1,26 @@
-<div *ngIf="electivesPicked" class="col-xs-12">
-  <div class="selectedList row" id="primarySelections">
-    <h4 *ngIf="primaries.length > 0" class="text-center col-xs-12">Primary Selections</h4>
+<div class="selectedList" id="primarySelections">
+  <div>
+    <h4 class="text-center">Primary Selections</h4>
     <iee-elective *ngFor="let elective of primaries"
                   [elective]="elective"
                   [isPrimary]="true"
                   [electives]="electives"
                   [coRequisite]="getCoRequisite(elective)"></iee-elective>
   </div>
-  <div class="selectedList row" id="alternateSelections">
-    <h4 *ngIf="alternates.length > 0" class="text-center col-xs-12">Alternate Selections</h4>
+  <div class="col-xs-12 alert alert-info" *ngIf="primaries.length === 0">
+    <i class="fa fa-info-circle" aria-hidden="true"></i> No primary electives selected
+  </div>
+</div>
+<div class="selectedList" id="alternateSelections">
+  <div>
+    <h4 class="text-center">Alternate Selections</h4>
     <iee-elective *ngFor="let elective of alternates"
                   [elective]="elective"
                   [isPrimary]="false"
                   [electives]="electives"
                   [coRequisite]="getCoRequisite(elective)"></iee-elective>
   </div>
-</div>
-<div *ngIf="!electivesPicked" class="alert alert-warning">
-  <i class="fa fa-info-circle" aria-hidden="true"></i> No Electives Selected
+  <div class="col-xs-12 alert alert-info" *ngIf="alternates.length === 0">
+    <i class="fa fa-info-circle"></i> No alternate electives selected
+  </div>
 </div>

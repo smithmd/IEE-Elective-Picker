@@ -13,6 +13,7 @@ export class ElectivesComponent implements OnInit {
   closedTypes: string[] = [];
   closedPeriods: number[] = [];
   private availableCriteriaCount: number;
+  availableCriteriaBySession: Map<string, number>;
 
   get displayedElectives(): Elective[] {
     if (this.electives) {
@@ -57,6 +58,10 @@ export class ElectivesComponent implements OnInit {
     return this.electivesType.toLowerCase() === 'alternate';
   }
 
+  static courseIsFull(elective: Elective): boolean {
+    return elective.availableSlots <= 0;
+  }
+
   constructor(private electiveDataService: ElectiveDataService) {
   }
 
@@ -74,6 +79,11 @@ export class ElectivesComponent implements OnInit {
     this.electiveDataService.closedPeriods.asObservable().subscribe({
       next: closed => {
         this.closedPeriods = closed;
+      }
+    });
+    this.electiveDataService.availableCriteriaBySession.asObservable().subscribe({
+      next: availableMap => {
+        this.availableCriteriaBySession = availableMap;
       }
     });
   }
@@ -94,6 +104,15 @@ export class ElectivesComponent implements OnInit {
     return this.availableCriteriaCount === 0;
   }
 
+  private electiveCriteriaForSessionFilled(session: string): boolean {
+    if (this.availableCriteriaBySession) {
+      // if the value exists, there are criteria left. Otherwise it's filled.
+      return !(this.availableCriteriaBySession.get(session));
+    }
+
+    return false;
+  }
+
   private coRequisiteDisabled(elective: Elective): boolean {
     const coReq: Elective = this.getCoRequisite(elective);
     if (coReq) {
@@ -106,9 +125,7 @@ export class ElectivesComponent implements OnInit {
   getCoRequisite(elective: Elective): Elective {
     if (elective.electiveCorequisiteId && this.electives) {
       for (let i = 0; i < this.electives.length; i++) {
-        // console.log('getCoReqElective() eId: ' + this.electives[i].id + ' / coreqId: ' + this.elective.electiveCorequisiteId);
         if (this.electives[i].id === elective.electiveCorequisiteId) {
-          // console.log('found co-req');
           return this.electives[i];
         }
       }
@@ -117,12 +134,28 @@ export class ElectivesComponent implements OnInit {
     return null;
   }
 
+  isCourseSelectedAtDifferentTime(elective: Elective): boolean {
+    for (let i = 0; i < this.electives.length; i++) {
+      if (elective.courseNumber === this.electives[i].courseNumber &&
+        this.electives[i].isPrimary &&
+        elective.session === this.electives[i].session) {
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   isDisabled(elective: Elective, checkCoReq: boolean) {
     const disabled = this.periodFilled(elective.startPeriod, this.isPrimary, elective.session) ||
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
-      (this.isPrimary &&
-        (this.typeClosed(elective.electiveType) ||
-          this.electiveCriteriaFilled()
+      this.isCourseSelectedAtDifferentTime(elective) ||
+      ElectivesComponent.courseIsFull(elective) ||
+      (this.isPrimary && (
+          (this.typeClosed(elective.electiveType) ||
+            this.electiveCriteriaForSessionFilled(elective.session) ||
+            this.electiveCriteriaFilled())
         )
       );
 

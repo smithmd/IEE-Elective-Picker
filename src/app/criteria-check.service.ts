@@ -143,11 +143,11 @@ export class CriteriaCheckService {
       c.pg2Satisfied = false;
       c.pg1Satisfied = false;
     });
-    periodCriteria.forEach(criteria => {
-      const group1: number[] = criteria.periodGroup1.split(';').map(n => {
+    periodCriteria.forEach(criterion => {
+      const group1: number[] = criterion.periodGroup1.split(';').map(n => {
         return +n;
       });
-      const group2: number[] = criteria.periodGroup2.split(';').map(n => {
+      const group2: number[] = criterion.periodGroup2.split(';').map(n => {
         return +n;
       });
 
@@ -161,10 +161,10 @@ export class CriteriaCheckService {
       primaryElectives.forEach(elective => {
         if (a.indexOf(elective.startPeriod) > -1) {
           periodList = periodList.concat(b);
-          criteria.pg1Satisfied = true;
+          criterion.pg1Satisfied = true;
         } else if (b.indexOf(elective.startPeriod) > -1) {
           periodList = periodList.concat(a);
-          criteria.pg2Satisfied = true;
+          criterion.pg2Satisfied = true;
         }
       });
     });
@@ -176,8 +176,19 @@ export class CriteriaCheckService {
       return count - (criterion.isSatisfied ? 1 : 0);
     }, typeCriteria.length);
 
+    const availMapBySession = new Map<string, number>();
+    typeCriteria.forEach(criterion => {
+      if (criterion.courseSession && !criterion.isSatisfied) {
+        const a = availMapBySession.get(criterion.courseSession) || 0;
+        availMapBySession.set(criterion.courseSession, a + 1);
+      }
+    });
+
+    console.log(availMapBySession);
+
     if (broadcast) {
       this.electiveDataService.availableCriteria.next(available);
+      this.electiveDataService.availableCriteriaBySession.next(availMapBySession);
     }
 
     return available;
