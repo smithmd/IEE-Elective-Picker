@@ -1,0 +1,10 @@
+.instructions {
+  border: 2px solid #3cc7f6;
+  background-color: #a7e6fb;
+}
+.instructions h1,
+.instructions h2,
+.instructions h3 {
+  border-bottom: 2px solid #3cc7f6;
+  padding-bottom: 0.5em;
+}
