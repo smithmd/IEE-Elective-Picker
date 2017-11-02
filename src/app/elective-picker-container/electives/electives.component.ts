@@ -105,7 +105,7 @@ export class ElectivesComponent implements OnInit {
   }
 
   private electiveCriteriaForSessionFilled(session: string): boolean {
-    if (this.availableCriteriaBySession) {
+    if (this.availableCriteriaBySession && this.availableCriteriaBySession.size > 0) {
       // if the value exists, there are criteria left. Otherwise it's filled.
       return !(this.availableCriteriaBySession.get(session));
     }
