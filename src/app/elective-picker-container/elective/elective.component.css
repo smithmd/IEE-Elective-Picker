@@ -2,7 +2,7 @@
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
-  border: 2px solid #ddd;
+  border: 2px solid #a7e6fb;
   padding: 0.75em;
   margin-bottom: 0.5em;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.7, 1);
@@ -10,11 +10,13 @@
 }
 .elective-choice:hover {
   background-color: #a7e6fb;
+  border-color: #3cc7f6;
 }
 .elective-choice.disabled,
 .elective-choice.disabled:hover {
   background: #ddd;
-  color: #999;
+  color: #aaa;
+  border-color: #bbb;
   cursor: not-allowed;
 }
 .elective-time {
