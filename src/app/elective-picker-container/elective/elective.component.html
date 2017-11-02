@@ -15,7 +15,7 @@
     </div>
     <div class="col-xs-12 col-sm-5 text-right">
       <div>{{elective.time}}</div>
-      <div>Spaces available:
+      <div *ngIf="isPrimary">Spaces available:
         <i *ngIf="elective.isUpdating === true" class="fa fa-spinner"></i>
         <span *ngIf="!elective.isUpdating">{{elective.availableSlots}}</span>
       </div>

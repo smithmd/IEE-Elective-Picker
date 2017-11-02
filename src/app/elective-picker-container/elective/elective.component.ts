@@ -35,12 +35,12 @@ export class ElectiveComponent implements OnInit {
   }
 
   onCheckChange(isDisabled: boolean) {
-    if (this.isPrimary) {
-      this.electives.forEach(elective => {
-        elective.isUpdating = true;
-      });
-    }
     if (!isDisabled) {
+      if (this.isPrimary) {
+        this.electives.forEach(elective => {
+          elective.isUpdating = true;
+        });
+      }
       if (this.isPrimary === true) {
         this.elective.isPrimary = !this.elective.isPrimary;
         if (this.coRequisite) {
