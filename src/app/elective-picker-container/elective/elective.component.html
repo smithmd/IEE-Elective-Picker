@@ -2,10 +2,10 @@
   <h3>{{elective.time}}</h3>
 </div>
 <div class="col-xs-12">
-  <div class="row elective-choice" [ngClass]="{'disabled': isDisabled && !isChecked}">
+  <div class="row elective-choice" [ngClass]="{'disabled': isDisabled && !isChecked}"
+       (click)="onCheckChange(isDisabled && !isChecked)">
     <div class="col-xs-2 col-sm-2 text-center">
       <i class="fa fa-2x"
-         (click)="onCheckChange(isDisabled && !isChecked)"
          [ngClass]="{'fa-check-square-o': isChecked, 'fa-square-o': !isChecked, 'disabled': isDisabled && !isChecked}"></i>
     </div>
     <div class="col-xs-10 col-sm-5">
@@ -20,7 +20,8 @@
         <span *ngIf="!elective.isUpdating">{{elective.availableSlots}}</span>
       </div>
     </div>
-    <div class="col-xs-offset-2 col-xs-10 margin-top-sm co-req" *ngIf="coRequisite && coRequisite.courseDescription !== ''">
+    <div class="col-xs-offset-2 col-xs-10 margin-top-sm co-req"
+         *ngIf="coRequisite && coRequisite.courseDescription !== ''">
       Co-Requisite:<br/>
       {{coRequisite.courseDescription}} - {{coRequisite.session}}
     </div>

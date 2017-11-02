@@ -6,20 +6,19 @@
   padding: 0.75em;
   margin-bottom: 0.5em;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.7, 1);
+  cursor: pointer;
+}
+.elective-choice:hover {
+  background-color: #a7e6fb;
+}
+.elective-choice.disabled,
+.elective-choice.disabled:hover {
+  background: #ddd;
+  color: #999;
+  cursor: not-allowed;
 }
 .elective-time {
   margin-bottom: 0.5em;
-}
-.disabled {
-  background: #ddd;
-  color: #999;
-}
-i.fa-square-o,
-i.fa-check-square-o {
-  cursor: pointer;
-}
-i.disabled {
-  cursor: not-allowed;
 }
 .course-name {
   font-size: 1.3em;
