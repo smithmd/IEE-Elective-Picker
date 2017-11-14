@@ -36,15 +36,12 @@ export class ElectiveComponent implements OnInit {
 
   onCheckChange(isDisabled: boolean) {
     if (!isDisabled) {
-      if (this.isPrimary) {
-        this.electives.forEach(elective => {
-          elective.isUpdating = true;
-        });
-      }
       if (this.isPrimary === true) {
         this.elective.isPrimary = !this.elective.isPrimary;
+        this.elective.isUpdating = true;
         if (this.coRequisite) {
           this.coRequisite.isPrimary = !this.coRequisite.isPrimary;
+          this.coRequisite.isUpdating = true;
         }
       } else {
         this.elective.isAlternate = !this.elective.isAlternate;
@@ -57,31 +54,14 @@ export class ElectiveComponent implements OnInit {
         this.elective.insertIntoSalesforce(this.educationId).then(result => {
           // if co-req exists, insert it also
           if (this.coRequisite) {
-            this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {
-              if (this.isPrimary) {
-                this.electiveDataService.updateAvailabilityCounts();
-              }
-            });
-          } else {
-            // update availability counts
-            if (this.isPrimary) {
-              this.electiveDataService.updateAvailabilityCounts();
-            }
+            this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
           }
         });
       } else { // again... not checked means we just unchecked it so we'll delete it
         this.elective.deleteFromSalesforce().then(result => {
           // if co-req exists, delete it also
           if (this.coRequisite) {
-            this.coRequisite.deleteFromSalesforce().then(coReqResult => {
-              if (this.isPrimary) {
-                this.electiveDataService.updateAvailabilityCounts();
-              }
-            });
-          } else {
-            if (this.isPrimary) {
-              this.electiveDataService.updateAvailabilityCounts();
-            }
+            this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
           }
         })
       }

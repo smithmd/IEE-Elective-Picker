@@ -184,8 +184,6 @@ export class CriteriaCheckService {
       }
     });
 
-    console.log(availMapBySession);
-
     if (broadcast) {
       this.electiveDataService.availableCriteria.next(available);
       this.electiveDataService.availableCriteriaBySession.next(availMapBySession);

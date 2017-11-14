@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Education} from './classes/education';
 import {ElectiveCriterion} from './classes/elective-criterion';
+import * as cometd from 'cometd/cometd';
 
 declare const Visualforce: any;
 
@@ -24,6 +25,45 @@ export class ElectiveDataService {
         this.getEducation(edId);
       }
     });
+
+    Visualforce.remoting.Manager.invokeAction(
+      'IEE_ElectivePicker_Controller.getSessionId',
+      (sessionId, event) => {
+        // console.log(event);
+        // console.log('sessionId: ' + sessionId);
+        // cometD calls
+        const cometD = new cometd.CometD();
+        cometD.configure({
+          url: window.location.protocol + '//' + window.location.hostname + '/cometd/41.0',
+          requestHeaders: {Authorization: 'OAuth ' + sessionId},
+          appendMessageTypeToURL: false
+        });
+        cometD.websocketEnabled = false;
+
+        cometD.handshake(h => {
+          const ev = '/event/Camp_Elective_Enrollment_Change__e';
+          // console.log(h);
+          if (h.successful) {
+            // console.log('subscribing to ' + ev);
+            cometD.subscribe(ev, message => {
+              // console.log('comet message');
+              // console.log(message.data.payload);
+              const electives = this.education.getValue().electivesByProgramMajorIds[this.activeProgramMajorId.getValue()];
+              for (let i = 0; i < electives.length; i++) {
+                if (message.data.payload.Elective_Id__c === electives[i].id) {
+                  electives[i].enrolledCount = message.data.payload.Slots_Filled__c;
+                  electives[i].isUpdating = false;
+                  break;
+                }
+              }
+            });
+          } else {
+            console.log('Could not subscribe to ' + ev);
+          }
+        });
+      },
+      {buffer: false, escape: false}
+    );
   }
 
   private getEducation(edId: string): void {
