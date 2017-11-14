@@ -11,3 +11,11 @@
   text-decoration: line-through;
   color: gray;
 }
+.elective-icon-container {
+  padding-right: 3px;
+  margin-right: 0;
+}
+.elective-description {
+  padding-left: 0;
+  margin-left: 0;
+}

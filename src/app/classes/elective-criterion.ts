@@ -40,9 +40,25 @@ export class ElectiveCriterion {
       description = '';
     } else if (this.requirementType === 'type') {
       // elective type based description
+      const typesArray = this.electiveTypes.split(';');
+      const lastType = typesArray.pop();
+
+      const firstTypes = typesArray.length > 0
+        ? (typesArray.length > 1
+          ? typesArray.reduce((printable, elType) => {
+            return printable + elType + ', ';
+          }, '')
+          : typesArray[0] )
+        : ''; // oxford commas... sorry, future person, for nesting ternaries
+
       description = 'One elective' +
-        (this.courseSession ? ' during the ' + this.courseSession : '') +
-        ' in ' + this.electiveTypes.replace(/;/g, ' or ');
+        (this.courseSession
+          ? ' during the ' + this.courseSession
+          : '')
+        + ' in '
+        + firstTypes
+        + (typesArray.length > 0 ? ' or ' : '') // print 'or' before the last item if more than one thing
+        + lastType;
     }
 
     return description + (this.isRequired ? '' : ' (Optional)');
