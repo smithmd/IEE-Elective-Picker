@@ -22,8 +22,8 @@ export class Education {
         // sort the list of electives by time/period
         ed.electivesByProgramMajorIds[pmId].sort(
           (a: Elective, b: Elective) => {
-            const aVal = a.startPeriod + a.courseNumber + a.section;
-            const bVal = b.startPeriod + b.courseNumber + b.section;
+            const aVal = a.startPeriod + a.courseDescription + a.section;
+            const bVal = b.startPeriod + b.courseDescription + b.section;
             return aVal.localeCompare(bVal);
           }
         );
