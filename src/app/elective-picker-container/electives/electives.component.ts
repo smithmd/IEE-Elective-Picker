@@ -151,7 +151,6 @@ export class ElectivesComponent implements OnInit {
     const disabled = this.periodFilled(elective.startPeriod, this.isPrimary, elective.session) ||
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       this.isCourseSelectedAtDifferentTime(elective) ||
-      ElectivesComponent.courseIsFull(elective) ||
       (this.isPrimary && (
           (this.typeClosed(elective.electiveType) ||
             this.electiveCriteriaForSessionFilled(elective.session) ||
