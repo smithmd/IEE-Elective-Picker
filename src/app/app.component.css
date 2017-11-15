@@ -1,5 +1,9 @@
 .instructions {
-  position: relative;
-  top: 3em;
   border: 2px solid #b01e33;
+}
+@media only screen and (min-width: 992px) {
+  .instructions {
+    position: relative;
+    top: 3em;
+  }
 }
