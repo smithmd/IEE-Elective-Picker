@@ -17,6 +17,7 @@ export class ElectiveComponent implements OnInit {
   @Input() displayTimeHeaders: boolean;
   @Input() electives: Elective[];
   @Input() coRequisite: Elective;
+  @Input() isDisplayed: boolean;
   educationId: string;
 
   get isChecked(): boolean {

@@ -147,7 +147,7 @@ export class ElectivesComponent implements OnInit {
     return false;
   }
 
-  isDisabled(elective: Elective, checkCoReq: boolean) {
+  isDisabled(elective: Elective, checkCoReq: boolean): boolean {
     const disabled = this.periodFilled(elective.startPeriod, this.isPrimary, elective.session) ||
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       this.isCourseSelectedAtDifferentTime(elective) ||
@@ -164,6 +164,27 @@ export class ElectivesComponent implements OnInit {
       return disabled || this.coRequisiteDisabled(elective);
     } else {
       return disabled;
+    }
+  }
+
+  isDisplayed(elective: Elective, checkCoReq: boolean): boolean {
+    const displayed = ElectivesComponent.courseIsFull(elective) === false;
+
+    // assuming we remove if other half is full
+    if (checkCoReq) {
+      return displayed && this.isCoReqDisplayed(elective);
+    } else {
+      return displayed;
+    }
+  }
+
+  private isCoReqDisplayed(elective: Elective): boolean {
+    const coReq: Elective = this.getCoRequisite(elective);
+
+    if (coReq) {
+      return this.isDisplayed(coReq, false);
+    } else {
+      return true; // a bit of a mis-representation. If there's no co-req, just pretend it's visible.
     }
   }
 }
