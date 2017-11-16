@@ -107,6 +107,7 @@ export class ElectiveDataService {
     }
   }
 
+  // TODO: Currently unused. Might remove, but also might use for polling every 10 minutes or something
   updateAvailabilityCounts() {
     if (this.education) {
       Visualforce.remoting.Manager.invokeAction(
