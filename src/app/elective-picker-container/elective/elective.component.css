@@ -2,6 +2,10 @@
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   border: 2px solid #a7e6fb;
   padding: 0.75em;
   margin-bottom: 0.5em;
