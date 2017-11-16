@@ -11,6 +11,7 @@ export class ElectiveCriterion {
   isSatisfied: boolean;
   pg1Satisfied: boolean;
   pg2Satisfied: boolean;
+  typeList: string[];
 
   // TODO: should be global somehow
   private timePeriodMap = {
@@ -77,14 +78,5 @@ export class ElectiveCriterion {
     return periodArray.map(period => {
       return this.timePeriodMap[parseInt(period, 10)];
     });
-  }
-
-  get typeList(): string[] {
-    if (this.electiveTypes === 'Any Arts Area') {
-      // TODO: find better way to get complete list
-      return ['Creative Writing', 'Dance', 'General', 'Music', 'Acting',
-        'Visual Arts Elective', 'Lunch', 'Visual Arts Studio', 'Keyboard'];
-    }
-    return this.electiveTypes.split(';');
   }
 }
