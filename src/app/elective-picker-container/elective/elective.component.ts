@@ -1,4 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  AfterViewInit, Component, DoCheck, ElementRef, Input, OnChanges, OnInit, Renderer2,
+  ViewChild
+} from '@angular/core';
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../elective-data-service';
 
@@ -9,7 +12,7 @@ declare const Visualforce: any;
   templateUrl: './elective.component.html',
   styleUrls: ['./elective.component.css']
 })
-export class ElectiveComponent implements OnInit {
+export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChanges {
   @Input() elective: Elective;
   @Input() isPrimary: boolean;
   @Input() isDisabled: boolean;
@@ -19,12 +22,15 @@ export class ElectiveComponent implements OnInit {
   @Input() coRequisite: Elective;
   @Input() isDisplayed: boolean;
   educationId: string;
+  endAnimation: Function;
+  @ViewChild('availableSlotsElement') availableSlotsElement;
+  private _previousAvailableSlots: number;
 
   get isChecked(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
   }
 
-  constructor(private electiveDataService: ElectiveDataService) {
+  constructor(private electiveDataService: ElectiveDataService, private renderer: Renderer2) {
   }
 
   ngOnInit() {
@@ -33,6 +39,29 @@ export class ElectiveComponent implements OnInit {
         this.educationId = value;
       }
     });
+    this._previousAvailableSlots = this.elective.availableSlots;
+  }
+
+  ngAfterViewInit() {
+    if (this.isPrimary && this.availableSlotsElement) {
+      this.endAnimation = this.renderer.listen(this.availableSlotsElement.nativeElement, 'animationend', evt => {
+        this.availableSlotsElement.nativeElement.classList.remove('bouncer');
+      });
+    }
+  }
+
+  ngDoCheck() {
+    if (this.isPrimary && this.availableSlotsElement && this.elective.availableSlots !== this._previousAvailableSlots) {
+      this.availableSlotsElement.nativeElement.classList.add('bouncer');
+      this._previousAvailableSlots = this.elective.availableSlots;
+    }
+  }
+
+  ngOnChanges() {
+    if (this.isPrimary && this.availableSlotsElement && this.elective.availableSlots !== this._previousAvailableSlots) {
+      this.availableSlotsElement.nativeElement.classList.add('bouncer');
+      this._previousAvailableSlots = this.elective.availableSlots;
+    }
   }
 
   onCheckChange(isDisabled: boolean) {

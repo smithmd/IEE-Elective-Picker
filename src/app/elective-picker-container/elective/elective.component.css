@@ -41,3 +41,24 @@
 .co-req {
   font-style: italic;
 }
+@keyframes bounceIn {
+  0% {
+    font-size: 0.1em;
+    opacity: 0;
+  }
+  30% {
+    font-size: 1.0em;
+    opacity: 1;
+  }
+  70% {
+    font-size: 0.9em;
+  }
+  100% {
+    font-size: 1.0em;
+  }
+}
+.bouncer {
+  animation-name: bounceIn;
+  animation-duration: 0.5s;
+  overflow: hidden;
+}
