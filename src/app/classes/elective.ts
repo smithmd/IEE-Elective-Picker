@@ -85,7 +85,7 @@ export class Elective {
     return new Promise((resolve, reject) => {
       Visualforce.remoting.Manager.invokeAction(
         'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
-        this.courseRequestId,
+        this.courseRequestId, this.id,
         (saved: boolean) => {
           resolve(saved);
         }

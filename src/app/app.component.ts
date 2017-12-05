@@ -12,7 +12,7 @@ import 'rxjs/add/observable/combineLatest';
 export class AppComponent implements OnInit {
   education: Education;
   activeProgramMajorId: string;
-  longDescription: string = '';
+  longDescription = '';
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
@@ -21,8 +21,8 @@ export class AppComponent implements OnInit {
     const edObs = this.electiveDataService.education.asObservable();
     const pmIdObs = this.electiveDataService.activeProgramMajorId.asObservable();
 
-    Observable.combineLatest(edObs, pmIdObs).subscribe(o => {
-      [this.education, this.activeProgramMajorId] = o;
+    Observable.combineLatest(edObs, pmIdObs).subscribe(obs => {
+      [this.education, this.activeProgramMajorId] = obs;
       this.updateDescriptionText();
     });
   }
