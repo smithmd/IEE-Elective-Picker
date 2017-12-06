@@ -17,18 +17,11 @@ declare const Visualforce: any;
       state('in', style({height: '*'})),
       transition(':leave', [
         style({height: '*'}),
-        animate('0.25s 0ms ease-in-out', style({height: 0}))
+        animate('250ms 0ms ease-in-out', style({height: 0}))
       ]),
       transition(':enter', [
         style({height: 0}),
-        animate('0.25s 0ms ease-in-out', style({height: '*'}))
-      ])
-    ]),
-    trigger('removeImmediately', [
-      state('in', style({height: '*'})),
-      transition(':leave', [
-        style({height: '*'}),
-        animate(0, style({height: 0}))
+        animate('250ms 0ms ease-in-out', style({height: '*'}))
       ])
     ])
   ]
