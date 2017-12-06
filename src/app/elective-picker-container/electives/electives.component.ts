@@ -1,11 +1,19 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../elective-data-service';
+import {animateChild, query, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'iee-electives',
   templateUrl: './electives.component.html',
-  styleUrls: ['./electives.component.css']
+  styleUrls: ['./electives.component.css'],
+  animations: [
+    trigger('shrinkOut', [
+      transition(':leave', [
+        query('@*', animateChild())
+      ])
+    ]),
+  ]
 })
 export class ElectivesComponent implements OnInit {
   @Input() electivesType: string;
@@ -19,7 +27,7 @@ export class ElectivesComponent implements OnInit {
     if (this.electives) {
       return this.electives.filter((elective: Elective) => {
         if (this.isPrimary) {
-          return !elective.isAlternate;
+          return !elective.isAlternate && elective.availableSlots > 0;
         }
         if (this.isAlternate) {
           return !elective.isPrimary;

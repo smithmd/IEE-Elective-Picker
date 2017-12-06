@@ -11,6 +11,7 @@ import {ElectiveDataService} from './elective-data-service';
 import {TabContainerComponent} from './tab-container/tab-container.component';
 import {ElectiveCriteriaContainerComponent} from './elective-criteria-container/elective-criteria-container.component';
 import {CriteriaCheckService} from './criteria-check.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {CriteriaCheckService} from './criteria-check.service';
     ElectiveCriteriaContainerComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [ElectiveDataService, CriteriaCheckService],
   bootstrap: [AppComponent]

@@ -4,13 +4,34 @@ import {
 } from '@angular/core';
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../elective-data-service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 declare const Visualforce: any;
 
 @Component({
   selector: 'iee-elective',
   templateUrl: './elective.component.html',
-  styleUrls: ['./elective.component.css']
+  styleUrls: ['./elective.component.css'],
+  animations: [
+    trigger('shrinkOut', [
+      state('in', style({height: '*'})),
+      transition(':leave', [
+        style({height: '*'}),
+        animate('0.25s 0ms ease-in-out', style({height: 0}))
+      ]),
+      transition(':enter', [
+        style({height: 0}),
+        animate('0.25s 0ms ease-in-out', style({height: '*'}))
+      ])
+    ]),
+    trigger('removeImmediately', [
+      state('in', style({height: '*'})),
+      transition(':leave', [
+        style({height: '*'}),
+        animate(0, style({height: 0}))
+      ])
+    ])
+  ]
 })
 export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChanges {
   @Input() elective: Elective;
