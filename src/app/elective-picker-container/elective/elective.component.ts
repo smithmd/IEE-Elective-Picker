@@ -13,15 +13,21 @@ declare const Visualforce: any;
   templateUrl: './elective.component.html',
   styleUrls: ['./elective.component.css'],
   animations: [
-    trigger('shrinkOut', [
-      state('in', style({height: '*'})),
+    trigger('shrinkGrow', [
+      state('in', style({height: '*', padding: '0.75em'})),
       transition(':leave', [
-        style({height: '*'}),
-        animate('250ms 0ms ease-in-out', style({height: 0}))
+        style({height: '*', padding: '0.75em'}),
+        animate('300ms 0ms ease-in', style({height: 0, padding: 0}))
       ]),
+      transition('void => in', [
+        style({height: 0, padding: 0}),
+        animate('300ms 0ms ease-in', style({height: '*', padding: '0.75em'}))
+      ])
+    ]),
+    trigger('appearDelayed', [
       transition(':enter', [
-        style({height: 0}),
-        animate('250ms 0ms ease-in-out', style({height: '*'}))
+        style({color: 'white'}),
+        animate('0ms 300ms', style({color: 'inherit'}))
       ])
     ])
   ]

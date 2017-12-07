@@ -1,17 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Elective} from '../../classes/elective';
-import {animateChild, query, transition, trigger} from '@angular/animations';
+import {animate, animateChild, query, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'iee-electives-selected',
   templateUrl: './electives-selected.component.html',
   styleUrls: ['./electives-selected.component.css'],
   animations: [
-    trigger('shrinkOut', [
+    trigger('shrink', [
       transition(':leave', [
-        query('@*', animateChild())
+        query('@shrinkGrow', animateChild())
       ])
-    ]),
+    ])
   ]
 })
 export class ElectivesSelectedComponent implements OnInit {

@@ -10,7 +10,7 @@ import {animateChild, query, transition, trigger} from '@angular/animations';
   animations: [
     trigger('shrinkOut', [
       transition(':leave', [
-        query('@*', animateChild())
+        query('@shrinkGrow', animateChild())
       ])
     ]),
   ]
