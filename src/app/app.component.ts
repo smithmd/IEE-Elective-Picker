@@ -32,8 +32,16 @@ export class AppComponent implements OnInit {
       // build list of all long descriptions
       this.longDescription = '';
       // put default text at beginning? Should probably be stored on SFDC somewhere for easy updating
+
+      const descriptionSet: Set<string> = new Set<string>();
+
       this.education.programMajorIds.forEach((pmId, index, array) => {
-        this.longDescription += this.education.longDescriptionsByProgramMajorIds[pmId];
+        descriptionSet.add(this.education.longDescriptionsByProgramMajorIds[pmId]);
+      });
+
+      Array.from(descriptionSet).forEach((description, index, array) => {
+        this.longDescription += description;
+
         if (index < array.length - 1) {
           this.longDescription += '<hr />';
         }
