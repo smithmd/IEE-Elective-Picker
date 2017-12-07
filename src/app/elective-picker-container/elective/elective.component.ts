@@ -17,11 +17,11 @@ declare const Visualforce: any;
       state('in', style({height: '*', padding: '0.75em'})),
       transition(':leave', [
         style({height: '*', padding: '0.75em'}),
-        animate('300ms 0ms ease-in', style({height: 0, padding: 0}))
+        animate('300ms 0ms ease-out', style({height: 0, padding: 0}))
       ]),
       transition('void => in', [
         style({height: 0, padding: 0}),
-        animate('300ms 0ms ease-in', style({height: '*', padding: '0.75em'}))
+        animate('300ms 0ms ease-out', style({height: '*', padding: '0.75em'}))
       ])
     ]),
     trigger('appearDelayed', [
