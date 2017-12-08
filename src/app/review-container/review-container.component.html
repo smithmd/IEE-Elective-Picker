@@ -39,17 +39,22 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-1">
     <div class="check-container clickable no-select">
       <i class="fa fa-2x checkbox-icon"
          (click)="onClickCheckbox()"
          [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
+    </div>
+  </div>
+  <div class="col-xs-11">
+    <div class="clickable no-select"
+         (click)="onClickCheckbox()">
       I'm ready to submit my electives.
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-11 col-xs-offset-1 info-text margin-top-sm">
+  <div class="col-xs-12 info-text margin-top-sm">
     Once you have submitted your elective selections you won't be able to change this information.
     While we do our best to honor elective selections, we are not able to guarantee placement in any course.
   </div>

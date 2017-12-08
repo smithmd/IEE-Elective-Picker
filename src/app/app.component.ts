@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
   education: Education;
   activeProgramMajorId: string;
   longDescription = '';
-  showPrivateLessonInstructions = true;
 
   constructor(private electiveDataService: ElectiveDataService) {
   }
@@ -50,5 +49,10 @@ export class AppComponent implements OnInit {
     } else {
       this.longDescription = this.education.longDescriptionsByProgramMajorIds[this.activeProgramMajorId];
     }
+  }
+
+  get showPrivateLessonInstructions(): boolean {
+    // The !! is to force returning a boolean. Should never return the totalWeeks, which is a number type.
+    return !!(this.education && this.education.totalWeeks && this.education.totalWeeks >= 3);
   }
 }

@@ -6,10 +6,7 @@
 .check-container {
   position: relative;
   left: 10px;
-}
-.check-container .checkbox-icon {
-  position: relative;
-  top: 0.25ex;
+  top: -0.5ex;
 }
 .no-select {
   -webkit-user-select: none;
