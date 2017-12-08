@@ -21,7 +21,8 @@
 
         <p>Alternates</p>
         <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is <strong>not required</strong>, you are encouraged to choose one or more.
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is <strong>not
+          required</strong>, you are encouraged to choose one or more.
         </div>
         <ul *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
           <li *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
@@ -29,28 +30,32 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="!education.electivesByProgramMajorIds[pmId] || education.electivesByProgramMajorIds[pmId].length === 0" class="alert alert-info">
+      <div
+        *ngIf="!education.electivesByProgramMajorIds[pmId] || education.electivesByProgramMajorIds[pmId].length === 0"
+        class="alert alert-info">
         <i class="fa fa-info-circle"></i> There are no electives available for this session.
       </div>
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-1 text-center check-container">
-    <i class="fa"
-       (click)="onClickCheckbox()"
-       [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
-  </div>
-  <div class="col-xs-11">
-    I'm ready to submit my electives.
-  </div>
   <div class="col-xs-12">
+    <div class="check-container clickable no-select">
+      <i class="fa fa-2x checkbox-icon"
+         (click)="onClickCheckbox()"
+         [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
+      I'm ready to submit my electives.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-11 col-xs-offset-1 info-text margin-top-sm">
     Once you have submitted your elective selections you won't be able to change this information.
     While we do our best to honor elective selections, we are not able to guarantee placement in any course.
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 text-right">
+  <div class="col-xs-12 text-right margin-top-sm">
     <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit">Submit</button>
   </div>
 </div>
