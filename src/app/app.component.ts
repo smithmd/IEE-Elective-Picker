@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   education: Education;
   activeProgramMajorId: string;
   longDescription = '';
+  showPrivateLessonInstructions = true;
 
   constructor(private electiveDataService: ElectiveDataService) {
   }

@@ -7,3 +7,12 @@
     top: 3em;
   }
 }
+.lesson-instructions {
+  border: 2px solid darkgray;
+}
+@media only screen and (min-width: 992px) {
+  .lesson-instructions {
+    position: relative;
+    top: 3em;
+  }
+}

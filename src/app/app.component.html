@@ -1,9 +1,17 @@
-<div class="col-xs-12 col-xs-push-0 col-md-4 col-md-push-8">
+<div class="col-xs-12 col-md-4 col-md-push-8">
   <div class="well instructions">
     <h3>Instructions</h3>
     <div [innerHTML]="longDescription"></div>
   </div>
+  <div class="well lesson-instructions visible-md visible-lg" *ngIf="showPrivateLessonInstructions">
+    Instructions about the private lesson electives will go here. This appears in the sidebar.
+  </div>
 </div>
-<div class="col-xs-12 col-xs-pull-0 col-md-8 col-md-pull-4">
+<div class="col-xs-12 col-md-8 col-md-pull-4">
   <iee-tab-container></iee-tab-container>
+</div>
+<div class="col-xs-12 visible-xs visible-sm" *ngIf="showPrivateLessonInstructions">
+  <div class="well lesson-instructions">
+    Instructions about the private lesson electives will go here. This appears at the bottom.
+  </div>
 </div>

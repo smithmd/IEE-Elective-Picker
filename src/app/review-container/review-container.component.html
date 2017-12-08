@@ -21,7 +21,7 @@
 
         <p>Alternates</p>
         <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is <strong>not required</strong>, you are strongly encouraged to choose one or more.
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is <strong>not required</strong>, you are encouraged to choose one or more.
         </div>
         <ul *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
           <li *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
@@ -43,6 +43,10 @@
   </div>
   <div class="col-xs-11">
     I'm ready to submit my electives.
+  </div>
+  <div class="col-xs-12">
+    Once you have submitted your elective selections you won't be able to change this information.
+    While we do our best to honor elective selections, we are not able to guarantee placement in any course.
   </div>
 </div>
 <div class="row">
