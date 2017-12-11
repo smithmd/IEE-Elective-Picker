@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
   }
 
   get privateLessonInstructions(): string {
-    return '<p>Instructions about the private lesson electives will go here. This appears at the bottom.</p>' +
+    return '<p>Instructions about the private lesson electives will go here.</p>' +
       '<p><a href="' + this.privateLessonFormLink + '" target="_blank">Form Link</a></p>';
   }
 }
