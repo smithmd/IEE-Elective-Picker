@@ -7,7 +7,12 @@ export class Education {
   programNamesByProgramMajorIds: { [pm_id: string]: string } = {};
   longDescriptionsByProgramMajorIds: { [pm_id: string]: string } = {};
   educationId: string;
+  division: string;
   totalWeeksAttending: number;
+
+  studentFirstName: string;
+  studentLastName: string;
+  currentUserEmail: string;
 
   public static createFromJson(json: string): Education {
     const ed = new Education();

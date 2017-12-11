@@ -53,6 +53,25 @@ export class AppComponent implements OnInit {
 
   get showPrivateLessonInstructions(): boolean {
     // The !! is to force returning a boolean. Should never return the totalWeeks, which is a number type.
-    return !!(this.education && this.education.totalWeeks && this.education.totalWeeks >= 3);
+    return !!(this.education && this.education.totalWeeksAttending && this.education.totalWeeksAttending >= 3);
+  }
+
+  get privateLessonFormLink(): string {
+    let queryString = '?';
+    queryString += 'studentName[first]=' + encodeURI(this.education.studentFirstName);
+    queryString += '&studentName[last]=' + encodeURI(this.education.studentLastName);
+    queryString += '&emailAddress=' + encodeURI(this.education.currentUserEmail).replace('+', '{plusSign}');
+    queryString += '&division=' + encodeURI(this.education.division);
+    queryString += '&session=' + encodeURI(this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
+
+
+    const url = 'https://form.jotform.com/73405988648170';
+
+    return url + queryString;
+  }
+
+  get privateLessonInstructions(): string {
+    return '<p>Instructions about the private lesson electives will go here. This appears at the bottom.</p>' +
+      '<p><a href="' + this.privateLessonFormLink + '" target="_blank">Form Link</a></p>';
   }
 }
