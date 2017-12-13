@@ -3,14 +3,14 @@
     <div class="session">
       <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
       <div *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
-        <p>Primary</p>
+        <p class="text-center">Primary Selections</p>
         <div class="alert alert-warning" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not picked any primary electives for
-          this session. Please do this before submitting.
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not selected any primary electives for
+          this session.
         </div>
         <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
-            {{elective.startTime}} - {{elective.courseDescription}}
+            {{elective.courseDescription}} - {{elective.startTime}} - {{elective.session}}
           </li>
         </ul>
         <div class="alert alert-warning"
@@ -19,14 +19,14 @@
           You have not chosen all electives for this session. Please go back and complete your choices.
         </div>
 
-        <p>Alternates</p>
+        <p class="text-center">Alternate Selections</p>
         <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is <strong>not
-          required</strong>, you are encouraged to choose one or more.
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is not
+          required, you are encouraged to choose one or more.
         </div>
         <ul *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
           <li *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
-            {{elective.startTime}} - {{elective.courseDescription}}
+            {{elective.courseDescription}} - {{elective.startTime}} - {{elective.session}}
           </li>
         </ul>
       </div>
@@ -61,6 +61,7 @@
 </div>
 <div class="row">
   <div class="col-xs-12 text-right margin-top-sm">
-    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit">Submit</button>
+    <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting === true"></i>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit || submitting">Submit</button>
   </div>
 </div>

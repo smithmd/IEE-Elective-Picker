@@ -21,6 +21,7 @@ export class ReviewContainerComponent implements OnInit {
   alternateElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   availableCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
   electiveCriteria: Map<string, ElectiveCriterion[]> = new Map<string, ElectiveCriterion[]>();
+  submitting = false;
 
   constructor(private electiveDataService: ElectiveDataService, private criteriaCheckService: CriteriaCheckService) {
   }
@@ -63,11 +64,13 @@ export class ReviewContainerComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submitting = true;
     Visualforce.remoting.Manager.invokeAction(
       'IEE_ElectivePicker_Controller.saveElectiveComplete',
       this.education.educationId,
       (saved: boolean) => {
-        // saved
+        // redirect on true
+        window.location.href = 'IEE_CampLanding?Id=' + this.education.educationId;
       }
     );
   }

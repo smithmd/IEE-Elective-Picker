@@ -3,6 +3,17 @@
   margin: 0.75em;
   padding: 1em;
 }
+.session p {
+  font-size: 1.2em;
+}
+.session ul {
+  list-style: none;
+  padding: 0;
+}
+.session ul li {
+  margin: 0;
+  padding: 0;
+}
 .check-container {
   position: relative;
   left: 10px;
