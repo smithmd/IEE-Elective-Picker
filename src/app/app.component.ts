@@ -64,8 +64,7 @@ export class AppComponent implements OnInit {
     queryString += '&division=' + encodeURI(this.education.division);
     queryString += '&session=' + encodeURI(this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
 
-
-    const url = 'https://form.jotform.com/73405988648170';
+    const url = 'https://jotform.com/73405988648170';
 
     return url + queryString;
   }
