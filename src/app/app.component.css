@@ -16,3 +16,6 @@
     top: 3em;
   }
 }
+.lesson-instructions p a {
+  text-decoration: underline;
+}
