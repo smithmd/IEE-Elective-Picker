@@ -5,10 +5,8 @@ export class Elective {
   courseNumber: string;
   electiveType: string;
   electiveCorequisiteId: string;
-  term: string;
   section: string;
   session: string;
-  sessionId: string;
   startPeriod: number;
   endPeriod: number;
   programMajorId: string;
@@ -100,7 +98,7 @@ export class Elective {
         educationId,
         this.id,
         (this.isPrimary ? true : false), // is this the primary choice or alternate
-        this.sessionId,
+        this.session,
         (savedId: string) => {
           this.courseRequestId = savedId;
           resolve(savedId);

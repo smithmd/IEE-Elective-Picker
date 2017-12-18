@@ -106,30 +106,4 @@ export class ElectiveDataService {
       );
     }
   }
-
-  // TODO: Currently unused. Might remove, but also might use for polling every 10 minutes or something
-  // updateAvailabilityCounts() {
-  //   if (this.education) {
-  //     Visualforce.remoting.Manager.invokeAction(
-  //       'IEE_ElectivePicker_Controller.getRequestCounts',
-  //       this.activeProgramMajorId.getValue(),
-  //       (result: string) => {
-  //         const j = JSON.parse(result);
-  //         for (const courseSectionId in j) {
-  //           if (j.hasOwnProperty(courseSectionId)) {
-  //             const electives = this.education.getValue().electivesByProgramMajorIds[this.activeProgramMajorId.getValue()];
-  //             for (let i = 0; i < electives.length; i++) {
-  //               if (courseSectionId === electives[i].id) {
-  //                 electives[i].enrolledCount = j[courseSectionId];
-  //                 electives[i].isUpdating = false;
-  //                 break;
-  //               }
-  //             }
-  //           }
-  //         }
-  //       },
-  //       {buffer: false, escape: false}
-  //     );
-  //   }
-  // }
 }
