@@ -19,6 +19,9 @@
   left: 10px;
   top: -0.5ex;
 }
+.check-description {
+  margin-top: 10px;
+}
 .no-select {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -30,4 +33,29 @@
 }
 .info-text {
   font-size: 0.85em;
+}
+.elective-choice {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: auto 5px;
+  padding: 10px 0;
+  background: #fff;
+  border: 2px solid #a7e6fb;
+  margin-bottom: 0.5em;
+}
+.elective-time {
+  margin-bottom: 0.5em;
+}
+.course-name {
+  font-size: 1.25em;
+}
+.course-number {
+  font-size: 0.75em;
+  color: #6c6c6c;
+}
+.elective-type,
+.elective-session,
+.co-req {
+  font-size: 0.9em;
 }

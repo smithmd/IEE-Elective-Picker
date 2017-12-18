@@ -1,34 +1,47 @@
 <div class="row" *ngFor="let pmId of education.programMajorIds">
   <div class="col-xs-12">
     <div class="session">
-      <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
+      <h3>{{education.programNamesByProgramMajorIds[pmId]}}</h3>
+      <h5>{{education.sessionsByProgramMajorIds[pmId]}}</h5>
       <div *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
-        <p class="text-center">Primary Selections</p>
-        <div class="alert alert-warning" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
+        <h4 class="text-center">Primary Selections</h4>
+        <div class="alert alert-danger" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not selected any primary electives for
           this session.
         </div>
-        <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
-            {{elective.courseDescription}} - {{elective.startTime}} - {{elective.session}}
-          </li>
-        </ul>
-        <div class="alert alert-warning"
+        <div *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+          <div class="row elective-choice" *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
+            <div class="col-xs-12 col-sm-7">
+              <div class="course-name">{{elective.courseDescription}}</div>
+              <div class="elective-session">{{elective.session}}</div>
+            </div>
+            <div class="col-xs-12 col-sm-5 text-right">
+              <div>{{elective.time}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-danger"
              *ngIf="availableCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i>
           You have not chosen all electives for this session. Please go back and complete your choices.
         </div>
 
-        <p class="text-center">Alternate Selections</p>
-        <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
+        <h4 class="text-center">Alternate Selections</h4>
+        <div class="alert alert-danger" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is not
           required, you are encouraged to choose one or more.
         </div>
-        <ul *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
-          <li *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
-            {{elective.courseDescription}} - {{elective.startTime}} - {{elective.session}}
-          </li>
-        </ul>
+        <div *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
+          <div class="row elective-choice" *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
+            <div class="col-xs-12 col-sm-7">
+              <div class="course-name">{{elective.courseDescription}}</div>
+              <div class="elective-session">{{elective.session}}</div>
+            </div>
+            <div class="col-xs-12 col-sm-5 text-right">
+              <div>{{elective.time}}</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         *ngIf="!education.electivesByProgramMajorIds[pmId] || education.electivesByProgramMajorIds[pmId].length === 0"
@@ -38,7 +51,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row check-description">
   <div class="col-xs-1">
     <div class="check-container clickable no-select">
       <i class="fa fa-2x checkbox-icon"
@@ -62,6 +75,8 @@
 <div class="row">
   <div class="col-xs-12 text-right margin-top-sm">
     <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting === true"></i>
-    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit || submitting">Submit</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit || submitting">
+      Submit
+    </button>
   </div>
 </div>
