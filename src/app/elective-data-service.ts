@@ -42,12 +42,12 @@ export class ElectiveDataService {
 
         cometD.handshake(h => {
           const ev = '/event/Camp_Elective_Enrollment_Change__e';
-          // console.log(h);
+          console.log(h);
           if (h.successful) {
-            // console.log('subscribing to ' + ev);
+            console.log('subscribing to ' + ev);
             cometD.subscribe(ev, message => {
-              // console.log('comet message');
-              // console.log(message.data.payload);
+              console.log('comet message');
+              console.log(message.data.payload);
               const electives = this.education.getValue().electivesByProgramMajorIds[this.activeProgramMajorId.getValue()];
               for (let i = 0; i < electives.length; i++) {
                 if (message.data.payload.Elective_Id__c === electives[i].id) {
@@ -66,6 +66,7 @@ export class ElectiveDataService {
     );
   }
 
+  // gets the education record from the server
   private getEducation(edId: string): void {
     if (edId) {
       Visualforce.remoting.Manager.invokeAction(
@@ -83,6 +84,7 @@ export class ElectiveDataService {
     }
   }
 
+  // gets the list of elective criteria from the server
   private getElectiveCriteria(pmIds: string[]): void {
     if (pmIds && pmIds.length > 0) {
       Visualforce.remoting.Manager.invokeAction(
