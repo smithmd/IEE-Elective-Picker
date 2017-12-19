@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
     let queryString = '?';
     queryString += 'studentName[first]=' + encodeURI(this.education.studentFirstName);
     queryString += '&studentName[last]=' + encodeURI(this.education.studentLastName);
-    queryString += '&emailAddress=' + encodeURI(this.education.currentUserEmail).replace('+', '{plusSign}');
+    queryString += '&emailAddress=' + encodeURI(this.education.currentUserEmail).replace(/\+/g, '{plusSign}');
     queryString += '&division=' + encodeURI(this.education.division);
     queryString += '&session=' + encodeURI(this.education.sessionsByProgramMajorIds[this.activeProgramMajorId]);
 
