@@ -15,7 +15,6 @@ export class CriteriaCheckService {
     return criterion.typeList.indexOf(elective.electiveType) > -1;
   }
 
-
   initializeTypeCriteriaList(pmId: string, electiveCriteria: Map<string, ElectiveCriterion[]>): ElectiveCriterion[] {
     let typeCriteria = [];
     const criteriaByPMId = electiveCriteria.get(pmId);
@@ -171,6 +170,7 @@ export class CriteriaCheckService {
     return periodList;
   }
 
+  // counts the criteria which haven't been satisfied yet
   countAvailableCriteria(typeCriteria: ElectiveCriterion[], broadcast: boolean): number {
     const available = typeCriteria.reduce((count, criterion) => {
       return count - (criterion.isSatisfied ? 1 : 0);

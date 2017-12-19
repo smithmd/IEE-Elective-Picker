@@ -42,7 +42,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.electiveDataService.electiveCriteria.asObservable().subscribe({
       next: data => {
         if (data) {
@@ -61,7 +61,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     });
   }
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     if (this.activeProgramMajorId && this.electiveCriteria.get(this.activeProgramMajorId)) {
       this.initializeElectives();
       this.initializeCriteriaLists();
@@ -70,7 +70,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
     }
   }
 
-  updateData() {
+  updateData(): void {
     this.criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(this.typeCriteria);
     this.criteriaTypeCounts = this.criteriaCheckService.buildCriteriaCounts(this.typeCriteria, this.criteriaMap);
     this.electiveTypeCounts = this.criteriaCheckService.checkChosen(this.primaryElectives);

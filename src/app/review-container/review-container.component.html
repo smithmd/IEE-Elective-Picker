@@ -4,20 +4,28 @@
       <h3>{{education.programNamesByProgramMajorIds[pmId]}} &ndash; {{education.sessionsByProgramMajorIds[pmId]}}</h3>
       <div *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
         <p class="text-center">Primary Selections</p>
-        <div class="alert alert-warning" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
+        <div class="alert alert-danger" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not selected any primary electives for
           this session.
         </div>
+        <div class="alert alert-danger"
+             *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+          <i class="fa fa-exclamation-triangle" style="color:red"></i>
+          You have not chosen all electives for this session. Please go back and complete your choices.
+        </div>
+        <div class="alert alert-warning"
+             *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
+                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
+                     && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
+          <i class="fa fa-exclamation-triangle" style="color:red"></i>
+          You have met all of your requirements for your criteria selections, but you can still choose some optional electives.
+        </div>
+
         <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <li *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
             {{elective.courseDescription}} - {{elective.startTime}} - {{elective.session}}
           </li>
         </ul>
-        <div class="alert alert-warning"
-             *ngIf="availableCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i>
-          You have not chosen all electives for this session. Please go back and complete your choices.
-        </div>
 
         <p class="text-center">Alternate Selections</p>
         <div class="alert alert-warning" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
@@ -38,17 +46,25 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="canClickCheckbox() === false">
+  <div class="col-xs-12">
+    <div class="alert alert-danger">
+      <i class="fa fa-exclamation-triangle" style="color:red;"></i>
+      You cannot submit your electives until you have satisfied all of the requirements for each session.
+    </div>
+  </div>
+</div>
+<div class="row"
+     [ngClass]="{disabled: canClickCheckbox() === false, clickable: canClickCheckbox()}"
+     (click)="onClickCheckbox()">
   <div class="col-xs-1">
-    <div class="check-container clickable no-select">
+    <div class="check-container no-select">
       <i class="fa fa-2x checkbox-icon"
-         (click)="onClickCheckbox()"
          [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
     </div>
   </div>
   <div class="col-xs-11">
-    <div class="clickable no-select"
-         (click)="onClickCheckbox()">
+    <div class="no-select">
       I'm ready to submit my electives.
     </div>
   </div>
