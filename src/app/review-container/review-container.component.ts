@@ -19,7 +19,8 @@ export class ReviewContainerComponent implements OnInit {
   readyToSubmit = false;
   primaryElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
   alternateElectivesByProgramMajorIds: Map<string, Elective[]> = new Map<string, Elective[]>();
-  availableCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
+  availableRequiredCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
+  availableOptionalCriteriaByProgramMajorIds: Map<string, number> = new Map<string, number>();
   electiveCriteria: Map<string, ElectiveCriterion[]> = new Map<string, ElectiveCriterion[]>();
   submitting = false;
 
@@ -56,8 +57,17 @@ export class ReviewContainerComponent implements OnInit {
           const criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(typeCriteria);
           this.criteriaCheckService.checkCriteriaCheckMarks(typeCriteria, primaryElectives, criteriaMap);
 
-          this.availableCriteriaByProgramMajorIds.set(pmId,
-            this.criteriaCheckService.countAvailableCriteria(typeCriteria, false));
+          this.availableRequiredCriteriaByProgramMajorIds.set(pmId,
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
+              return criteria.isRequired;
+            }), false)
+          );
+
+          this.availableOptionalCriteriaByProgramMajorIds.set(pmId,
+            this.criteriaCheckService.countAvailableCriteria(typeCriteria.filter(criteria => {
+              return !criteria.isRequired;
+            }), false)
+          );
         }
       });
     });
@@ -76,6 +86,27 @@ export class ReviewContainerComponent implements OnInit {
   }
 
   onClickCheckbox() {
-    this.readyToSubmit = this.readyToSubmit !== true;
+    if (this.canClickCheckbox()) {
+      this.readyToSubmit = this.readyToSubmit !== true;
+    }
+  }
+
+  canClickCheckbox(): boolean {
+    // iterate over map and check if any value is greater than zero.
+    // If yes, the user can't submit
+    const keys = Array.from(this.availableRequiredCriteriaByProgramMajorIds.keys());
+
+    // let complete: boolean = false;
+    // keys.forEach(key => {
+    //   if (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0) {
+    //     complete = true;
+    //   }
+    // });
+    //
+    // return complete;
+
+    return keys.reduce((complete, key) => {
+      return complete && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0);
+    }, true);
   }
 }
