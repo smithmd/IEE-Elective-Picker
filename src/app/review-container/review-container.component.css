@@ -28,6 +28,10 @@
   -ms-user-select: none;
   user-select: none;
 }
+.nudge-down {
+  position: relative;
+  top: 15px;
+}
 .clickable {
   cursor: pointer;
 }
@@ -62,4 +66,11 @@
 .disabled {
   cursor: not-allowed;
   color: #aaa;
+}
+.checkbox label i {
+  position: relative;
+  left: -20px;
+}
+.checkbox label.disabled {
+  cursor: not-allowed;
 }
