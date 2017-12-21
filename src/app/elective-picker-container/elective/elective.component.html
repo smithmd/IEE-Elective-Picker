@@ -6,8 +6,12 @@
        (click)="onCheckChange(isDisabled && !isChecked)"
        [@shrinkGrow]="'in'">
     <div class="col-xs-2 col-sm-2 text-center">
-      <i class="fa fa-2x"
-         [ngClass]="{'fa-check-square-o': isChecked, 'fa-square-o': !isChecked, 'disabled': isDisabled && !isChecked}"></i>
+      <!--<i class="fa fa-2x"-->
+      <!--[ngClass]="{'fa-check-square-o': isChecked, 'fa-square-o': !isChecked, 'disabled': isDisabled && !isChecked}"></i>-->
+      <div class="checkbox">
+        <input type="checkbox" [checked]="isChecked"/>
+        <label [ngClass]="{'disabled': isDisabled && !isChecked}"><i class="fa fa-check"></i></label>
+      </div>
     </div>
     <div class="col-xs-10 col-sm-5">
       <div class="course-name">{{elective.courseDescription}}</div>
