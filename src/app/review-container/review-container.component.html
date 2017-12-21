@@ -18,7 +18,8 @@
                      && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                      && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i>
-          You have met all of your requirements for your criteria selections, but you can still choose some optional electives.
+          You have met all of your requirements for your criteria selections, but you can still choose some optional
+          electives.
         </div>
 
         <ul *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
@@ -57,14 +58,14 @@
 <div class="row"
      [ngClass]="{disabled: canClickCheckbox() === false, clickable: canClickCheckbox()}"
      (click)="onClickCheckbox()">
-  <div class="col-xs-1">
-    <div class="check-container no-select">
-      <i class="fa fa-2x checkbox-icon"
-         [ngClass]="{'fa-check-square-o': readyToSubmit, 'fa-square-o': !readyToSubmit}"></i>
+  <div class="col-xs-2 text-right">
+    <div class="checkbox">
+      <input type="checkbox" [checked]="readyToSubmit"/>
+      <label [ngClass]="{disabled: canClickCheckbox() === false}"><i class="fa fa-check"></i></label>
     </div>
   </div>
-  <div class="col-xs-11">
-    <div class="no-select">
+  <div class="col-xs-10">
+    <div class="no-select nudge-down">
       I'm ready to submit my electives.
     </div>
   </div>
@@ -78,6 +79,8 @@
 <div class="row">
   <div class="col-xs-12 text-right margin-top-sm">
     <i class="fa fa-spinner fa-pulse fa-fw" *ngIf="submitting === true"></i>
-    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit || submitting">Submit</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="!readyToSubmit || submitting">
+      Submit
+    </button>
   </div>
 </div>
