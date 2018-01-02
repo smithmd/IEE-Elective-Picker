@@ -104,8 +104,8 @@ export class ElectivesComponent implements OnInit {
     return this.selectedPeriods.indexOf(key) > -1;
   }
 
-  private typeClosed(electiveType: string): boolean {
-    return this.closedTypes.indexOf(electiveType) > -1;
+  private typeClosed(electiveType: string, electiveSession: string): boolean {
+    return this.closedTypes.indexOf(electiveType + electiveSession) > -1;
   }
 
   private electiveCriteriaFilled(): boolean {
@@ -160,7 +160,7 @@ export class ElectivesComponent implements OnInit {
       this.periodFilled(elective.endPeriod, this.isPrimary, elective.session) ||
       this.isCourseSelectedAtDifferentTime(elective) ||
       (this.isPrimary && (
-          (this.typeClosed(elective.electiveType) ||
+          (this.typeClosed(elective.electiveType, elective.session) ||
             this.electiveCriteriaForSessionFilled(elective.session) ||
             this.electiveCriteriaFilled())
         )

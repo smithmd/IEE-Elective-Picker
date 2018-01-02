@@ -75,11 +75,12 @@ export class CriteriaCheckService {
     const criteriaMap: Map<string, number> = new Map<string, number>();
     ecs.forEach(criterion => {
       criterion.typeList.forEach(type => {
-        const count = criteriaMap.get(type);
+        const key = type + criterion.courseSession;
+        const count = criteriaMap.get(key);
         if (!count) {
-          criteriaMap.set(type, 1);
+          criteriaMap.set(key, 1);
         } else {
-          criteriaMap.set(type, count + 1);
+          criteriaMap.set(key, count + 1);
         }
       });
     });
@@ -99,20 +100,24 @@ export class CriteriaCheckService {
     return criteriaList;
   }
 
-  checkChosen(primaryElectives: Elective[]): TypeCount[] {
+  getElectiveTypeChosenCounts(primaryElectives: Elective[]): TypeCount[] {
     const electiveTypeCountMap: Map<string, number> = new Map<string, number>();
     primaryElectives.forEach(elective => {
-      const count = electiveTypeCountMap.get(elective.electiveType);
+      const key = elective.electiveType + elective.session;
+      const count = electiveTypeCountMap.get(key);
       if (!count) {
-        electiveTypeCountMap.set(elective.electiveType, 1);
+        electiveTypeCountMap.set(key, 1);
       } else {
-        electiveTypeCountMap.set(elective.electiveType, count + 1);
+        electiveTypeCountMap.set(key, count + 1);
       }
     });
 
     const typeList: TypeCount[] = [];
     for (const c of Array.from(electiveTypeCountMap.entries())) {
-      typeList.push({type: c[0], count: c[1]});
+      const tc: TypeCount = new TypeCount();
+      tc.type = c[0];
+      tc.count = c[1];
+      typeList.push(tc);
     }
 
     typeList.sort((a, b) => {
@@ -121,13 +126,68 @@ export class CriteriaCheckService {
     return typeList;
   }
 
-  checkClosedTypes(criteriaTypeCounts: TypeCount[], electiveTypeCounts: TypeCount[]): string[] {
+  getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[], criteria: ElectiveCriterion[]): TypeCount[] {
+    // need a deep copy of criteria
+    const criteriaCopy: ElectiveCriterion[] = JSON.parse(JSON.stringify(criteria));
+
+    // make sure all criteria are unsatisfied
+    criteriaCopy.forEach(c => {
+      c.isSatisfied = false;
+    });
+
+    const typeCountMap: Map<string, number> = new Map<string, number>();
+    // iterate across all the selected types
+    electiveTypeCounts.forEach(type => {
+      for (let i = 0; i < type.count; i++) {
+        for (let j = 0; j < criteriaCopy.length; j++) {
+          const c = criteriaCopy[j];
+          const typesWithSessions = c.typeList.map(t => {
+            return t + c.courseSession;
+          });
+          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
+            c.isSatisfied = true;
+            typesWithSessions.forEach(t => {
+              const count = typeCountMap.get(t);
+              if (!count) {
+                typeCountMap.set(t, 1);
+              } else {
+                typeCountMap.set(t, count + 1);
+              }
+            });
+            break;
+          }
+        }
+      }
+    });
+
+    const typeList: TypeCount[] = [];
+    for (const c of Array.from(typeCountMap.entries())) {
+      const tc: TypeCount = new TypeCount();
+      tc.type = c[0];
+      tc.count = c[1];
+      typeList.push(tc);
+    }
+
+    typeList.sort((a, b) => {
+      return b.count - a.count;
+    });
+
+    return typeList;
+  }
+
+  checkClosedTypes(criteriaTypeCounts: TypeCount[], criteriaSatisfiedTypeCounts: TypeCount[]): string[] {
+    console.log('checkClosedTypes: criteriaTypeCounts: ');
+    console.log(criteriaTypeCounts);
+
+    console.log('checkClosedTypes: criteriaSatisfiedTypeCounts: ');
+    console.log(criteriaSatisfiedTypeCounts);
+
     const closedTypeList: string[] = [];
     criteriaTypeCounts.forEach(criteriaType => {
-      electiveTypeCounts.forEach(electiveType => {
-        if (criteriaType.type === electiveType.type && criteriaType.count === electiveType.count) {
+      criteriaSatisfiedTypeCounts.forEach(satisfiedType => {
+        if (criteriaType.type === satisfiedType.type && criteriaType.count === satisfiedType.count) {
           // TODO: make sure this actually works
-          closedTypeList.push(electiveType.type);
+          closedTypeList.push(satisfiedType.type);
         }
       });
     });
