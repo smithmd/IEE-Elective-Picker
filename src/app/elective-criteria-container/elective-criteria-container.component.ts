@@ -20,6 +20,7 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   typeCriteria: ElectiveCriterion[] = [];
   criteriaTypeCounts: TypeCount[] = [];
   electiveTypeCounts: TypeCount[] = [];
+  private criteriaSatisfiedTypeCounts: TypeCount[] = [];
   criteriaMap: Map<string, number> = new Map<string, number>();
   private _oldElectiveLength = 0;
 
@@ -73,9 +74,10 @@ export class ElectiveCriteriaContainerComponent implements OnInit, DoCheck, OnCh
   updateData(): void {
     this.criteriaMap = this.criteriaCheckService.buildTypeCriteriaMap(this.typeCriteria);
     this.criteriaTypeCounts = this.criteriaCheckService.buildCriteriaCounts(this.typeCriteria, this.criteriaMap);
-    this.electiveTypeCounts = this.criteriaCheckService.checkChosen(this.primaryElectives);
+    this.electiveTypeCounts = this.criteriaCheckService.getElectiveTypeChosenCounts(this.primaryElectives);
+    this.criteriaSatisfiedTypeCounts = this.criteriaCheckService.getCriteriaTypeSatisfiedCounts(this.electiveTypeCounts, this.typeCriteria);
     this.electiveDataService.closedTypes.next(
-      this.criteriaCheckService.checkClosedTypes(this.criteriaTypeCounts, this.electiveTypeCounts)
+      this.criteriaCheckService.checkClosedTypes(this.criteriaTypeCounts, this.criteriaSatisfiedTypeCounts)
     );
 
     this.criteriaCheckService.checkCriteriaCheckMarks(this.typeCriteria, this.primaryElectives, this.criteriaMap);

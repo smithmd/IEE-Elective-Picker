@@ -99,7 +99,7 @@ export class CriteriaCheckService {
     return criteriaList;
   }
 
-  checkChosen(primaryElectives: Elective[]): TypeCount[] {
+  getElectiveTypeChosenCounts(primaryElectives: Elective[]): TypeCount[] {
     const electiveTypeCountMap: Map<string, number> = new Map<string, number>();
     primaryElectives.forEach(elective => {
       const count = electiveTypeCountMap.get(elective.electiveType);
@@ -112,7 +112,10 @@ export class CriteriaCheckService {
 
     const typeList: TypeCount[] = [];
     for (const c of Array.from(electiveTypeCountMap.entries())) {
-      typeList.push({type: c[0], count: c[1]});
+      const tc: TypeCount = new TypeCount();
+      tc.type = c[0];
+      tc.count = c[1];
+      typeList.push(tc);
     }
 
     typeList.sort((a, b) => {
@@ -121,13 +124,65 @@ export class CriteriaCheckService {
     return typeList;
   }
 
-  checkClosedTypes(criteriaTypeCounts: TypeCount[], electiveTypeCounts: TypeCount[]): string[] {
+  getCriteriaTypeSatisfiedCounts(electiveTypeCounts: TypeCount[], criteria: ElectiveCriterion[]): TypeCount[] {
+    // need a deep copy of criteria
+    const criteriaCopy: ElectiveCriterion[] = JSON.parse(JSON.stringify(criteria));
+
+    // make sure all criteria are unsatisfied
+    criteriaCopy.forEach(c => {
+      c.isSatisfied = false;
+    });
+
+    const typeCountMap: Map<string, number> = new Map<string, number>();
+    // iterate across all the selected types
+    electiveTypeCounts.forEach(type => {
+      for (let i = 0; i < type.count; i++) {
+        for (let j = 0; j < criteriaCopy.length; j++) {
+          const c = criteriaCopy[j];
+          if (c.isSatisfied === false && c.typeList.indexOf(type.type) > -1) {
+            c.isSatisfied = true;
+            c.typeList.forEach(t => {
+              const count = typeCountMap.get(t);
+              if (!count) {
+                typeCountMap.set(t, 1);
+              } else {
+                typeCountMap.set(t, count + 1);
+              }
+            });
+            break;
+          }
+        }
+      }
+    });
+
+    const typeList: TypeCount[] = [];
+    for (const c of Array.from(typeCountMap.entries())) {
+      const tc: TypeCount = new TypeCount();
+      tc.type = c[0];
+      tc.count = c[1];
+      typeList.push(tc);
+    }
+
+    typeList.sort((a, b) => {
+      return b.count - a.count;
+    });
+
+    console.log('elective type counts');
+    console.log(electiveTypeCounts);
+
+    console.log('satisfied types: ');
+    console.log(typeList);
+
+    return typeList;
+  }
+
+  checkClosedTypes(criteriaTypeCounts: TypeCount[], criteriaSatisfiedTypeCounts: TypeCount[]): string[] {
     const closedTypeList: string[] = [];
     criteriaTypeCounts.forEach(criteriaType => {
-      electiveTypeCounts.forEach(electiveType => {
-        if (criteriaType.type === electiveType.type && criteriaType.count === electiveType.count) {
+      criteriaSatisfiedTypeCounts.forEach(satisfiedType => {
+        if (criteriaType.type === satisfiedType.type && criteriaType.count === satisfiedType.count) {
           // TODO: make sure this actually works
-          closedTypeList.push(electiveType.type);
+          closedTypeList.push(satisfiedType.type);
         }
       });
     });
