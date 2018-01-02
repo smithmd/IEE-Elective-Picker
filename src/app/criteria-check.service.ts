@@ -176,12 +176,6 @@ export class CriteriaCheckService {
   }
 
   checkClosedTypes(criteriaTypeCounts: TypeCount[], criteriaSatisfiedTypeCounts: TypeCount[]): string[] {
-    console.log('checkClosedTypes: criteriaTypeCounts: ');
-    console.log(criteriaTypeCounts);
-
-    console.log('checkClosedTypes: criteriaSatisfiedTypeCounts: ');
-    console.log(criteriaSatisfiedTypeCounts);
-
     const closedTypeList: string[] = [];
     criteriaTypeCounts.forEach(criteriaType => {
       criteriaSatisfiedTypeCounts.forEach(satisfiedType => {
