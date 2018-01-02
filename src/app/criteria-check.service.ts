@@ -75,11 +75,12 @@ export class CriteriaCheckService {
     const criteriaMap: Map<string, number> = new Map<string, number>();
     ecs.forEach(criterion => {
       criterion.typeList.forEach(type => {
-        const count = criteriaMap.get(type);
+        const key = type + criterion.courseSession;
+        const count = criteriaMap.get(key);
         if (!count) {
-          criteriaMap.set(type, 1);
+          criteriaMap.set(key, 1);
         } else {
-          criteriaMap.set(type, count + 1);
+          criteriaMap.set(key, count + 1);
         }
       });
     });
@@ -102,11 +103,12 @@ export class CriteriaCheckService {
   getElectiveTypeChosenCounts(primaryElectives: Elective[]): TypeCount[] {
     const electiveTypeCountMap: Map<string, number> = new Map<string, number>();
     primaryElectives.forEach(elective => {
-      const count = electiveTypeCountMap.get(elective.electiveType);
+      const key = elective.electiveType + elective.session;
+      const count = electiveTypeCountMap.get(key);
       if (!count) {
-        electiveTypeCountMap.set(elective.electiveType, 1);
+        electiveTypeCountMap.set(key, 1);
       } else {
-        electiveTypeCountMap.set(elective.electiveType, count + 1);
+        electiveTypeCountMap.set(key, count + 1);
       }
     });
 
@@ -139,9 +141,12 @@ export class CriteriaCheckService {
       for (let i = 0; i < type.count; i++) {
         for (let j = 0; j < criteriaCopy.length; j++) {
           const c = criteriaCopy[j];
-          if (c.isSatisfied === false && c.typeList.indexOf(type.type) > -1) {
+          const typesWithSessions = c.typeList.map(t => {
+            return t + c.courseSession;
+          });
+          if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
             c.isSatisfied = true;
-            c.typeList.forEach(t => {
+            typesWithSessions.forEach(t => {
               const count = typeCountMap.get(t);
               if (!count) {
                 typeCountMap.set(t, 1);
@@ -167,16 +172,16 @@ export class CriteriaCheckService {
       return b.count - a.count;
     });
 
-    console.log('elective type counts');
-    console.log(electiveTypeCounts);
-
-    console.log('satisfied types: ');
-    console.log(typeList);
-
     return typeList;
   }
 
   checkClosedTypes(criteriaTypeCounts: TypeCount[], criteriaSatisfiedTypeCounts: TypeCount[]): string[] {
+    console.log('checkClosedTypes: criteriaTypeCounts: ');
+    console.log(criteriaTypeCounts);
+
+    console.log('checkClosedTypes: criteriaSatisfiedTypeCounts: ');
+    console.log(criteriaSatisfiedTypeCounts);
+
     const closedTypeList: string[] = [];
     criteriaTypeCounts.forEach(criteriaType => {
       criteriaSatisfiedTypeCounts.forEach(satisfiedType => {
