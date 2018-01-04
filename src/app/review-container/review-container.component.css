@@ -42,11 +42,10 @@
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  margin: auto 5px;
   padding: 10px 0;
   background: #fff;
   border: 2px solid #a7e6fb;
-  margin-bottom: 0.5em;
+  margin: auto 5px 0.5em;
 }
 .elective-time {
   margin-bottom: 0.5em;
