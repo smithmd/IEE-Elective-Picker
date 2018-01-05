@@ -71,11 +71,10 @@ export class AppComponent implements OnInit {
   }
 
   get privateLessonInstructions(): string {
-    return '<p><a class="privateLessonLink" href="' + this.privateLessonFormLink + '" target="_blank">Please complete this ' +
-      'form</a> if you are interested in requesting an elective private lesson. An elective ' +
-      'private lesson will take the place of one of the elective selections made on this page.</p>' +
-      '<p>In order to be eligible for elective private lessons, you must have at least three years of experience ' +
-      'on the instrument in question.</p>' +
-      '<p>Elective private lessons are an additional $115 per week.</p>';
+    return '<p>A Private Lesson elective may be requested in the place of one of the elective selections made on this page.</p>' +
+      '<p>To be eligible, the student must have at least three years of experience on the instrument in question, and ' +
+      'there is an additional fee of $115 per week.</p>' +
+      '<p>If you are interested in requesting a Private Lesson elective, ' +
+      '<a class="privateLessonLink" href="\' + this.privateLessonFormLink + \'" target="_blank">please complete this form.</a></p>';
   }
 }
