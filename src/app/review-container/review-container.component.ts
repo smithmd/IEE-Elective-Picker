@@ -80,7 +80,7 @@ export class ReviewContainerComponent implements OnInit {
       this.education.educationId,
       (saved: boolean) => {
         // redirect on true
-        window.location.href = 'IEE_CampLanding?Id=' + this.education.educationId;
+        window.location.href = 'IEE_ElectivesChosen?Id=' + this.education.educationId;
       }
     );
   }
