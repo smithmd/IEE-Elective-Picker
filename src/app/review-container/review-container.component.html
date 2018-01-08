@@ -23,12 +23,16 @@
           electives.
         </div>
         <div *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <div class="row elective-choice" *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId)">
-            <div class="col-xs-12 col-sm-7">
+          <div class="row elective-choice margin-top-sm"
+               *ngFor="let elective of primaryElectivesByProgramMajorIds.get(pmId); let i = index"
+               [ngClass]="{'first': i === 0}">
+            <div class="col-xs-12 col-sm-6 col-md-7">
               <div class="course-name">{{elective.courseDescription}}</div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 text-right">
               <div class="elective-session">{{elective.session}}</div>
             </div>
-            <div class="col-xs-12 col-sm-5 text-right">
+            <div class="col-xs-12 col-sm-2 col-md-2 text-right">
               <div>{{elective.time}}</div>
             </div>
           </div>
@@ -40,12 +44,16 @@
           required, you are encouraged to choose one or more.
         </div>
         <div *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length > 0">
-          <div class="row elective-choice" *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId)">
-            <div class="col-xs-12 col-sm-7">
+          <div class="row elective-choice"
+               *ngFor="let elective of alternateElectivesByProgramMajorIds.get(pmId); let i = index"
+               [ngClass]="{'first': i === 0}">
+            <div class="col-xs-12 col-sm-6 col-md-7">
               <div class="course-name">{{elective.courseDescription}}</div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 text-right">
               <div class="elective-session">{{elective.session}}</div>
             </div>
-            <div class="col-xs-12 col-sm-5 text-right">
+            <div class="col-xs-12 col-sm-2 col-md-2 text-right">
               <div>{{elective.time}}</div>
             </div>
           </div>

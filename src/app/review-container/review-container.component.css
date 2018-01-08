@@ -39,19 +39,18 @@
   font-size: 0.85em;
 }
 .elective-choice {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  padding: 10px 0;
-  background: #fff;
-  border: 2px solid #a7e6fb;
-  margin: auto 5px 0.5em;
+  border-top: 1px solid #cccccc;
+  padding: 1em;
+  margin: auto 0.5em;
+}
+.elective-choice.first {
+  border-top: 0;
 }
 .elective-time {
   margin-bottom: 0.5em;
 }
 .course-name {
-  font-size: 1.25em;
+  font-size: 1.1em;
 }
 .course-number {
   font-size: 0.75em;
