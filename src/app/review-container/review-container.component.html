@@ -4,7 +4,7 @@
       <h3>{{education.programNamesByProgramMajorIds[pmId]}}</h3>
       <h5>{{education.sessionsByProgramMajorIds[pmId]}}</h5>
       <div *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
-        <h4 class="text-center">Primary Selections</h4>
+        <h4 class="text-center pri-header">Primary Selections</h4>
         <div class="alert alert-danger" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not selected any primary electives for
           this session.
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <h4 class="text-center">Alternate Selections</h4>
+        <h4 class="text-center alt-header">Alternate Selections</h4>
         <div class="alert alert-danger" *ngIf="alternateElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> While an alternate choice is not
           required, you are encouraged to choose one or more.

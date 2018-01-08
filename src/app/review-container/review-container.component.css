@@ -62,6 +62,10 @@
 .elective-time {
   font-size: 0.9em;
 }
+.alt-header,
+.pri-header {
+  margin-top: 1em;
+}
 .disabled {
   cursor: not-allowed;
   color: #aaa;
