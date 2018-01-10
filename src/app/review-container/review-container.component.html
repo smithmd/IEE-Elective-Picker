@@ -5,9 +5,14 @@
       <h5>{{education.sessionsByProgramMajorIds[pmId]}}</h5>
       <div *ngIf="education.electivesByProgramMajorIds[pmId] && education.electivesByProgramMajorIds[pmId].length > 0">
         <h4 class="text-center pri-header">Primary Selections</h4>
-        <div class="alert alert-danger" *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length === 0">
+        <div class="alert alert-danger"
+             *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length === 0">
           <i class="fa fa-exclamation-triangle" style="color:red"></i> You have not selected any primary electives for
           this session.
+        </div>
+        <div class="alert alert-warning"
+             *ngIf="availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length === 0">
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You have optional electives remaining.
         </div>
         <div class="alert alert-danger"
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) > 0 && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
