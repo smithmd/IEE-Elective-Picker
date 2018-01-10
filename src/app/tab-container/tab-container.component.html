@@ -15,7 +15,8 @@
     <iee-elective-criteria-container
       [activeProgramMajorId]="activeProgramMajorId"></iee-elective-criteria-container>
     <iee-elective-picker-container
-      [electives]="electives"></iee-elective-picker-container>
+      [electives]="electives"
+      [tabIndex]="tabIndex"></iee-elective-picker-container>
   </div>
   <div *ngIf="(!education.electivesByProgramMajorIds[activeProgramMajorId])
               || (education.electivesByProgramMajorIds[activeProgramMajorId].length === 0)" class="alert alert-info">
@@ -27,7 +28,8 @@
   <iee-review-container></iee-review-container>
 </div>
 <div class="col-xs-12 text-right margin-bottom-sm">
-  <a class="change-tab-link" (click)="prevTab()" *ngIf="(tabIndex > 0)"><i class="fa fa-long-arrow-left"></i> Previous</a>
+  <a class="change-tab-link" (click)="prevTab()" *ngIf="(tabIndex > 0)"><i class="fa fa-long-arrow-left"></i>
+    Previous</a>
   <span *ngIf="(tabIndex > 0) && (tabIndex < programMajorIds.length)">|</span>
   <a class="change-tab-link" (click)="nextTab()" *ngIf="(tabIndex < programMajorIds.length)">Next <i
     class="fa fa-long-arrow-right"></i></a>
