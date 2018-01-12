@@ -90,8 +90,8 @@ export class CriteriaCheckService {
       });
     });
 
-    console.log('buildTypeCriteriaMap | criteriaMap: ');
-    console.log(criteriaMap);
+    // console.log('buildTypeCriteriaMap | criteriaMap: ');
+    // console.log(criteriaMap);
 
     return criteriaMap;
   }
@@ -132,8 +132,8 @@ export class CriteriaCheckService {
       return b.count - a.count;
     });
 
-    console.log('getElectiveTypeChosenCounts | typeList: ');
-    console.log(typeList);
+    // console.log('getElectiveTypeChosenCounts | typeList: ');
+    // console.log(typeList);
 
     return typeList;
   }
@@ -147,8 +147,8 @@ export class CriteriaCheckService {
       c.isSatisfied = false;
     });
 
-    console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy: ');
-    console.log(criteriaCopy);
+    // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy: ');
+    // console.log(criteriaCopy);
 
     const typeCountMap: Map<string, number> = new Map<string, number>();
     // iterate across all the selected types
@@ -163,11 +163,11 @@ export class CriteriaCheckService {
               return t + campSession;
             }
           });
-          console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy[' + j + ']: ');
-          console.log(criteriaCopy[j]);
+          // console.log('getCriteriaTypeSatisfiedCounts | criteriaCopy[' + j + ']: ');
+          // console.log(criteriaCopy[j]);
 
-          console.log('getCriteriaTypeSatisfiedCounts | typesWithSessions (' + j + ')');
-          console.log(typesWithSessions);
+          // console.log('getCriteriaTypeSatisfiedCounts | typesWithSessions (' + j + ')');
+          // console.log(typesWithSessions);
 
           if (c.isSatisfied === false && typesWithSessions.indexOf(type.type) > -1) {
             c.isSatisfied = true;
@@ -197,8 +197,8 @@ export class CriteriaCheckService {
       return b.count - a.count;
     });
 
-    console.log('getCriteriaTypeSatisfiedCounts | typeList: ');
-    console.log(typeList);
+    // console.log('getCriteriaTypeSatisfiedCounts | typeList: ');
+    // console.log(typeList);
 
     return typeList;
   }
