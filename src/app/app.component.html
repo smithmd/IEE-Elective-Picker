@@ -5,11 +5,14 @@
   <div class="well lesson-instructions visible-md visible-lg" *ngIf="showPrivateLessonInstructions"
        [innerHtml]="privateLessonInstructions">
   </div>
+  <a (click)="toTop()" class="btn btn-default float-link" #floatLink>
+    <i class="fa fa-arrow-up"></i> Back to Top
+  </a>
 </div>
 <div class="col-xs-12 col-md-8 col-md-pull-4">
   <iee-tab-container></iee-tab-container>
 </div>
-<div class="col-xs-12 visible-xs visible-sm" *ngIf="showPrivateLessonInstructions">
+<div class="col-xs-12 visible-xs visible-sm margin-bottom" *ngIf="showPrivateLessonInstructions">
   <div class="well lesson-instructions"
        [innerHtml]="privateLessonInstructions">
   </div>
