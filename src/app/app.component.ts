@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ElectiveDataService} from './elective-data-service';
 import {Education} from './classes/education';
 import {Observable} from 'rxjs/Observable';
@@ -10,11 +10,29 @@ import 'rxjs/add/observable/combineLatest';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('floatLink') floatLink: any;
   education: Education;
   activeProgramMajorId: string;
   longDescription = '';
 
-  constructor(private electiveDataService: ElectiveDataService) {
+  constructor(private electiveDataService: ElectiveDataService, private renderer: Renderer2) {
+    this.renderer.listen('window', 'scroll', evt => {
+
+      const scrollDistance = 150;
+      if (document.body.scrollTop > scrollDistance || document.documentElement.scrollTop > scrollDistance) {
+        this.floatLink.nativeElement.style.display = 'block';
+      } else {
+        this.floatLink.nativeElement.style.display = 'none';
+      }
+
+      // detect visible portion of footer and add 10 to keep link above it
+      const footerElement = document.getElementById('footer-target');
+      const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+      const footerBound: ClientRect = footerElement.getBoundingClientRect();
+      const footerTop = (viewHeight - footerBound.top) > 0 ? viewHeight - footerBound.top : 0;
+
+      this.floatLink.nativeElement.style.bottom = (10 + footerTop) + 'px';
+    });
   }
 
   ngOnInit() {
@@ -76,5 +94,10 @@ export class AppComponent implements OnInit {
       'there is an additional fee of $115 per week.</p>' +
       '<p>If you are interested in requesting a Private Lesson elective, ' +
       '<a class="privateLessonLink" href="' + this.privateLessonFormLink + '" target="_blank">please complete this form.</a></p>';
+  }
+
+  toTop(): void {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 }
