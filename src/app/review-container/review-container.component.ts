@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ElectiveDataService} from '../elective-data-service';
+import {ElectiveDataService} from '../services/elective-data-service';
 import {Education} from '../classes/education';
 import {Elective} from '../classes/elective';
-import {CriteriaCheckService} from '../criteria-check.service';
+import {CriteriaCheckService} from '../services/criteria-check.service';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';

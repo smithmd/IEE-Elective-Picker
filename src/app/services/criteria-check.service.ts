@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ElectiveCriterion} from './classes/elective-criterion';
-import {Elective} from './classes/elective';
-import {TypeCount} from './classes/type-count';
+import {ElectiveCriterion} from '../classes/elective-criterion';
+import {Elective} from '../classes/elective';
+import {TypeCount} from '../classes/type-count';
 import {ElectiveDataService} from './elective-data-service';
 
 @Injectable()

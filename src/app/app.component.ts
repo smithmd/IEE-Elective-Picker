@@ -1,5 +1,5 @@
 import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {ElectiveDataService} from './elective-data-service';
+import {ElectiveDataService} from './services/elective-data-service';
 import {Education} from './classes/education';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';

@@ -3,7 +3,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {Elective} from '../../classes/elective';
-import {ElectiveDataService} from '../../elective-data-service';
+import {ElectiveDataService} from '../../services/elective-data-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 declare const Visualforce: any;
