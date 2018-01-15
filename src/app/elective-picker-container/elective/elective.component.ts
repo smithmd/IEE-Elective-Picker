@@ -136,5 +136,6 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
   showDescriptionPopup(): void {
     this.modalService.modalContent.next(this.elective.courseDetail);
     this.modalService.modalVisible.next(true);
+    this.modalService.modalTitle.next(this.elective.courseDescription);
   }
 }

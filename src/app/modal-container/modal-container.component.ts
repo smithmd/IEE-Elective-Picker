@@ -8,7 +8,9 @@ import {ModalService} from '../services/modal.service';
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
   detailText: string;
+  modalTitle: string;
   @ViewChild('modalBackdrop') modalBackdrop: any;
+  @ViewChild('modalBox') modalBox: any;
 
   constructor(private modalService: ModalService) {
   }
@@ -20,11 +22,18 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     this.modalBackdrop.nativeElement.style.height = viewHeight;
     this.modalBackdrop.nativeElement.style.width = viewWidth;
 
+    this.modalBox.nativeElement.style.top = viewHeight / 2;
+
     this.modalService.modalContent.asObservable().subscribe({
       next: text => {
         this.detailText = text;
       }
     });
+    this.modalService.modalTitle.asObservable().subscribe({
+      next: title => {
+        this.modalTitle = title;
+      }
+    })
   }
 
   ngOnDestroy() {

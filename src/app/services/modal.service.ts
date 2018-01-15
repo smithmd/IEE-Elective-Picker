@@ -5,6 +5,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 export class ModalService {
   public modalVisible = new BehaviorSubject<boolean>(false);
   public modalContent = new BehaviorSubject<string>(null);
+  public modalTitle = new BehaviorSubject<string>(null);
 
   constructor() {
   }
