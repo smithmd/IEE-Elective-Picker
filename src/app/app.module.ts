@@ -12,6 +12,7 @@ import {TabContainerComponent} from './tab-container/tab-container.component';
 import {ElectiveCriteriaContainerComponent} from './elective-criteria-container/elective-criteria-container.component';
 import {CriteriaCheckService} from './criteria-check.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ModalContainerComponent } from './modal-container/modal-container.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ElectivePickerContainerComponent,
     ReviewContainerComponent,
     TabContainerComponent,
-    ElectiveCriteriaContainerComponent
+    ElectiveCriteriaContainerComponent,
+    ModalContainerComponent
   ],
   imports: [
     BrowserModule,

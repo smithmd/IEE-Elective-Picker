@@ -12,6 +12,7 @@ export class Elective {
   programMajorId: string;
   courseRequestId: string;
   isUpdating = false;
+  courseDetail: string;
 
   enrolledCount: number;
   maxEnrollment: number;
