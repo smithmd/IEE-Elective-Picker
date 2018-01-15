@@ -13,6 +13,7 @@ import {ElectiveCriteriaContainerComponent} from './elective-criteria-container/
 import {CriteriaCheckService} from './services/criteria-check.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ModalContainerComponent } from './modal-container/modal-container.component';
+import {ModalService} from "./services/modal.service";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { ModalContainerComponent } from './modal-container/modal-container.compo
     BrowserModule,
     BrowserAnimationsModule
   ],
-  providers: [ElectiveDataService, CriteriaCheckService],
+  providers: [ElectiveDataService, CriteriaCheckService, ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

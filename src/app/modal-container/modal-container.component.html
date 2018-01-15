@@ -1,5 +1,6 @@
-<div class="modal-backdrop" #modalBackdrop id="modal-backdrop">
-  <div class="col-xs-10 col-xs-offset-1" id="modal-box">
-    {{detailText}}
+<div class="modal-backdrop" #modalBackdrop (click)="closeModal()">
+  <div class="col-xs-10 col-xs-offset-1 modal-box">
+    <div class="text-right"><a href="javascript:void(0);" (click)="closeModal()"><i class="fa fa-times"></i></a></div>
+    <div>{{detailText}}</div>
   </div>
 </div>

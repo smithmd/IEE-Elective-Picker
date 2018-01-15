@@ -1,4 +1,5 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ModalService} from '../services/modal.service';
 
 @Component({
   selector: 'iee-modal-container',
@@ -6,10 +7,10 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
   styleUrls: ['./modal-container.component.css']
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
-  @Input() detailText: string;
+  detailText: string;
   @ViewChild('modalBackdrop') modalBackdrop: any;
 
-  constructor() {
+  constructor(private modalService: ModalService) {
   }
 
   ngOnInit() {
@@ -18,10 +19,21 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
 
     this.modalBackdrop.nativeElement.style.height = viewHeight;
     this.modalBackdrop.nativeElement.style.width = viewWidth;
+
+    this.modalService.modalContent.asObservable().subscribe({
+      next: text => {
+        this.detailText = text;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.modalBackdrop.nativeElement.style.height = 0;
     this.modalBackdrop.nativeElement.style.width = 0;
+  }
+
+  closeModal() {
+    this.modalService.modalContent.next('');
+    this.modalService.modalVisible.next(false);
   }
 }

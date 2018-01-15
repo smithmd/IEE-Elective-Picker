@@ -5,6 +5,7 @@ import {
 import {Elective} from '../../classes/elective';
 import {ElectiveDataService} from '../../services/elective-data-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {ModalService} from "../../services/modal.service";
 
 declare const Visualforce: any;
 
@@ -50,7 +51,9 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
     return this.elective.isPrimary || this.elective.isAlternate;
   }
 
-  constructor(private electiveDataService: ElectiveDataService, private renderer: Renderer2) {
+  constructor(private electiveDataService: ElectiveDataService,
+              private renderer: Renderer2,
+              private modalService: ModalService) {
   }
 
   ngOnInit() {
@@ -128,5 +131,10 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
     }
 
     return false;
+  }
+
+  showDescriptionPopup(): void {
+    this.modalService.modalContent.next(this.elective.courseDetail);
+    this.modalService.modalVisible.next(true);
   }
 }

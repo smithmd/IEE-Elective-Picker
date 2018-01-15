@@ -1,21 +1,34 @@
-import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {
+  Component, ComponentFactoryResolver, ComponentRef, OnInit, Renderer2, ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ElectiveDataService} from './services/elective-data-service';
 import {Education} from './classes/education';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
+import {ModalContainerComponent} from './modal-container/modal-container.component';
+import {ModalService} from './services/modal.service';
 
 @Component({
   selector: 'iee-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  entryComponents: [
+    ModalContainerComponent
+  ]
 })
 export class AppComponent implements OnInit {
   @ViewChild('floatLink') floatLink: any;
+  @ViewChild('modalContainer', {read: ViewContainerRef}) modalContainer: ViewContainerRef;
   education: Education;
   activeProgramMajorId: string;
   longDescription = '';
+  modalRef: ComponentRef<ModalContainerComponent>;
 
-  constructor(private electiveDataService: ElectiveDataService, private renderer: Renderer2) {
+  constructor(private electiveDataService: ElectiveDataService,
+              private renderer: Renderer2,
+              private modalService: ModalService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
     this.renderer.listen('window', 'scroll', evt => {
 
       const scrollDistance = 150;
@@ -42,6 +55,19 @@ export class AppComponent implements OnInit {
     Observable.combineLatest(edObs, pmIdObs).subscribe(obs => {
       [this.education, this.activeProgramMajorId] = obs;
       this.updateDescriptionText();
+    });
+
+    this.modalService.modalVisible.asObservable().subscribe({
+      next: modalVisible => {
+        if (modalVisible) {
+          const factory = this.componentFactoryResolver.resolveComponentFactory(ModalContainerComponent);
+          this.modalRef = this.modalContainer.createComponent(factory)
+        } else {
+          if (this.modalRef) {
+            this.modalRef.destroy();
+          }
+        }
+      }
     });
   }
 
