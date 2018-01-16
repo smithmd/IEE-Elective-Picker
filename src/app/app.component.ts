@@ -80,7 +80,11 @@ export class AppComponent implements OnInit {
       const descriptionSet: Set<string> = new Set<string>();
 
       this.education.programMajorIds.forEach((pmId, index, array) => {
-        descriptionSet.add(this.education.longDescriptionsByProgramMajorIds[pmId]);
+        if (this.education.longDescriptionsByProgramMajorIds[pmId]
+          && this.education.longDescriptionsByProgramMajorIds[pmId] !== null) {
+
+          descriptionSet.add(this.education.longDescriptionsByProgramMajorIds[pmId]);
+        }
       });
 
       Array.from(descriptionSet).forEach((description, index, array) => {
