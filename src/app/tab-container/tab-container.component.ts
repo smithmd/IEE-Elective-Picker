@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Elective} from '../classes/elective';
-import {ElectiveDataService} from '../elective-data-service';
+import {ElectiveDataService} from '../services/elective-data-service';
 import {Education} from '../classes/education';
 
 @Component({

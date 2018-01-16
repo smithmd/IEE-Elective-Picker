@@ -12,6 +12,7 @@ export class Elective {
   programMajorId: string;
   courseRequestId: string;
   isUpdating = false;
+  courseDetail: string;
 
   enrolledCount: number;
   maxEnrollment: number;
@@ -19,6 +20,7 @@ export class Elective {
   private _courseDescription = '';
   private _isPrimary = false;
   private _isAlternate = false;
+  private _isDeleting = false;
 
   private timePeriodMap = {
     1: '8:00am',
@@ -74,18 +76,29 @@ export class Elective {
     this._isAlternate = status;
   }
 
+  get isDeleting(): boolean {
+    return this._isDeleting;
+  }
+
+  set isDeleting(deleting: boolean) {
+    this._isDeleting = deleting;
+  }
+
   get availableSlots(): number {
     const avail = this.maxEnrollment - this.enrolledCount;
     return (avail < 0 ? 0 : avail);
   }
 
   public deleteFromSalesforce(): Promise<any> {
+    this.isDeleting = true;
     return new Promise((resolve, reject) => {
       Visualforce.remoting.Manager.invokeAction(
         'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
         this.courseRequestId, this.id,
         (saved: boolean) => {
           resolve(saved);
+          this.isDeleting = false;
+          this.courseRequestId = null;
         }
       );
     });

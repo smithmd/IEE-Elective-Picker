@@ -94,3 +94,8 @@
 .checkbox label.disabled {
   cursor: not-allowed;
 }
+#detail-link {
+  position: relative;
+  top: 10px;
+  color: #393939;
+}
