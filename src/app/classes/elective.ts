@@ -99,7 +99,6 @@ export class Elective {
           resolve(saved);
           this.isDeleting = false;
           this.courseRequestId = null;
-          console.log('deleted');
         }
       );
     });
