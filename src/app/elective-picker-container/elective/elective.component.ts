@@ -48,7 +48,16 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
   private _previousAvailableSlots: number;
 
   get isChecked(): boolean {
+    return !!this.elective.courseRequestId && (this.elective.isPrimary || this.elective.isAlternate);
+  }
+
+  get checking(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
+  }
+
+  get isSpinning(): boolean {
+    return !this.elective.courseRequestId && (this.elective.isPrimary || this.elective.isAlternate)
+      || (this.elective.courseRequestId && this.elective.isDeleting);
   }
 
   constructor(private electiveDataService: ElectiveDataService,
@@ -103,20 +112,22 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
         }
       }
 
-      if (this.isChecked) { // a little backwards because we've just checked it, so save to DB
+      if (this.checking) {
         this.elective.insertIntoSalesforce(this.educationId).then(result => {
-          // if co-req exists, insert it also
-          if (this.coRequisite) {
-            this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
-          }
         });
-      } else { // again... not checked means we just unchecked it so we'll delete it
+
+        // if co-req exists, insert it also
+        if (this.coRequisite) {
+          this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
+        }
+      } else {
         this.elective.deleteFromSalesforce().then(result => {
-          // if co-req exists, delete it also
-          if (this.coRequisite) {
-            this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
-          }
-        })
+        });
+
+        // if co-req exists, delete it also
+        if (this.coRequisite) {
+          this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
+        }
       }
     }
   }
