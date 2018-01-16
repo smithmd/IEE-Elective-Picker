@@ -1,7 +1,7 @@
 <div class="selectedList" id="primarySelections">
   <div>
     <h4 class="text-center heading">Primary Selections</h4>
-    <!-- disabled below is counterintuitive and a hack. If the checkbox is showing, the row won't be disabled -->
+    <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
     <iee-elective *ngFor="let elective of primaries"
                   [elective]="elective"
                   [isPrimary]="true"
@@ -17,7 +17,7 @@
 <div class="selectedList" id="alternateSelections">
   <div>
     <h4 class="text-center heading">Alternate Selections</h4>
-    <!-- disabled below is counterintuitive and a hack. If the checkbox is showing, the row won't be disabled -->
+    <!-- disabled below is counter intuitive and a hack. If the checkbox is showing, the row won't be disabled -->
     <iee-elective *ngFor="let elective of alternates"
                   [elective]="elective"
                   [isPrimary]="false"

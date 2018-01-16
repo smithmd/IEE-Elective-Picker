@@ -2,8 +2,8 @@
   <h3 @appearDelayed>{{elective.time}}</h3>
 </div>
 <div class="col-xs-10 col-sm-11">
-  <div class="row elective-choice" [ngClass]="{'disabled': isDisabled && !isChecked}"
-       (click)="onCheckChange(isDisabled && !isChecked)"
+  <div class="row elective-choice" [ngClass]="{'disabled': (isDisabled && !isChecked) || isSpinning}"
+       (click)="onCheckChange((isDisabled && !isChecked) || isSpinning)"
        [@shrinkGrow]="'in'">
     <div class="col-xs-2 col-sm-2 text-center">
       <!--<i class="fa fa-2x"-->
