@@ -71,8 +71,8 @@ export class AppComponent implements OnInit {
 
   get showPrivateLessonInstructions(): boolean {
     // The !! is to force returning a boolean. Should never return the totalWeeks, which is a number type.
-    return !!(this.education && this.education.totalWeeksAttending && this.education.totalWeeksAttending >= 3
-      && this.activeProgramMajorId !== null);
+    return !!(this.education && this.education.privateLessonFormActive && this.education.totalWeeksAttending
+      && this.education.totalWeeksAttending >= 3 && this.activeProgramMajorId !== null);
   }
 
   get privateLessonFormLink(): string {
