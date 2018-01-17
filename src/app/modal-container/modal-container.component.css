@@ -12,3 +12,9 @@
   z-index: 10001;
   padding: 1em;
 }
+a#modal-close:link,
+a#modal-close:visited,
+a#modal-close:hover,
+a#modal-close:active {
+  color: darkgray;
+}
