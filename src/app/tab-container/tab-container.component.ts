@@ -78,4 +78,13 @@ export class TabContainerComponent implements OnInit {
       this.reviewAndSubmitActive = false;
     }
   }
+
+  get nextTabName(): string {
+    if (this.tabIndex === (this.programMajorIds.length - 1)) {
+      return 'Review & Submit';
+    } else {
+      const pmId = this.programMajorIds[this.tabIndex];
+      return this.education.programNamesByProgramMajorIds[pmId];
+    }
+  }
 }
