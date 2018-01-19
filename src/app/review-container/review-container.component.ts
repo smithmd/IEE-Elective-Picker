@@ -91,22 +91,20 @@ export class ReviewContainerComponent implements OnInit {
     }
   }
 
+  hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {
+    return this.primaryElectivesByProgramMajorIds.get(pmId).length === 0
+      && this.alternateElectivesByProgramMajorIds.get(pmId).length > 0;
+  };
+
   canClickCheckbox(): boolean {
     // iterate over map and check if any value is greater than zero.
     // If yes, the user can't submit
     const keys = Array.from(this.availableRequiredCriteriaByProgramMajorIds.keys());
 
-    // let complete: boolean = false;
-    // keys.forEach(key => {
-    //   if (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0) {
-    //     complete = true;
-    //   }
-    // });
-    //
-    // return complete;
-
     return keys.reduce((complete, key) => {
-      return complete && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0);
+      return complete
+        && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0)
+        && (this.hasAlternatesButNoPrimariesForProgram(key) === false);
     }, true);
   }
 }
