@@ -43,6 +43,7 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.modalContent.next('');
+    this.modalService.modalTitle.next('');
     this.modalService.modalVisible.next(false);
   }
 }
