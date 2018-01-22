@@ -9,9 +9,13 @@ import {FilterListItem} from '../../../classes/filter-list-item';
 export class ListItemComponent implements OnInit {
   @Input() listItem: FilterListItem;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  onChangeSelected(): void {
+    this.listItem.isSelected = !this.listItem.isSelected;
+  }
 }

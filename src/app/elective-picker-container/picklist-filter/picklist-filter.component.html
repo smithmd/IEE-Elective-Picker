@@ -1,9 +1,11 @@
-<div>
-  Dropdown
+<div (click)="onClickDropDown()">
+  DropDown
 </div>
-<div>
+<div *ngIf="dropDownIsVisible">
   if visible, list of items
 </div>
 <div>
-  List of stuff that has been picked. Click-able to disable
+  <ul>
+    <li *ngFor="let item of selectedListItems">{{item.description}}</li>
+  </ul>
 </div>
