@@ -1,20 +1,51 @@
-import {Component, OnInit} from '@angular/core';
-import {ElectiveDataService} from './elective-data-service';
+import {
+  Component, ComponentFactoryResolver, ComponentRef, OnInit, Renderer2, ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import {ElectiveDataService} from './services/elective-data-service';
 import {Education} from './classes/education';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
+import {ModalContainerComponent} from './modal-container/modal-container.component';
+import {ModalService} from './services/modal.service';
 
 @Component({
   selector: 'iee-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  entryComponents: [
+    ModalContainerComponent
+  ]
 })
 export class AppComponent implements OnInit {
+  @ViewChild('floatLink') floatLink: any;
+  @ViewChild('modalContainer', {read: ViewContainerRef}) modalContainer: ViewContainerRef;
   education: Education;
   activeProgramMajorId: string;
   longDescription = '';
+  modalRef: ComponentRef<ModalContainerComponent>;
 
-  constructor(private electiveDataService: ElectiveDataService) {
+  constructor(private electiveDataService: ElectiveDataService,
+              private renderer: Renderer2,
+              private modalService: ModalService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
+    this.renderer.listen('window', 'scroll', evt => {
+
+      const scrollDistance = 150;
+      if (document.body.scrollTop > scrollDistance || document.documentElement.scrollTop > scrollDistance) {
+        this.floatLink.nativeElement.style.display = 'block';
+      } else {
+        this.floatLink.nativeElement.style.display = 'none';
+      }
+
+      // detect visible portion of footer and add 10 to keep link above it
+      const footerElement = document.getElementById('footer-target');
+      const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+      const footerBound: ClientRect = footerElement.getBoundingClientRect();
+      const footerTop = (viewHeight - footerBound.top) > 0 ? viewHeight - footerBound.top : 0;
+
+      this.floatLink.nativeElement.style.bottom = (10 + footerTop) + 'px';
+    });
   }
 
   ngOnInit() {
@@ -24,6 +55,19 @@ export class AppComponent implements OnInit {
     Observable.combineLatest(edObs, pmIdObs).subscribe(obs => {
       [this.education, this.activeProgramMajorId] = obs;
       this.updateDescriptionText();
+    });
+
+    this.modalService.modalVisible.asObservable().subscribe({
+      next: modalVisible => {
+        if (modalVisible) {
+          const factory = this.componentFactoryResolver.resolveComponentFactory(ModalContainerComponent);
+          this.modalRef = this.modalContainer.createComponent(factory)
+        } else {
+          if (this.modalRef) {
+            this.modalRef.destroy();
+          }
+        }
+      }
     });
   }
 
@@ -36,7 +80,11 @@ export class AppComponent implements OnInit {
       const descriptionSet: Set<string> = new Set<string>();
 
       this.education.programMajorIds.forEach((pmId, index, array) => {
-        descriptionSet.add(this.education.longDescriptionsByProgramMajorIds[pmId]);
+        if (this.education.longDescriptionsByProgramMajorIds[pmId]
+          && this.education.longDescriptionsByProgramMajorIds[pmId] !== null) {
+
+          descriptionSet.add(this.education.longDescriptionsByProgramMajorIds[pmId]);
+        }
       });
 
       Array.from(descriptionSet).forEach((description, index, array) => {
@@ -53,7 +101,8 @@ export class AppComponent implements OnInit {
 
   get showPrivateLessonInstructions(): boolean {
     // The !! is to force returning a boolean. Should never return the totalWeeks, which is a number type.
-    return !!(this.education && this.education.totalWeeksAttending && this.education.totalWeeksAttending >= 3);
+    return !!(this.education && this.education.privateLessonFormActive && this.education.totalWeeksAttending
+      && this.education.totalWeeksAttending >= 3 && this.activeProgramMajorId !== null);
   }
 
   get privateLessonFormLink(): string {
@@ -75,5 +124,10 @@ export class AppComponent implements OnInit {
       'there is an additional fee of $115 per week.</p>' +
       '<p>If you are interested in requesting a Private Lesson elective, ' +
       '<a class="privateLessonLink" href="' + this.privateLessonFormLink + '" target="_blank">please complete this form.</a></p>';
+  }
+
+  toTop(): void {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 }
