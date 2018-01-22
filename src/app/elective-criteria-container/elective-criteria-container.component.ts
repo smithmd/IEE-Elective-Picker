@@ -1,9 +1,9 @@
 import {Component, DoCheck, Input, OnChanges, OnInit} from '@angular/core';
 import {ElectiveCriterion} from '../classes/elective-criterion';
-import {ElectiveDataService} from '../services/elective-data-service';
+import {ElectiveDataService} from '../elective-data-service';
 import {Elective} from '../classes/elective';
 import {Education} from '../classes/education';
-import {CriteriaCheckService} from '../services/criteria-check.service';
+import {CriteriaCheckService} from '../criteria-check.service';
 import {TypeCount} from '../classes/type-count';
 
 @Component({

@@ -3,9 +3,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {Elective} from '../../classes/elective';
-import {ElectiveDataService} from '../../services/elective-data-service';
+import {ElectiveDataService} from '../../elective-data-service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {ModalService} from "../../services/modal.service";
 
 declare const Visualforce: any;
 
@@ -48,21 +47,10 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
   private _previousAvailableSlots: number;
 
   get isChecked(): boolean {
-    return !!this.elective.courseRequestId && (this.elective.isPrimary || this.elective.isAlternate);
-  }
-
-  get checking(): boolean {
     return this.elective.isPrimary || this.elective.isAlternate;
   }
 
-  get isSpinning(): boolean {
-    return !this.elective.courseRequestId && (this.elective.isPrimary || this.elective.isAlternate)
-      || (this.elective.courseRequestId && this.elective.isDeleting);
-  }
-
-  constructor(private electiveDataService: ElectiveDataService,
-              private renderer: Renderer2,
-              private modalService: ModalService) {
+  constructor(private electiveDataService: ElectiveDataService, private renderer: Renderer2) {
   }
 
   ngOnInit() {
@@ -112,22 +100,20 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
         }
       }
 
-      if (this.checking) {
+      if (this.isChecked) { // a little backwards because we've just checked it, so save to DB
         this.elective.insertIntoSalesforce(this.educationId).then(result => {
+          // if co-req exists, insert it also
+          if (this.coRequisite) {
+            this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
+          }
         });
-
-        // if co-req exists, insert it also
-        if (this.coRequisite) {
-          this.coRequisite.insertIntoSalesforce(this.educationId).then(coReqResult => {});
-        }
-      } else {
+      } else { // again... not checked means we just unchecked it so we'll delete it
         this.elective.deleteFromSalesforce().then(result => {
-        });
-
-        // if co-req exists, delete it also
-        if (this.coRequisite) {
-          this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
-        }
+          // if co-req exists, delete it also
+          if (this.coRequisite) {
+            this.coRequisite.deleteFromSalesforce().then(coReqResult => {});
+          }
+        })
       }
     }
   }
@@ -142,11 +128,5 @@ export class ElectiveComponent implements OnInit, AfterViewInit, DoCheck, OnChan
     }
 
     return false;
-  }
-
-  showDescriptionPopup(): void {
-    this.modalService.modalContent.next(this.elective.courseDetail);
-    this.modalService.modalVisible.next(true);
-    this.modalService.modalTitle.next(this.elective.courseDescription);
   }
 }

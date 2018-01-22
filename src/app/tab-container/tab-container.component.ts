@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Elective} from '../classes/elective';
-import {ElectiveDataService} from '../services/elective-data-service';
+import {ElectiveDataService} from '../elective-data-service';
 import {Education} from '../classes/education';
 
 @Component({
@@ -76,15 +76,6 @@ export class TabContainerComponent implements OnInit {
     } else {
       this.onChangeTab(this.tabIndex + 1);
       this.reviewAndSubmitActive = false;
-    }
-  }
-
-  get nextTabName(): string {
-    if (this.tabIndex === (this.programMajorIds.length - 1)) {
-      return 'Review & Submit';
-    } else {
-      const pmId = this.programMajorIds[this.tabIndex];
-      return this.education.programNamesByProgramMajorIds[pmId] + ' - ' + this.education.sessionsByProgramMajorIds[pmId];
     }
   }
 }

@@ -49,19 +49,17 @@ export class ElectiveCriterion {
           ? typesArray.reduce((printable, elType) => {
             return printable + elType + ', ';
           }, '')
-          : typesArray[0])
+          : typesArray[0] )
         : ''; // oxford commas... sorry, future person, for nesting ternaries
 
-      const typeString =
-        firstTypes
-        + (typesArray.length > 0 ? ' or ' : '') // print 'or' before the last item if more than one thing
-        + lastType + ' ';
-      description = 'One '
-        + (this.electiveTypes === 'Any Arts Area' ? '' : typeString)
-        + 'elective' +
+      description = 'One elective' +
         (this.courseSession
           ? ' during the ' + this.courseSession
-          : '');
+          : '')
+        + ' in '
+        + firstTypes
+        + (typesArray.length > 0 ? ' or ' : '') // print 'or' before the last item if more than one thing
+        + lastType;
     }
 
     return description + (this.isRequired ? '' : ' (Optional)');

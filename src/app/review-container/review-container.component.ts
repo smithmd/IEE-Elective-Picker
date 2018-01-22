@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ElectiveDataService} from '../services/elective-data-service';
+import {ElectiveDataService} from '../elective-data-service';
 import {Education} from '../classes/education';
 import {Elective} from '../classes/elective';
-import {CriteriaCheckService} from '../services/criteria-check.service';
+import {CriteriaCheckService} from '../criteria-check.service';
 import {ElectiveCriterion} from '../classes/elective-criterion';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
@@ -80,7 +80,7 @@ export class ReviewContainerComponent implements OnInit {
       this.education.educationId,
       (saved: boolean) => {
         // redirect on true
-        window.location.href = 'IEE_ElectivesChosen?eid=' + this.education.educationId;
+        window.location.href = 'IEE_CampLanding?Id=' + this.education.educationId;
       }
     );
   }
@@ -91,20 +91,22 @@ export class ReviewContainerComponent implements OnInit {
     }
   }
 
-  hasAlternatesButNoPrimariesForProgram(pmId: string): boolean {
-    return this.primaryElectivesByProgramMajorIds.get(pmId).length === 0
-      && this.alternateElectivesByProgramMajorIds.get(pmId).length > 0;
-  };
-
   canClickCheckbox(): boolean {
     // iterate over map and check if any value is greater than zero.
     // If yes, the user can't submit
     const keys = Array.from(this.availableRequiredCriteriaByProgramMajorIds.keys());
 
+    // let complete: boolean = false;
+    // keys.forEach(key => {
+    //   if (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0) {
+    //     complete = true;
+    //   }
+    // });
+    //
+    // return complete;
+
     return keys.reduce((complete, key) => {
-      return complete
-        && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0)
-        && (this.hasAlternatesButNoPrimariesForProgram(key) === false);
+      return complete && (this.availableRequiredCriteriaByProgramMajorIds.get(key) === 0);
     }, true);
   }
 }
