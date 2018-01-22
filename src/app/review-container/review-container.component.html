@@ -15,7 +15,7 @@
                     && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                     && primaryElectivesByProgramMajorIds.get(pmId).length === 0
                      && hasAlternatesButNoPrimariesForProgram(pmId) === false">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select optional electives to enhance your
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance your
           daily schedule.
         </div>
         <div class="alert alert-danger"
@@ -27,15 +27,16 @@
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                      && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                      && primaryElectivesByProgramMajorIds.get(pmId).length > 0">
-          <i class="fa fa-exclamation-triangle" style="color:red"></i>
-          You have selected all of your required electives, but you may still choose optional electives.
+          <i class="fa fa-exclamation-triangle" style="color:red"></i> You may select an optional elective to enhance your
+          daily schedule.
         </div>
         <div class="alert alert-danger"
              *ngIf="availableRequiredCriteriaByProgramMajorIds.get(pmId) === 0
                      && availableOptionalCriteriaByProgramMajorIds.get(pmId) > 0
                      && hasAlternatesButNoPrimariesForProgram(pmId)">
           <i class="fa fa-exclamation-triangle" style="color:red;"></i>
-          You have selected alternates but not primaries.
+          You have selected alternate electives but not primary electives. Please go back and select primary electives
+          for this session.
         </div>
         <div *ngIf="primaryElectivesByProgramMajorIds.get(pmId).length > 0">
           <div class="row elective-choice margin-top-sm"
