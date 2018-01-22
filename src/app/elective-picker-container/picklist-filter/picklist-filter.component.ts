@@ -39,4 +39,8 @@ export class PicklistFilterComponent implements OnInit {
   onClickDropDown() {
     this.dropDownIsVisible = !this.dropDownIsVisible;
   }
+
+  onRemoveSelectedItem(item: FilterListItem): void {
+    item.isSelected = false;
+  }
 }

@@ -1,13 +1,14 @@
-<div (click)="onClickDropDown()">
-  DropDown
+<div (click)="onClickDropDown()" class="dropdown-main">
+  Filter by Elective Type <i class="fa fa-caret-down" aria-hidden="true"></i>
 </div>
-<div *ngIf="dropDownIsVisible">
+<div *ngIf="dropDownIsVisible" class="dropdown-list">
   <ul>
     <iee-list-item *ngFor="let item of filterList" [listItem]="item"></iee-list-item>
   </ul>
 </div>
 <div>
-  <ul>
-    <li *ngFor="let item of selectedListItems">{{item.description}}</li>
+  <ul class="selectedFilterList">
+    <li *ngFor="let item of selectedListItems"
+      (click)="onRemoveSelectedItem(item)">{{item.description}} <i class="fa fa-times"></i></li>
   </ul>
 </div>
