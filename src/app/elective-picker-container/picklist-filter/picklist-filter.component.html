@@ -2,7 +2,9 @@
   DropDown
 </div>
 <div *ngIf="dropDownIsVisible">
-  if visible, list of items
+  <ul>
+    <iee-list-item *ngFor="let item of filterList" [listItem]="item"></iee-list-item>
+  </ul>
 </div>
 <div>
   <ul>
