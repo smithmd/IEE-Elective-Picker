@@ -2,8 +2,8 @@ export class FilterListItem {
   isSelected: boolean;
   description: string;
 
-  constructor(selected: boolean, description: string) {
+  constructor(selected: boolean, desc: string) {
     this.isSelected = selected;
-    this.description = description;
+    this.description = desc;
   }
 }
