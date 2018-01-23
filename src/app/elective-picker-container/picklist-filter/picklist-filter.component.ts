@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FilterListItem} from '../../classes/filter-list-item';
+import {ElectiveDataService} from '../../services/elective-data-service';
 
 declare const Visualforce: any;
 
@@ -9,10 +10,11 @@ declare const Visualforce: any;
   styleUrls: ['./picklist-filter.component.css']
 })
 export class PicklistFilterComponent implements OnInit {
+  @Input() availableTypes: string[];
   dropDownIsVisible = false;
   filterList: FilterListItem[] = [];
 
-  constructor() {
+  constructor(private electiveDataService: ElectiveDataService) {
   }
 
   get selectedListItems(): FilterListItem[] {
@@ -28,9 +30,12 @@ export class PicklistFilterComponent implements OnInit {
       json => {
         console.log(json);
         const filterTypes: string[] = JSON.parse(json);
-        this.filterList = filterTypes.map(t => {
+        this.filterList = filterTypes.filter(t => {
+          return this.availableTypes.indexOf(t) >= 0;
+        }).map(t => {
           return new FilterListItem(false, t);
         });
+        this.electiveDataService.typeFilterList.next(this.filterList);
       },
       {buffer: false, escape: false}
     );

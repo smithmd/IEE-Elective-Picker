@@ -28,4 +28,14 @@ export class ElectivePickerContainerComponent implements OnInit, DoCheck {
   onClickTypeOption(type: string) {
     this.electiveOptionsType = type;
   }
+
+  get availableElectiveTypes(): string[] {
+    const availableTypes: Set<string> = new Set<string>();
+
+    this.electives.forEach(e => {
+      availableTypes.add(e.electiveType);
+    });
+
+    return Array.from(availableTypes);
+  }
 }
