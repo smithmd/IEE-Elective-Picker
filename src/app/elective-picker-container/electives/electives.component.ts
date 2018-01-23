@@ -84,13 +84,14 @@ export class ElectivesComponent implements OnInit, DoCheck {
       return count + (item.isSelected ? 1 : 0);
     }, 0);
     if (selectedTypeCount !== this._selectedTypeCount) {
+      this.filteredTypes = [];
       this.typeFilters.forEach(f => {
         if (f.isSelected) {
           this.filteredTypes.push(f.description);
         }
       });
+      this._selectedTypeCount = selectedTypeCount;
     }
-    this._selectedTypeCount = selectedTypeCount;
   }
 
   ngOnInit() {
