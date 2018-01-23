@@ -48,4 +48,10 @@ export class PicklistFilterComponent implements OnInit {
   onRemoveSelectedItem(item: FilterListItem): void {
     item.isSelected = false;
   }
+
+  onRemoveAllItems() {
+    this.filterList.map(item => {
+      item.isSelected = false;
+    });
+  }
 }

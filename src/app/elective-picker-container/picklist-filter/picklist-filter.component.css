@@ -20,7 +20,7 @@
 .dropdown-main {
   border: 1px solid #cccccc;
   display: inline-block;
-  padding: 5px;
+  padding: 5px 10px;
   cursor: pointer;
   user-select: none;
 }

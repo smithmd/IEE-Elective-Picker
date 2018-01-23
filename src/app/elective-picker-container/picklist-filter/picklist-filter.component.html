@@ -10,5 +10,6 @@
   <ul class="selectedFilterList">
     <li *ngFor="let item of selectedListItems"
       (click)="onRemoveSelectedItem(item)">{{item.description}} <i class="fa fa-times"></i></li>
+    <li *ngIf="selectedListItems.length > 1" (click)="onRemoveAllItems()">Remove All <i class="fa fa-times"></i></li>
   </ul>
 </div>
