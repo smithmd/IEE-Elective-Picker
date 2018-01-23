@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FilterListItem} from '../../classes/filter-list-item';
 import {ElectiveDataService} from '../../services/elective-data-service';
 
@@ -10,6 +10,7 @@ declare const Visualforce: any;
   styleUrls: ['./picklist-filter.component.css']
 })
 export class PicklistFilterComponent implements OnInit {
+  @ViewChild('dropdownModal') dropdownModal: any;
   @Input() availableTypes: string[];
   dropDownIsVisible = false;
   filterList: FilterListItem[] = [];
@@ -43,6 +44,34 @@ export class PicklistFilterComponent implements OnInit {
 
   onClickDropDown() {
     this.dropDownIsVisible = !this.dropDownIsVisible;
+    if (this.dropDownIsVisible === true) {
+      this.growModal();
+    } else {
+      this.shrinkModal()
+    }
+  }
+
+  onCloseDropdown() {
+    this.dropDownIsVisible = false;
+    this.shrinkModal();
+  }
+
+  growModal(): void {
+    // modal should open also
+    const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+    const viewWidth = Math.max(document.documentElement.clientWidth, window.innerWidth);
+
+    this.dropdownModal.nativeElement.style.height = viewHeight + 'px';
+    this.dropdownModal.nativeElement.style.width = viewWidth + 'px';
+    this.dropdownModal.nativeElement.style.display = 'block';
+
+    console.log('opening modal (' + viewHeight + 'x' + viewWidth + ')');
+  }
+
+  shrinkModal(): void {
+    this.dropdownModal.nativeElement.style.height = 0;
+    this.dropdownModal.nativeElement.style.width = 0;
+    this.dropdownModal.nativeElement.style.display = 'none';
   }
 
   onRemoveSelectedItem(item: FilterListItem): void {
