@@ -64,8 +64,6 @@ export class PicklistFilterComponent implements OnInit {
     this.dropdownModal.nativeElement.style.height = viewHeight + 'px';
     this.dropdownModal.nativeElement.style.width = viewWidth + 'px';
     this.dropdownModal.nativeElement.style.display = 'block';
-
-    console.log('opening modal (' + viewHeight + 'x' + viewWidth + ')');
   }
 
   shrinkModal(): void {
