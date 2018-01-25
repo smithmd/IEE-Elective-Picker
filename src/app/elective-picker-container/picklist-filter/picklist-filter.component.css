@@ -6,23 +6,18 @@
   z-index: 1000;
 }
 .selectedFilterList {
-  margin: 0;
+  margin: 10px 0;
   padding: 0;
   user-select: none;
 }
 .selectedFilterList li {
   user-select: none;
   display: inline-block;
-  background-color: #b01e33;
-  border-radius: 1em;
-  padding: .5em 1em;
-  margin: 5px;
-  color: white;
-  font-weight: bold;
+  margin: 5px 10px;
   cursor: pointer;
 }
-.selectedFilterList li i.fa {
-  font-size: 1.3em;
+.selectedFilterList li i {
+  color: darkgray;
 }
 .dropdown-main {
   border: 1px solid #cccccc;
@@ -30,9 +25,14 @@
   padding: 5px 10px;
   cursor: pointer;
   user-select: none;
+  border-radius: 5px;
+  margin: 5px;
 }
 .dropdown-list {
   cursor: pointer;
+  margin-top: -5px;
+  margin-left: 9px;
+  margin-bottom: 1px;
 }
 .dropdown-list ul {
   display: inline-block;
@@ -40,6 +40,7 @@
   padding: 5px 10px;
   list-style: none;
   border: 1px solid #cccccc;
+  border-top: none;
   /* makes the thing kind of work like a dropdown list */
   position: absolute;
   background: white;
