@@ -99,7 +99,8 @@ export class Elective {
           resolve(saved);
           this.isDeleting = false;
           this.courseRequestId = null;
-        }
+        },
+        {buffer: false, escape: false}
       );
     });
   }
@@ -115,7 +116,8 @@ export class Elective {
         (savedId: string) => {
           this.courseRequestId = savedId;
           resolve(savedId);
-        }
+        },
+        {buffer: false, escape: false}
       );
     });
   }
