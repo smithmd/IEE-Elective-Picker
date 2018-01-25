@@ -96,9 +96,9 @@ export class Elective {
         'IEE_ElectivePicker_Controller.deleteElectiveChoiceCamp',
         this.courseRequestId, this.id,
         (saved: boolean) => {
-          resolve(saved);
           this.isDeleting = false;
           this.courseRequestId = null;
+          resolve(saved);
         },
         {buffer: false, escape: false}
       );
@@ -115,6 +115,7 @@ export class Elective {
         this.session,
         (savedId: string) => {
           this.courseRequestId = savedId;
+          console.log(this.courseDescription + ' should have a courseRequestId of ' + savedId);
           resolve(savedId);
         },
         {buffer: false, escape: false}
