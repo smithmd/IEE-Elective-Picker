@@ -40,17 +40,16 @@
 
 .dropdown-list {
   cursor: pointer;
-  margin-top: -5px;
   margin-left: 9px;
-  margin-bottom: 1px;
+  position: relative;
 
   ul {
-    display: inline-block;
     user-select: none;
     padding: 5px 10px;
     list-style: none;
     border: 1px solid #cccccc;
-    border-top: none;
+
+    top: -6px;
 
     /* makes the thing kind of work like a dropdown list */
     position: absolute;
@@ -58,6 +57,7 @@
     z-index: 2500;
 
     li {
+      display: inline-block;
       user-select: none;
       list-style: none;
       margin: 0;
