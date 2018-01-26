@@ -70,3 +70,8 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Need to import at least one locale-data with intl.
  */
 // import 'intl/locale-data/jsonp/en';
+
+
+// imports to get searchParams working in IE
+import 'url-polyfill';
+import 'url-search-params-polyfill';
